@@ -330,6 +330,7 @@
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">textwrap</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -868,15 +869,21 @@
 
         <span class="k">def</span> <span class="nf">graph_diagnostic_info</span><span class="p">():</span>
             <span class="n">mod_canonicalized</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_jit_pass_canonicalize</span><span class="p">(</span><span class="n">traced_func</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_jit_pass_inline</span><span class="p">(</span><span class="n">mod_canonicalized</span><span class="p">)</span>
             <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_jit_pass_erase_shape_information</span><span class="p">(</span><span class="n">mod_canonicalized</span><span class="p">)</span>
+            <span class="n">mod_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">mod_canonicalized</span><span class="p">)</span>
+            <span class="n">mod_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;___torch_mangle_[0-9]+\.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">mod_str</span><span class="p">)</span>
             <span class="n">check_canonicalized</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_jit_pass_canonicalize</span><span class="p">(</span><span class="n">check_mod_func</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_jit_pass_inline</span><span class="p">(</span><span class="n">check_canonicalized</span><span class="p">)</span>
             <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_jit_pass_erase_shape_information</span><span class="p">(</span><span class="n">check_canonicalized</span><span class="p">)</span>
+            <span class="n">check_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">check_canonicalized</span><span class="p">)</span>
+            <span class="n">check_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;___torch_mangle_[0-9]+\.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">check_str</span><span class="p">)</span>
 
             <span class="n">graph_diff_errors</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">mod_canonicalized</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">(</span><span class="n">check_canonicalized</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">mod_str</span> <span class="o">!=</span> <span class="n">check_str</span><span class="p">:</span>
                 <span class="kn">import</span> <span class="nn">difflib</span>
-                <span class="n">graph_diff</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">ndiff</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">mod_canonicalized</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
-                                           <span class="nb">str</span><span class="p">(</span><span class="n">check_canonicalized</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
+                <span class="n">graph_diff</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">ndiff</span><span class="p">(</span><span class="n">mod_str</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
+                                           <span class="n">check_str</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
                 <span class="n">graph_diff_errors</span> <span class="o">=</span> <span class="s1">&#39;Graph diff:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">indent</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">graph_diff</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
                 <span class="k">for</span> <span class="n">n_mod</span><span class="p">,</span> <span class="n">n_check</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mod_canonicalized</span><span class="o">.</span><span class="n">nodes</span><span class="p">(),</span> <span class="n">check_canonicalized</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
@@ -1996,6 +2003,9 @@
         <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">_recursive</span><span class="o">.</span><span class="n">wrap_cpp_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="o">.</span><span class="n">_clone</span><span class="p">())</span>
 
+        <span class="k">def</span> <span class="nf">copy_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">_recursive</span><span class="o">.</span><span class="n">wrap_cpp_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="o">.</span><span class="n">_clone_instance</span><span class="p">())</span>
+
         <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">pickle</span><span class="o">.</span><span class="n">PickleError</span><span class="p">(</span>
                 <span class="s2">&quot;ScriptModules cannot be deepcopied using copy.deepcopy or saved using torch.save. &quot;</span> <span class="o">+</span>
@@ -2130,7 +2140,7 @@
         <span class="c1"># since the qualname is basically &quot;nn.Module&quot;</span>
         <span class="n">script_module</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">_recursive</span><span class="o">.</span><span class="n">create_script_module_for_tracing</span><span class="p">(</span><span class="n">tmp_module</span><span class="p">,</span> <span class="p">())</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;TracedModule[&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">(</span><span class="n">orig</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">orig</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_actual_script_module&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">script_module</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;_parameters&quot;</span><span class="p">,</span> <span class="s2">&quot;_buffers&quot;</span><span class="p">,</span> <span class="s2">&quot;_modules&quot;</span><span class="p">):</span>
             <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
@@ -2150,6 +2160,9 @@
 
     <span class="k">def</span> <span class="nf">_get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;original_name=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="n">_enabled</span><span class="p">:</span>
