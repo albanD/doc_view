@@ -167,7 +167,7 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Autograd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Advanced autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cuda.html">CUDA semantics</a></li>
@@ -177,6 +177,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notes/large_scale_deployments.html">Features for large-scale deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/randomness.html">Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/windows.html">Windows FAQ</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
@@ -318,14 +319,12 @@ machines.</p>
 <div class="section" id="rpc-and-rref-framework">
 <h2>RPC and RRef Framework<a class="headerlink" href="#rpc-and-rref-framework" title="Permalink to this headline">¶</a></h2>
 <p>Before using RPC and distributed autograd primitives, initialization must take
-place. First, a backend over which RPCs can be sent over must be initialized.
-The default (and currently, only available) implementation is the <cite>ProcessGroup</cite>
-backend, and must be initialized with <a class="reference external" href="https://pytorch.org/docs/stable/distributed.html#torch.distributed.init_process_group">torch.distributed.init_process_group</a>
-before using other functions. See the <a class="reference external" href="https://pytorch.org/docs/stable/distributed.html">documentation for
-torch.distributed</a> for
-additional details. Next, to initialize the RPC framework we need to use
-<cite>init_rpc</cite> which would initialize the RPC framework, RRef framework
-and distributed autograd.</p>
+place. To initialize the RPC framework we need to use
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">init_rpc()</span></code> which would initialize the RPC
+framework, RRef framework and distributed autograd. By default, this will also
+initialize the <cite>ProcessGroup</cite> (<code class="xref py py-meth docutils literal notranslate"><span class="pre">init_process_group()</span></code>)
+backend for RPC communication. The <cite>ProcessGroup</cite> backend internally uses gloo
+for communication.</p>
 </div>
 <div class="section" id="rref">
 <span id="id2"></span><h2>RRef<a class="headerlink" href="#rref" title="Permalink to this headline">¶</a></h2>
@@ -335,7 +334,8 @@ value alive on the owner, but there is no implication that the value will be
 transferred to the local worker in the future. RRefs can be used in
 multi-machine training by holding references to <a class="reference external" href="https://pytorch.org/docs/stable/nn.html#torch.nn.Module">nn.Modules</a> that exist on
 other workers, and calling the appropriate functions to retrieve or modify their
-parameters during training.</p>
+parameters during training. See <a class="reference internal" href="notes/rref.html#remote-reference-protocol"><span class="std std-ref">Remote Reference Protocol</span></a> for more
+details.</p>
 </div>
 <div class="section" id="rpc-and-rref-primitives">
 <h2>RPC and RRef primitives<a class="headerlink" href="#rpc-and-rref-primitives" title="Permalink to this headline">¶</a></h2>

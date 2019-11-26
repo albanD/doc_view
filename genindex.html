@@ -166,7 +166,7 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Autograd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Advanced autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cuda.html">CUDA semantics</a></li>
@@ -176,6 +176,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notes/large_scale_deployments.html">Features for large-scale deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/randomness.html">Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/windows.html">Windows FAQ</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
@@ -384,7 +385,11 @@
       <li><a href="nn.functional.html#torch.nn.functional.adaptive_avg_pool1d">adaptive_avg_pool1d() (in module torch.nn.functional)</a>
 </li>
       <li><a href="nn.functional.html#torch.nn.functional.adaptive_avg_pool2d">adaptive_avg_pool2d() (in module torch.nn.functional)</a>
+
+      <ul>
+        <li><a href="quantization.html#torch.nn.quantized.functional.adaptive_avg_pool2d">(in module torch.nn.quantized.functional)</a>
 </li>
+      </ul></li>
       <li><a href="nn.functional.html#torch.nn.functional.adaptive_avg_pool3d">adaptive_avg_pool3d() (in module torch.nn.functional)</a>
 </li>
       <li><a href="nn.functional.html#torch.nn.functional.adaptive_max_pool1d">adaptive_max_pool1d() (in module torch.nn.functional)</a>
@@ -692,7 +697,11 @@
       <li><a href="nn.functional.html#torch.nn.functional.avg_pool1d">avg_pool1d() (in module torch.nn.functional)</a>
 </li>
       <li><a href="nn.functional.html#torch.nn.functional.avg_pool2d">avg_pool2d() (in module torch.nn.functional)</a>
+
+      <ul>
+        <li><a href="quantization.html#torch.nn.quantized.functional.avg_pool2d">(in module torch.nn.quantized.functional)</a>
 </li>
+      </ul></li>
       <li><a href="nn.functional.html#torch.nn.functional.avg_pool3d">avg_pool3d() (in module torch.nn.functional)</a>
 </li>
       <li><a href="nn.html#torch.nn.AvgPool1d">AvgPool1d (class in torch.nn)</a>
@@ -2207,11 +2216,15 @@
       <li><a href="distributions.html#torch.distributions.constraints.integer_interval">integer_interval (in module torch.distributions.constraints)</a>
 </li>
       <li><a href="nn.functional.html#torch.nn.functional.interpolate">interpolate() (in module torch.nn.functional)</a>
+
+      <ul>
+        <li><a href="quantization.html#torch.nn.quantized.functional.interpolate">(in module torch.nn.quantized.functional)</a>
 </li>
-      <li><a href="distributions.html#torch.distributions.constraints.interval">interval (in module torch.distributions.constraints)</a>
-</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="distributions.html#torch.distributions.constraints.interval">interval (in module torch.distributions.constraints)</a>
+</li>
       <li><a href="distributions.html#torch.distributions.transforms.Transform.inv">inv() (torch.distributions.transforms.Transform property)</a>
 </li>
       <li><a href="torch.html#torch.inverse">inverse() (in module torch)</a>
@@ -4601,11 +4614,23 @@
       <li><a href="nn.html#torch.nn.Upsample">Upsample (class in torch.nn)</a>
 </li>
       <li><a href="nn.functional.html#torch.nn.functional.upsample">upsample() (in module torch.nn.functional)</a>
+
+      <ul>
+        <li><a href="quantization.html#torch.nn.quantized.functional.upsample">(in module torch.nn.quantized.functional)</a>
 </li>
+      </ul></li>
       <li><a href="nn.functional.html#torch.nn.functional.upsample_bilinear">upsample_bilinear() (in module torch.nn.functional)</a>
+
+      <ul>
+        <li><a href="quantization.html#torch.nn.quantized.functional.upsample_bilinear">(in module torch.nn.quantized.functional)</a>
 </li>
+      </ul></li>
       <li><a href="nn.functional.html#torch.nn.functional.upsample_nearest">upsample_nearest() (in module torch.nn.functional)</a>
+
+      <ul>
+        <li><a href="quantization.html#torch.nn.quantized.functional.upsample_nearest">(in module torch.nn.quantized.functional)</a>
 </li>
+      </ul></li>
       <li><a href="nn.html#torch.nn.UpsamplingBilinear2d">UpsamplingBilinear2d (class in torch.nn)</a>
 </li>
       <li><a href="nn.html#torch.nn.UpsamplingNearest2d">UpsamplingNearest2d (class in torch.nn)</a>

@@ -167,7 +167,7 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="autograd.html">Autograd mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autograd.html">Advanced autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cuda.html">CUDA semantics</a></li>
@@ -177,6 +177,7 @@
 <li class="toctree-l1"><a class="reference internal" href="large_scale_deployments.html">Features for large-scale deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="randomness.html">Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Windows FAQ</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
@@ -313,7 +314,7 @@
 <span id="id1"></span><h1>Distributed Autograd Design<a class="headerlink" href="#distributed-autograd-design" title="Permalink to this headline">¶</a></h1>
 <p>This note will present the detailed design for distributed autograd and walk
 through the internals of the same. Make sure you’re familiar with
-<a class="reference internal" href="autograd.html#autograd-mechanics"><span class="std std-ref">Autograd mechanics</span></a> and the <a class="reference internal" href="../rpc.html#distributed-rpc-framework"><span class="std std-ref">Distributed RPC Framework</span></a> before
+<a class="reference internal" href="autograd.html#autograd-mechanics"><span class="std std-ref">Advanced autograd</span></a> and the <a class="reference internal" href="../rpc.html#distributed-rpc-framework"><span class="std std-ref">Distributed RPC Framework</span></a> before
 proceeding.</p>
 <div class="section" id="background">
 <h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
@@ -348,7 +349,7 @@ record appropriate gradients for all tensors that require gradients.</p>
 <h2>Autograd recording during the forward pass<a class="headerlink" href="#autograd-recording-during-the-forward-pass" title="Permalink to this headline">¶</a></h2>
 <p>PyTorch builds the autograd graph during the forward pass and this graph is
 used to execute the backward pass. For more details see
-<a class="reference internal" href="autograd.html#how-autograd-encodes-history"><span class="std std-ref">How autograd encodes the history</span></a>.</p>
+<span class="xref std std-ref">how-autograd-encodes-history</span>.</p>
 <p>For distributed autograd, we need to keep track of all RPCs during the forward
 pass to ensure the backward pass is executed appropriately. For this purpose,
 we attach <code class="docutils literal notranslate"><span class="pre">send</span></code> and <code class="docutils literal notranslate"><span class="pre">recv</span></code> functions to the autograd graph when we perform
@@ -598,7 +599,7 @@ autograd and distributed optimizer is as follows:</p>
 <span class="k">def</span> <span class="nf">random_tensor</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">_run_process</span><span class="p">(</span><span class="n">self_rank</span><span class="p">,</span> <span class="n">dst_rank</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_run_process</span><span class="p">(</span><span class="n">self_rank</span><span class="p">,</span> <span class="n">dst_rank</span><span class="p">):</span>
     <span class="n">self_name</span> <span class="o">=</span> <span class="s2">&quot;worker</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">self_rank</span><span class="p">)</span>
     <span class="n">dst_name</span> <span class="o">=</span> <span class="s2">&quot;worker</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dst_rank</span><span class="p">)</span>
 
@@ -607,7 +608,6 @@ autograd and distributed optimizer is as follows:</p>
         <span class="n">self_name</span><span class="o">=</span><span class="n">self_name</span><span class="p">,</span>
         <span class="n">self_rank</span><span class="o">=</span><span class="n">self_rank</span><span class="p">,</span>
         <span class="n">worker_name_to_id</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;worker0&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;worker1&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-        <span class="n">init_method</span><span class="o">=</span><span class="s2">&quot;file://</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_name</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="c1"># Use a distributed autograd context.</span>
@@ -630,16 +630,15 @@ autograd and distributed optimizer is as follows:</p>
        <span class="c1"># Run the distributed optimizer step.</span>
        <span class="n">dist_optim</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
 
-<span class="k">def</span> <span class="nf">run_process</span><span class="p">(</span><span class="n">self_rank</span><span class="p">,</span> <span class="n">dst_rank</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
-    <span class="n">_run_process</span><span class="p">(</span><span class="n">self_rank</span><span class="p">,</span> <span class="n">dst_rank</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
-    <span class="n">rpc</span><span class="o">.</span><span class="n">join_rpc</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">run_process</span><span class="p">(</span><span class="n">self_rank</span><span class="p">,</span> <span class="n">dst_rank</span><span class="p">):</span>
+    <span class="n">_run_process</span><span class="p">(</span><span class="n">self_rank</span><span class="p">,</span> <span class="n">dst_rank</span><span class="p">)</span>
+    <span class="n">rpc</span><span class="o">.</span><span class="n">wait_all_workers</span><span class="p">()</span>
 
-<span class="n">file_name</span> <span class="o">=</span> <span class="n">NamedTemporaryFile</span><span class="p">()</span><span class="o">.</span><span class="n">name</span>
 <span class="n">processes</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="c1"># Run two workers.</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">run_process</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">,</span> <span class="n">file_name</span><span class="p">))</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">run_process</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">))</span>
     <span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
     <span class="n">processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
