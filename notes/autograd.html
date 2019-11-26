@@ -312,11 +312,11 @@ to understand all this, but we recommend getting familiar with it, as it will he
 write more efficient, cleaner programs, and can aid you in debugging.</p>
 <p>TL-DR:</p>
 <ul class="simple">
-<li><p>Mathematical formulation: we compute vector-Jacobian products using the chain rule. We support inplace operations using hidden versioning of the Tensors.</p></li>
+<li><p>Mathematical formulation: we compute vector-Jacobian products using the chain rule. We support in-place operations using hidden versioning of the Tensors.</p></li>
 <li><p>Non-gradients: we provide helper functions to be able to compute a result that is not the gradient of the user’s whole program.</p></li>
-<li><p>Will inplace operation work?: Because they modify the original value, if anything needs this value for the backward, the backward pass will fail.</p></li>
-<li><p>Gradients of 0 vs independent of the input: We don’t see the difference.</p></li>
-<li><p>Gradients of 0: They can be represented by a Tensor full of <code class="docutils literal notranslate"><span class="pre">0</span></code> s, <code class="docutils literal notranslate"><span class="pre">None</span></code> in python, undefined tensor in c++ or and error for <code class="docutils literal notranslate"><span class="pre">autograd.grad(allow_unused=False)</span></code>.</p></li>
+<li><p>Will in-place operation work?: Because they modify the original value, if anything needs this value for the backward, the backward pass will fail.</p></li>
+<li><p>Gradients of zero vs independent of the input: We don’t see the difference.</p></li>
+<li><p>Gradients of zero: They can be represented by a Tensor full of <code class="docutils literal notranslate"><span class="pre">0</span></code> s, <code class="docutils literal notranslate"><span class="pre">None</span></code> in python, undefined tensor in c++ or and error for <code class="docutils literal notranslate"><span class="pre">autograd.grad(allow_unused=False)</span></code>.</p></li>
 <li><p>Non-differentiable functions: We do not provide anyone guarantee, but we have fixed rules on what each elementary operation’s backward pass should compute which should cover most cases reasonably.</p></li>
 <li><p>Implementation details: Only if you want to understand the current implementation at a high level.</p></li>
 </ul>
@@ -324,8 +324,8 @@ write more efficient, cleaner programs, and can aid you in debugging.</p>
 <h2>Mathematical formulation<a class="headerlink" href="#mathematical-formulation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="what-does-the-autograd-package-do">
 <h3>What does the autograd package do<a class="headerlink" href="#what-does-the-autograd-package-do" title="Permalink to this headline">¶</a></h3>
-<p>The autograd package allows to use automatic differentiation techniques on top of PyTorch Tensors.
-Automatic differentiation allows to compute dot product between a given vector and the Jacobian of a user-defined function.
+<p>The autograd package allows to use automatic differentiation techniques on top of tensors.
+Automatic differentiation computes the dot product between a given vector and the Jacobian of a user-defined function.
 In this document, we will consider the function <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>:</mo><mi>x</mi><mo>→</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">f: x \rightarrow y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span></span>
 
 </span> where <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>
@@ -338,9 +338,9 @@ In this document, we will consider the function <span class="math"><span class="
 
 </span>.
 For simplicity, in this document, we will always consider inputs and ouputs to be 1D, in practice, they can be Tensors with an arbitrary number of dimensions.
-The jacobian matrix associated with this function is that matrix <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>J</mi><mi>f</mi></msub></mrow><annotation encoding="application/x-tex">J_f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.09618em;">J</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.09618em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>
+The Jacobian matrix associated with this function is that matrix <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>J</mi><mi>f</mi></msub></mrow><annotation encoding="application/x-tex">J_f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.09618em;">J</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.09618em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>
 
-</span> of size <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo>×</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">O \times I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span></span></span></span>
+</span> of size <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>O</mi><mo separator="true">,</mo><mi>I</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(O, I)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span><span class="mclose">)</span></span></span></span>
 
 </span> such that each entry is
 given by <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>J</mi><mi>f</mi></msub><msub><mo stretchy="false">)</mo><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mi mathvariant="normal">∂</mi><msub><mi>x</mi><mi>j</mi></msub></mrow><mrow><mi mathvariant="normal">∂</mi><msub><mi>y</mi><mi>i</mi></msub></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">(J_f)_{ij} = \dfrac{\partial{x_j}}{\partial{y_i}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.09618em;">J</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.09618em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.25188em;vertical-align:-0.8804400000000001em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.37144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="mord"><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.8804400000000001em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>
@@ -387,8 +387,8 @@ the automatic differentiation will compute <span class="math"><span class="katex
 
 </span>.</p>
 </div>
-<div class="section" id="link-with-the-code">
-<h3>Link with the code<a class="headerlink" href="#link-with-the-code" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="what-is-your-code-computing">
+<h3>What is your code computing<a class="headerlink" href="#what-is-your-code-computing" title="Permalink to this headline">¶</a></h3>
 <p>The tensors for which the user want to compute the gradients can be marked using the <code class="code docutils literal notranslate"><span class="pre">.requires_grad_()</span></code> function.
 The user can then use any pytorch function on this tensor to compute the final value of its function.
 Each of these function is composed of one or more elementary operation.
@@ -426,14 +426,16 @@ In particular, consider the following function:</p>
 
 </span>.</p>
 </div>
-<div class="section" id="handling-inplace-operations">
-<h3>Handling inplace operations<a class="headerlink" href="#handling-inplace-operations" title="Permalink to this headline">¶</a></h3>
-<p>The only special case that needs to be considered here are inplace operations.
-The main reason to use inplace operations is to preserve side effects and prevent additional memory requirements.
-The first point means that if a tensor is referenced in different places, the inplace operation should modify all these references.
-The second point means that no extra memory allocation should be done under the hood otherwise it would defeat the purpose of inplace operations.</p>
-<p>To be able to fulfill these two needs, we make inplace operations actually be inplace during the forward pass giving exactly the same behavior
-as any other non-autograd library that provides inplace operations.
+<div class="section" id="handling-in-place-operations">
+<h3>Handling in-place operations<a class="headerlink" href="#handling-in-place-operations" title="Permalink to this headline">¶</a></h3>
+<p>The only special case that needs to be considered here are in-place operations.
+The main reason to use in-place operations is to preserve side effects and prevent additional memory requirements.</p>
+<ul class="simple">
+<li><p>The first point means that if a tensor is referenced in different places, the in-place operation should modify all these references.</p></li>
+<li><p>The second point means that no extra memory allocation should be done under the hood otherwise it would defeat the purpose of in-place operations.</p></li>
+</ul>
+<p>To be able to fulfill these two needs, we make in-place operations actually be in-place during the forward pass giving exactly the same behavior
+as any other non-autograd library that provides in-place operations.
 To be able to compute the gradients, we consider that there are different versions of the tensor that existed and that the user tensor always points to the latest version.
 This allows us to write the automatic differentiation rules as before.</p>
 <p>See the two functions below for examples where we use subscripts to specify each version of the Tensor.:</p>
@@ -507,7 +509,7 @@ This means that however <code class="code docutils literal notranslate"><span cl
 
 </span>.</p>
 <p>Note that the new Tensor shares the same data as the original one (it is a view).
-This means that inplace operations on <code class="code docutils literal notranslate"><span class="pre">y</span></code> will change values in <code class="code docutils literal notranslate"><span class="pre">x</span></code> .</p>
+This means that in-place operations on <code class="code docutils literal notranslate"><span class="pre">y</span></code> will change values in <code class="code docutils literal notranslate"><span class="pre">x</span></code> .</p>
 </div>
 <div class="section" id="disable-gradient-computation">
 <h3>Disable gradient computation<a class="headerlink" href="#disable-gradient-computation" title="Permalink to this headline">¶</a></h3>
@@ -532,6 +534,8 @@ Note that for the context manager version, outputs are all the variables that ar
     <span class="n">w</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">z</span>
 </pre></div>
 </div>
+<p>This is particularly useful to perform operations for which gradients are not needed or that the user does not want as part of the gradient computation.
+This can range from model forward pass when doing inference to optimizer update of the parameters of a network.</p>
 </div>
 <div class="section" id="hooks">
 <h3>Hooks<a class="headerlink" href="#hooks" title="Permalink to this headline">¶</a></h3>
@@ -603,8 +607,8 @@ This hook function will be passes the computed gradient as input and can optiona
 </div>
 </div>
 </div>
-<div class="section" id="will-inplace-ops-work">
-<h2>Will inplace ops work?<a class="headerlink" href="#will-inplace-ops-work" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="will-in-place-ops-work">
+<h2>Will in-place ops work?<a class="headerlink" href="#will-in-place-ops-work" title="Permalink to this headline">¶</a></h2>
 <p>We repeat the example from above here for clarity:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">op_1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -614,11 +618,11 @@ This hook function will be passes the computed gradient as input and can optiona
     <span class="k">return</span> <span class="n">z</span>
 </pre></div>
 </div>
-<p>The main limitation of our inplace operation strategy is that in this example, if <code class="code docutils literal notranslate"><span class="pre">op_1</span></code> needs the value of its output <code class="code docutils literal notranslate"><span class="pre">z_0</span></code> to compute <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>J</mi><mrow><mi>o</mi><msub><mi>p</mi><mn>1</mn></msub></mrow></msub></mrow><annotation encoding="application/x-tex">J_{op_1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.09618em;">J</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.09618em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">o</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>
+<p>The main limitation of our in-place operation strategy is that in this example, if <code class="code docutils literal notranslate"><span class="pre">op_1</span></code> needs the value of its output <code class="code docutils literal notranslate"><span class="pre">z_0</span></code> to compute <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>J</mi><mrow><mi>o</mi><msub><mi>p</mi><mn>1</mn></msub></mrow></msub></mrow><annotation encoding="application/x-tex">J_{op_1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.09618em;">J</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.09618em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">o</span><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>
 
 </span>, then the autograd computation cannot be performed correctly anymore.
 Because we do not want to hide memory allocation from the user, the backward pass will raise an error.
-In such a case, to be able to perform this backward pass we need to either replace <code class="code docutils literal notranslate"><span class="pre">op_2_</span></code> with an equivalent out-of-place operation or make sure <code class="code docutils literal notranslate"><span class="pre">op_2_</span></code> modifies inplace a copy of <code class="code docutils literal notranslate"><span class="pre">z</span></code> by adding a <code class="code docutils literal notranslate"><span class="pre">.clone()</span></code> for example.</p>
+In such a case, to be able to perform this backward pass we need to either replace <code class="code docutils literal notranslate"><span class="pre">op_2_</span></code> with an equivalent out-of-place operation or make sure <code class="code docutils literal notranslate"><span class="pre">op_2_</span></code> modifies in-place a copy of <code class="code docutils literal notranslate"><span class="pre">z</span></code> by adding a <code class="code docutils literal notranslate"><span class="pre">.clone()</span></code> for example.</p>
 </div>
 <div class="section" id="gradient-of-0-vs-independent-of-the-input">
 <h2>Gradient of 0 vs independent of the input<a class="headerlink" href="#gradient-of-0-vs-independent-of-the-input" title="Permalink to this headline">¶</a></h2>
@@ -681,7 +685,7 @@ norm function has a well defined gradient at <span class="math"><span class="kat
 
 </span> for example).</p></li>
 <li><p>If a gradient exist at the current point, return it.</p></li>
-<li><p>If the function is convex, return one of it’s subgradients at the current point, if more than one exists, return the subgradient with minimum norm (As it is always a descent direction, see “Convex Optimization Algorithms” by Dimitri Bertsekas, Proposition 4.3.1 for a proof).</p></li>
+<li><p>If the function is convex, return one of it’s subgradients at the current point, if more than one exists, return the subgradient with minimum norm (as it is always a descent direction, see “Convex Optimization Algorithms” by Dimitri Bertsekas, Proposition 4.3.1 for a proof).</p></li>
 <li><p>Define the gradient at the current point by continuity (note that <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>n</mi><mi>f</mi></mrow><annotation encoding="application/x-tex">inf</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span>
 
 </span> is possible here). If multiple values are possible, pick one arbitrarily.</p></li>
@@ -716,33 +720,33 @@ graph examples in torchviz.</p>
 <h3>Not Gradients<a class="headerlink" href="#not-gradients" title="Permalink to this headline">¶</a></h3>
 <p>The operations that do not compute gradients that are presented above are implemented as follows to obtain the behavior described above.</p>
 <p><code class="docutils literal notranslate"><span class="pre">detach</span></code> is returning a new Tensor object that shares the same Storage.
-The Tensor is the same except that it does not require gradient and its grad_fn is always <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+The Tensor is the same except that it does not require gradient and its grad_fn is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">torch.no_grad</span></code> simply prevents any <code class="code docutils literal notranslate"><span class="pre">Node</span></code> from being added to the graph.</p>
 </div>
-<div class="section" id="inplace-handling">
-<h3>Inplace handling<a class="headerlink" href="#inplace-handling" title="Permalink to this headline">¶</a></h3>
-<p>To get the required behavior for inplace operations, two things are needed.
+<div class="section" id="in-place-handling">
+<h3>In-place handling<a class="headerlink" href="#in-place-handling" title="Permalink to this headline">¶</a></h3>
+<p>To get the required behavior for in-place operations, two things are needed.
 First, to be able to ensure correctness, we need to track the versions of the different Tensors to make sure that a <code class="code docutils literal notranslate"><span class="pre">Node</span></code> has access to the version it needs, not a modified one.
 Second, we need to build a graph that will perform the correct backward computation.</p>
-<p>From the python api, the current version of a Tensor can be queried with <code class="code docutils literal notranslate"><span class="pre">._version</span></code> .
+<p>From the Python api, the current version of a Tensor can be queried with <code class="code docutils literal notranslate"><span class="pre">._version</span></code> .
 The <code class="code docutils literal notranslate"><span class="pre">Function</span></code> wrapper takes care of managing this version by using the information provided by the <code class="code docutils literal notranslate"><span class="pre">.mark_dirty()</span></code> method available on the context.
-It also takes care of making sure that the Tensors given to the <code class="code docutils literal notranslate"><span class="pre">.backward()</span></code> function have not been modified inplace.</p>
-<p>Building the graph in the absence of any views is simple as all the inplace operations can be “reinterpreted” as out of place.
-The inplace operations will only create a linear chain of <code class="code docutils literal notranslate"><span class="pre">Node</span></code> s as if <code class="code docutils literal notranslate"><span class="pre">x.op_()</span></code> was written <code class="code docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">x.op()</span></code> (assuming corresponding out of place operation exists).</p>
-<p>Building the graph is more complex as we allow both views and inplace operations.
+It also takes care of making sure that the Tensors given to the <code class="code docutils literal notranslate"><span class="pre">.backward()</span></code> function have not been modified in-place.</p>
+<p>Building the graph in the absence of any views is simple as all the in-place operations can be “reinterpreted” as out of place.
+The in-place operations will only create a linear chain of <code class="code docutils literal notranslate"><span class="pre">Node</span></code> s as if <code class="code docutils literal notranslate"><span class="pre">x.op_()</span></code> was written <code class="code docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">x.op()</span></code> (assuming corresponding out of place operation exists).</p>
+<p>Building the graph is more complex as we allow both views and in-place operations.
 Here, the view operations are responsible to mark any views that they make as being linked to the input.
 You can check if a Tensor is a view with <code class="code docutils literal notranslate"><span class="pre">._is_view</span></code> and query the Tensor it is a view of with <code class="code docutils literal notranslate"><span class="pre">._base</span></code> .
 Two case can happen then:</p>
 <ul class="simple">
-<li><p>If this Tensor is not modified inplace, then its <code class="code docutils literal notranslate"><span class="pre">.grad_fn</span></code> is the <code class="code docutils literal notranslate"><span class="pre">Node</span></code> associated with the view operation. And the base’s <code class="code docutils literal notranslate"><span class="pre">.grad_fn</span></code> is the <code class="code docutils literal notranslate"><span class="pre">Node</span></code> that corresponds to its forward function.</p></li>
-<li><p>If this Tensor is modified inplace, its graph is “rebased”. This has a few effects:</p>
+<li><p>If this Tensor is not modified in-place, then its <code class="code docutils literal notranslate"><span class="pre">.grad_fn</span></code> is the <code class="code docutils literal notranslate"><span class="pre">Node</span></code> associated with the view operation. And the base’s <code class="code docutils literal notranslate"><span class="pre">.grad_fn</span></code> is the <code class="code docutils literal notranslate"><span class="pre">Node</span></code> that corresponds to its forward function.</p></li>
+<li><p>If this Tensor is modified in-place, its graph is “rebased”. This has a few effects:</p>
 <ul>
-<li><p>The base <code class="code docutils literal notranslate"><span class="pre">.grad_fn</span></code> becomes a <code class="code docutils literal notranslate"><span class="pre">CopySlices</span></code> . This special <code class="code docutils literal notranslate"><span class="pre">Node</span></code> is a wrapper around the <code class="code docutils literal notranslate"><span class="pre">Node</span></code> corresponding to the inplace operations and apply it to the subset of the base on which the inplace operation was performed (through the view).</p></li>
+<li><p>The base <code class="code docutils literal notranslate"><span class="pre">.grad_fn</span></code> becomes a <code class="code docutils literal notranslate"><span class="pre">CopySlices</span></code> . This special <code class="code docutils literal notranslate"><span class="pre">Node</span></code> is a wrapper around the <code class="code docutils literal notranslate"><span class="pre">Node</span></code> corresponding to the in-place operations and apply it to the subset of the base on which the in-place operation was performed (through the view).</p></li>
 <li><p>All the views’ <code class="code docutils literal notranslate"><span class="pre">.grad_fn</span></code> become <code class="code docutils literal notranslate"><span class="pre">AsStridedBackard</span></code> s that point to the newly created <code class="code docutils literal notranslate"><span class="pre">CopySlices</span></code> from the base.</p></li>
 </ul>
 </li>
 </ul>
-<p>This is repeated every time an inplace operation is performed on a view and so the base’s backward graph can contain a chain of <code class="code docutils literal notranslate"><span class="pre">CopySlices</span></code> before finally getting to the <code class="code docutils literal notranslate"><span class="pre">Node</span></code> that corresponds to its forward function.</p>
+<p>This is repeated every time an in-place operation is performed on a view and so the base’s backward graph can contain a chain of <code class="code docutils literal notranslate"><span class="pre">CopySlices</span></code> before finally getting to the <code class="code docutils literal notranslate"><span class="pre">Node</span></code> that corresponds to its forward function.</p>
 </div>
 </div>
 </div>
@@ -794,8 +798,8 @@ Two case can happen then:</p>
 <li><a class="reference internal" href="#mathematical-formulation">Mathematical formulation</a><ul>
 <li><a class="reference internal" href="#what-does-the-autograd-package-do">What does the autograd package do</a></li>
 <li><a class="reference internal" href="#how-does-it-does-that">How does it does that</a></li>
-<li><a class="reference internal" href="#link-with-the-code">Link with the code</a></li>
-<li><a class="reference internal" href="#handling-inplace-operations">Handling inplace operations</a></li>
+<li><a class="reference internal" href="#what-is-your-code-computing">What is your code computing</a></li>
+<li><a class="reference internal" href="#handling-in-place-operations">Handling in-place operations</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#computing-not-gradients">Computing not gradients</a><ul>
@@ -805,14 +809,14 @@ Two case can happen then:</p>
 <li><a class="reference internal" href="#equivalence">Equivalence</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#will-inplace-ops-work">Will inplace ops work?</a></li>
+<li><a class="reference internal" href="#will-in-place-ops-work">Will in-place ops work?</a></li>
 <li><a class="reference internal" href="#gradient-of-0-vs-independent-of-the-input">Gradient of 0 vs independent of the input</a></li>
 <li><a class="reference internal" href="#how-do-we-express-gradients-of-0">How do we express gradients of 0</a></li>
 <li><a class="reference internal" href="#non-differentiable-functions">Non-differentiable functions</a></li>
 <li><a class="reference internal" href="#implementation-details">Implementation details</a><ul>
 <li><a class="reference internal" href="#computational-graph">Computational graph</a></li>
 <li><a class="reference internal" href="#not-gradients">Not Gradients</a></li>
-<li><a class="reference internal" href="#inplace-handling">Inplace handling</a></li>
+<li><a class="reference internal" href="#in-place-handling">In-place handling</a></li>
 </ul>
 </li>
 </ul>
