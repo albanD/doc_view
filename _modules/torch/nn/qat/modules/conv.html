@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../../genindex.html" />
@@ -128,7 +129,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -198,7 +199,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../optim.html">torch.optim</a></li>
@@ -306,10 +308,10 @@
               
   <h1>Source code for torch.nn.qat.modules.conv</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span>
-<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="k">import</span> <span class="n">Conv2d</span> <span class="k">as</span> <span class="n">NNConv2d</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">from</span> <span class="nn">torch.nn.intrinsic</span> <span class="k">import</span> <span class="n">ConvReLU2d</span>
 
-<div class="viewcode-block" id="Conv2d"><a class="viewcode-back" href="../../../../../quantization.html#torch.nn.qat.Conv2d">[docs]</a><span class="k">class</span> <span class="nc">Conv2d</span><span class="p">(</span><span class="n">NNConv2d</span><span class="p">):</span>
+<div class="viewcode-block" id="Conv2d"><a class="viewcode-back" href="../../../../../quantization.html#torch.nn.qat.Conv2d">[docs]</a><span class="k">class</span> <span class="nc">Conv2d</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Conv2d module attached with FakeQuantize modules for both output</span>
 <span class="sd">    activation and weight, used for quantization aware training.</span>
@@ -325,7 +327,7 @@
 <span class="sd">        activation_post_process: fake quant module for output activation</span>
 <span class="sd">        weight_fake_quant: fake quant module for weight</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_FLOAT_MODULE</span> <span class="o">=</span> <span class="n">NNConv2d</span>
+    <span class="n">_FLOAT_MODULE</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                  <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -340,7 +342,7 @@
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation_post_process</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">conv2d_forward</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_fake_quant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_conv_forward</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_fake_quant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">)))</span>
 
 <div class="viewcode-block" id="Conv2d.from_float"><a class="viewcode-back" href="../../../../../quantization.html#torch.nn.qat.Conv2d.from_float">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_float</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mod</span><span class="p">,</span> <span class="n">qconfig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

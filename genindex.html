@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
@@ -129,7 +130,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -199,7 +200,8 @@
 <li class="toctree-l1"><a class="reference internal" href="distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim.html">torch.optim</a></li>
@@ -1645,6 +1647,8 @@
       </ul></li>
       <li><a href="autograd.html#torch.autograd.profiler.profile.export_chrome_trace">export_chrome_trace() (torch.autograd.profiler.profile method)</a>
 </li>
+      <li><a href="torch.html#torch.export_opnames">export_opnames() (in module torch)</a>
+</li>
       <li><a href="distributions.html#torch.distributions.transforms.ExpTransform">ExpTransform (class in torch.distributions.transforms)</a>
 </li>
       <li><a href="nn.html#torch.nn.ModuleList.extend">extend() (torch.nn.ModuleList method)</a>
@@ -1727,6 +1731,8 @@
       </ul></li>
       <li><a href="tensors.html#torch.Tensor.floor_">floor_() (torch.Tensor method)</a>
 </li>
+      <li><a href="torch.html#torch.floor_divide">floor_divide() (in module torch)</a>
+</li>
       <li><a href="torch.html#torch.fmod">fmod() (in module torch)</a>
 
       <ul>
@@ -1789,11 +1795,9 @@
 </li>
       <li><a href="storage.html#torch.FloatStorage.from_file">from_file() (torch.FloatStorage static method)</a>
 </li>
-      <li><a href="quantization.html#torch.nn.intrinsic.qat.ConvBn2d.from_float">from_float() (torch.nn.intrinsic.qat.ConvBn2d class method)</a>
+      <li><a href="quantization.html#torch.nn.qat.Conv2d.from_float">from_float() (torch.nn.qat.Conv2d class method)</a>
 
       <ul>
-        <li><a href="quantization.html#torch.nn.qat.Conv2d.from_float">(torch.nn.qat.Conv2d class method)</a>
-</li>
         <li><a href="quantization.html#torch.nn.qat.Linear.from_float">(torch.nn.qat.Linear class method)</a>
 </li>
         <li><a href="quantization.html#torch.nn.quantized.Conv2d.from_float">(torch.nn.quantized.Conv2d class method)</a>
@@ -2625,6 +2629,14 @@
         <li><a href="tensors.html#torch.Tensor.logdet">(torch.Tensor method)</a>
 </li>
       </ul></li>
+      <li><a href="torch.html#torch.logical_and">logical_and() (in module torch)</a>
+
+      <ul>
+        <li><a href="tensors.html#torch.Tensor.logical_and">(torch.Tensor method)</a>
+</li>
+      </ul></li>
+      <li><a href="tensors.html#torch.Tensor.logical_and_">logical_and_() (torch.Tensor method)</a>
+</li>
       <li><a href="torch.html#torch.logical_not">logical_not() (in module torch)</a>
 
       <ul>
@@ -2632,6 +2644,14 @@
 </li>
       </ul></li>
       <li><a href="tensors.html#torch.Tensor.logical_not_">logical_not_() (torch.Tensor method)</a>
+</li>
+      <li><a href="torch.html#torch.logical_or">logical_or() (in module torch)</a>
+
+      <ul>
+        <li><a href="tensors.html#torch.Tensor.logical_or">(torch.Tensor method)</a>
+</li>
+      </ul></li>
+      <li><a href="tensors.html#torch.Tensor.logical_or_">logical_or_() (torch.Tensor method)</a>
 </li>
       <li><a href="torch.html#torch.logical_xor">logical_xor() (in module torch)</a>
 
@@ -2949,7 +2969,7 @@
         <li><a href="org/pytorch/Module.html#org.pytorch.Module">(Java class)</a>
 </li>
       </ul></li>
-      <li><a href="nn.html#torch.nn.Module.to">Module.to() (in module torch.nn)</a>, <a href="nn.html#torch.nn.Module.to">[1]</a>, <a href="nn.html#torch.nn.Module.to">[2]</a>
+      <li><a href="nn.html#torch.nn.Module.to">Module.to() (in module torch.nn)</a>, <a href="nn.html#torch.nn.Module.to">[1]</a>, <a href="nn.html#torch.nn.Module.to">[2]</a>, <a href="nn.html#torch.nn.Module.to">[3]</a>
 </li>
       <li><a href="nn.html#torch.nn.ModuleDict">ModuleDict (class in torch.nn)</a>
 </li>
@@ -3973,12 +3993,12 @@
         <li><a href="tensors.html#torch.Tensor.sort">(torch.Tensor method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="sparse.html#torch.sparse.FloatTensor.spadd">spadd() (torch.sparse.FloatTensor method)</a>
 </li>
       <li><a href="nn.init.html#torch.nn.init.sparse_">sparse_() (in module torch.nn.init)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="torch.html#torch.sparse_coo_tensor">sparse_coo_tensor() (in module torch)</a>
 </li>
       <li><a href="tensors.html#torch.Tensor.sparse_dim">sparse_dim() (torch.Tensor method)</a>
@@ -4008,6 +4028,14 @@
 </li>
       </ul></li>
       <li><a href="tensors.html#torch.Tensor.sqrt_">sqrt_() (torch.Tensor method)</a>
+</li>
+      <li><a href="torch.html#torch.square">square() (in module torch)</a>
+
+      <ul>
+        <li><a href="tensors.html#torch.Tensor.square">(torch.Tensor method)</a>
+</li>
+      </ul></li>
+      <li><a href="tensors.html#torch.Tensor.square_">square_() (torch.Tensor method)</a>
 </li>
       <li><a href="torch.html#torch.squeeze">squeeze() (in module torch)</a>
 
@@ -4391,10 +4419,10 @@
 </li>
       <li><a href="distributions.html#module-torch.distributions.constraints">torch.distributions.constraints (module)</a>
 </li>
-      <li><a href="distributions.html#module-torch.distributions.kl">torch.distributions.kl (module)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="distributions.html#module-torch.distributions.kl">torch.distributions.kl (module)</a>
+</li>
       <li><a href="distributions.html#module-torch.distributions.transforms">torch.distributions.transforms (module)</a>
 </li>
       <li><a href="tensor_attributes.html#torch.torch.dtype">torch.dtype (class in torch)</a>
@@ -4406,8 +4434,6 @@
       <li><a href="type_info.html#torch.torch.iinfo">torch.iinfo (class in torch)</a>
 </li>
       <li><a href="jit.html#module-torch.jit">torch.jit (module)</a>
-</li>
-      <li><a href="jit_builtin_functions.html#module-torch.jit.supported_ops">torch.jit.supported_ops (module)</a>
 </li>
       <li><a href="tensor_attributes.html#torch.torch.layout">torch.layout (class in torch)</a>
 </li>

@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
@@ -128,7 +129,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -198,7 +199,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../optim.html">torch.optim</a></li>
@@ -401,17 +403,22 @@
 <span class="sd">        &gt;&gt;&gt; from torch.nn.quantized import functional as qF</span>
 <span class="sd">        &gt;&gt;&gt; filters = torch.randn(8, 4, 3, 3, dtype=torch.float)</span>
 <span class="sd">        &gt;&gt;&gt; inputs = torch.randn(1, 4, 5, 5, dtype=torch.float)</span>
-<span class="sd">        &gt;&gt;&gt; bias = torch.randn(4, dtype=torch.float)</span>
+<span class="sd">        &gt;&gt;&gt; bias = torch.randn(8, dtype=torch.float)</span>
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt; scale, zero_point = 1.0, 0</span>
-<span class="sd">        &gt;&gt;&gt; dtype = torch.quint8</span>
+<span class="sd">        &gt;&gt;&gt; dtype_inputs = torch.quint8</span>
+<span class="sd">        &gt;&gt;&gt; dtype_filters = torch.qint8</span>
 <span class="sd">        &gt;&gt;&gt;</span>
-<span class="sd">        &gt;&gt;&gt; q_filters = torch.quantize_per_tensor(filters, scale, zero_point, dtype)</span>
-<span class="sd">        &gt;&gt;&gt; q_inputs = torch.quantize_per_tensor(inputs, scale, zero_point, dtype)</span>
-<span class="sd">        &gt;&gt;&gt; qF.conv2d(q_inputs, q_filters, bias, scale, zero_point, padding=1)</span>
+<span class="sd">        &gt;&gt;&gt; q_filters = torch.quantize_per_tensor(filters, scale, zero_point, dtype_filters)</span>
+<span class="sd">        &gt;&gt;&gt; q_inputs = torch.quantize_per_tensor(inputs, scale, zero_point, dtype_inputs)</span>
+<span class="sd">        &gt;&gt;&gt; qF.conv2d(q_inputs, q_filters, bias, padding=1, scale=scale, zero_point=zero_point)</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
     <span class="k">if</span> <span class="n">padding_mode</span> <span class="o">!=</span> <span class="s1">&#39;zeros&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Only zero-padding is supported!&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quint8</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Only torch.quint8 is supported for activation tensor!&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">weight</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">torch</span><span class="o">.</span><span class="n">qint8</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Only torch.qint8 is supported for weight tensor!&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input shape must be `(N, C, H, W)`!&quot;</span><span class="p">)</span>
     <span class="n">stride</span> <span class="o">=</span> <span class="n">_pair</span><span class="p">(</span><span class="n">stride</span><span class="p">)</span>
@@ -459,17 +466,22 @@
 <span class="sd">        &gt;&gt;&gt; from torch.nn.quantized import functional as qF</span>
 <span class="sd">        &gt;&gt;&gt; filters = torch.randn(8, 4, 3, 3, 3, dtype=torch.float)</span>
 <span class="sd">        &gt;&gt;&gt; inputs = torch.randn(1, 4, 5, 5, 5, dtype=torch.float)</span>
-<span class="sd">        &gt;&gt;&gt; bias = torch.randn(4, dtype=torch.float)</span>
+<span class="sd">        &gt;&gt;&gt; bias = torch.randn(8, dtype=torch.float)</span>
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt; scale, zero_point = 1.0, 0</span>
-<span class="sd">        &gt;&gt;&gt; dtype = torch.quint8</span>
+<span class="sd">        &gt;&gt;&gt; dtype_inputs = torch.quint8</span>
+<span class="sd">        &gt;&gt;&gt; dtype_filters = torch.qint8</span>
 <span class="sd">        &gt;&gt;&gt;</span>
-<span class="sd">        &gt;&gt;&gt; q_filters = torch.quantize_per_tensor(filters, scale, zero_point, dtype)</span>
-<span class="sd">        &gt;&gt;&gt; q_inputs = torch.quantize_per_tensor(inputs, scale, zero_point, dtype)</span>
-<span class="sd">        &gt;&gt;&gt; qF.conv3d(q_inputs, q_filters, bias, scale, zero_point, padding=1)</span>
+<span class="sd">        &gt;&gt;&gt; q_filters = torch.quantize_per_tensor(filters, scale, zero_point, dtype_filters)</span>
+<span class="sd">        &gt;&gt;&gt; q_inputs = torch.quantize_per_tensor(inputs, scale, zero_point, dtype_inputs)</span>
+<span class="sd">        &gt;&gt;&gt; qF.conv3d(q_inputs, q_filters, bias, padding=1, scale=scale, zero_point=zero_point)</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
     <span class="k">if</span> <span class="n">padding_mode</span> <span class="o">!=</span> <span class="s1">&#39;zeros&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Only zero-padding is supported!&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quint8</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Only torch.quint8 is supported for activation tensor!&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">weight</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">torch</span><span class="o">.</span><span class="n">qint8</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Only torch.qint8 is supported for weight tensor!&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">5</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input shape must be `(N, C, D, H, W)`!&quot;</span><span class="p">)</span>
     <span class="n">stride</span> <span class="o">=</span> <span class="n">_triple</span><span class="p">(</span><span class="n">stride</span><span class="p">)</span>
@@ -589,6 +601,22 @@
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">relu_</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">min_</span><span class="p">,</span> <span class="n">max_</span><span class="p">):</span>
+    <span class="c1"># type: (Tensor, float, float) -&gt; Tensor</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;float(input, min_, max_) -&gt; Tensor</span>
+
+<span class="sd">    Applies the clamp function element-wise.</span>
+<span class="sd">    See :class:`~torch.nn.quantized.clamp` for more details.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        input: quantized input</span>
+<span class="sd">        min_: minimum value for clamping</span>
+<span class="sd">        max_: maximum value for clamping</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">input</span><span class="o">.</span><span class="n">is_quantized</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input to &#39;quantized.clamp&#39; must be quantized!&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">min_</span><span class="p">,</span> <span class="n">max_</span><span class="p">)</span>
 
 <div class="viewcode-block" id="upsample"><a class="viewcode-back" href="../../../../quantization.html#torch.nn.quantized.functional.upsample">[docs]</a><span class="k">def</span> <span class="nf">upsample</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Upsamples the input to either the given :attr:`size` or the given</span>

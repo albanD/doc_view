@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -130,7 +131,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -200,7 +201,8 @@
 <li class="toctree-l1"><a class="reference internal" href="distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim.html">torch.optim</a></li>
@@ -891,10 +893,8 @@ Quantization preparation function will instantiate observers multiple times for 
 <p>Observer classes have usually reasonable default arguments, but they can be overwritten with <cite>with_args</cite>
 method (that behaves like functools.partial):</p>
 <blockquote>
-<div><dl class="simple">
-<dt>my_qconfig = QConfig(activation=MinMaxObserver.with_args(dtype=torch.qint8),</dt><dd><p>weight=default_observer.with_args(dtype=torch.qint8))</p>
-</dd>
-</dl>
+<div><p>my_qconfig = QConfig(activation=MinMaxObserver.with_args(dtype=torch.qint8),
+weight=default_observer.with_args(dtype=torch.qint8))</p>
 </div></blockquote>
 </dd></dl>
 
@@ -921,12 +921,14 @@ method (that behaves like functools.partial):</p>
 <dt id="torch.quantization.fuse_modules">
 <code class="sig-prename descclassname">torch.quantization.</code><code class="sig-name descname">fuse_modules</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">modules_to_fuse</em>, <em class="sig-param">inplace=False</em>, <em class="sig-param">fuser_func=&lt;function fuse_known_modules&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/quantization/fuse_modules.html#fuse_modules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.quantization.fuse_modules" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fuses a list of modules into a single module</p>
-<p>Fuses only the following sequence of modules:
-conv, bn
-conv, bn, relu
-conv, relu
-linear, relu
-All other sequences are left unchanged.
+<p>Fuses only the following sequence of modules:</p>
+<ul class="simple">
+<li><p>conv, bn</p></li>
+<li><p>conv, bn, relu</p></li>
+<li><p>conv, relu</p></li>
+<li><p>linear, relu</p></li>
+</ul>
+<p>All other sequences are left unchanged.
 For these sequences, replaces the first item in the list
 with the fused module, replacing the rest of the modules
 with identity.</p>
@@ -1416,7 +1418,9 @@ This is mainly used for quantization accuracy debug
 <dl class="class">
 <dt id="torch.nn.intrinsic.ConvBn2d">
 <em class="property">class </em><code class="sig-prename descclassname">torch.nn.intrinsic.</code><code class="sig-name descname">ConvBn2d</code><span class="sig-paren">(</span><em class="sig-param">conv</em>, <em class="sig-param">bn</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/nn/intrinsic/modules/fused.html#ConvBn2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.nn.intrinsic.ConvBn2d" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This is a sequential container which calls the Conv 2d and Batch Norm 2d modules.
+During quantization this will be replaced with the corresponding fused module.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="convbnrelu2d">
@@ -1424,7 +1428,9 @@ This is mainly used for quantization accuracy debug
 <dl class="class">
 <dt id="torch.nn.intrinsic.ConvBnReLU2d">
 <em class="property">class </em><code class="sig-prename descclassname">torch.nn.intrinsic.</code><code class="sig-name descname">ConvBnReLU2d</code><span class="sig-paren">(</span><em class="sig-param">conv</em>, <em class="sig-param">bn</em>, <em class="sig-param">relu</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/nn/intrinsic/modules/fused.html#ConvBnReLU2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.nn.intrinsic.ConvBnReLU2d" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This is a sequential container which calls the Conv 2d, Batch Norm 2d, and ReLU modules.
+During quantization this will be replaced with the corresponding fused module.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="convrelu2d">
@@ -1432,7 +1438,9 @@ This is mainly used for quantization accuracy debug
 <dl class="class">
 <dt id="torch.nn.intrinsic.ConvReLU2d">
 <em class="property">class </em><code class="sig-prename descclassname">torch.nn.intrinsic.</code><code class="sig-name descname">ConvReLU2d</code><span class="sig-paren">(</span><em class="sig-param">conv</em>, <em class="sig-param">relu</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/nn/intrinsic/modules/fused.html#ConvReLU2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.nn.intrinsic.ConvReLU2d" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This is a sequential container which calls the Conv 2d and ReLU modules.
+During quantization this will be replaced with the corresponding fused module.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="convrelu3d">
@@ -1440,7 +1448,9 @@ This is mainly used for quantization accuracy debug
 <dl class="class">
 <dt id="torch.nn.intrinsic.ConvReLU3d">
 <em class="property">class </em><code class="sig-prename descclassname">torch.nn.intrinsic.</code><code class="sig-name descname">ConvReLU3d</code><span class="sig-paren">(</span><em class="sig-param">conv</em>, <em class="sig-param">relu</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/nn/intrinsic/modules/fused.html#ConvReLU3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.nn.intrinsic.ConvReLU3d" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This is a sequential container which calls the Conv 3d and ReLU modules.
+During quantization this will be replaced with the corresponding fused module.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="linearrelu">
@@ -1448,7 +1458,9 @@ This is mainly used for quantization accuracy debug
 <dl class="class">
 <dt id="torch.nn.intrinsic.LinearReLU">
 <em class="property">class </em><code class="sig-prename descclassname">torch.nn.intrinsic.</code><code class="sig-name descname">LinearReLU</code><span class="sig-paren">(</span><em class="sig-param">linear</em>, <em class="sig-param">relu</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/nn/intrinsic/modules/fused.html#LinearReLU"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.nn.intrinsic.LinearReLU" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This is a sequential container which calls the Linear and ReLU modules.
+During quantization this will be replaced with the corresponding fused module.</p>
+</dd></dl>
 
 </div>
 </div>
@@ -1477,14 +1489,6 @@ to default.</p>
 </ul>
 </dd>
 </dl>
-<dl class="method">
-<dt id="torch.nn.intrinsic.qat.ConvBn2d.from_float">
-<em class="property">classmethod </em><code class="sig-name descname">from_float</code><span class="sig-paren">(</span><em class="sig-param">mod</em>, <em class="sig-param">qconfig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/nn/intrinsic/qat/modules/conv_fused.html#ConvBn2d.from_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.nn.intrinsic.qat.ConvBn2d.from_float" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a qat module from a float module or qparams_dict</p>
-<p>Args: <cite>mod</cite> a float module, either produced by torch.quantization utilities
-or directly from user</p>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -1590,11 +1594,7 @@ default.</p>
 <em class="property">class </em><code class="sig-prename descclassname">torch.nn.intrinsic.quantized.</code><code class="sig-name descname">ConvReLU3d</code><span class="sig-paren">(</span><em class="sig-param">in_channels</em>, <em class="sig-param">out_channels</em>, <em class="sig-param">kernel_size</em>, <em class="sig-param">stride=1</em>, <em class="sig-param">padding=0</em>, <em class="sig-param">dilation=1</em>, <em class="sig-param">groups=1</em>, <em class="sig-param">bias=True</em>, <em class="sig-param">padding_mode='zeros'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/nn/intrinsic/quantized/modules/conv_relu.html#ConvReLU3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.nn.intrinsic.quantized.ConvReLU3d" title="Permalink to this definition">¶</a></dt>
 <dd><p>A ConvReLU3d module is a fused module of Conv3d and ReLU</p>
 <p>We adopt the same interface as <a class="reference internal" href="#torch.nn.quantized.Conv3d" title="torch.nn.quantized.Conv3d"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.quantized.Conv3d</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables</dt>
-<dd class="field-odd"><p><strong>as torch.nn.quantized.Conv3d</strong> (<em>Same</em>) – </p>
-</dd>
-</dl>
+<p>Attributes: Same as torch.nn.quantized.Conv3d</p>
 </dd></dl>
 
 </div>
@@ -1793,14 +1793,15 @@ number of groups. Default: 1</p></li>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch.nn.quantized</span> <span class="k">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">qF</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">filters</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bias</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bias</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quint8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dtype_inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quint8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dtype_filters</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">qint8</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">q_filters</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quantize_per_tensor</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">q_inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quantize_per_tensor</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qF</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">q_inputs</span><span class="p">,</span> <span class="n">q_filters</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q_filters</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quantize_per_tensor</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="n">dtype_filters</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q_inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quantize_per_tensor</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="n">dtype_inputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qF</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">q_inputs</span><span class="p">,</span> <span class="n">q_filters</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="o">=</span><span class="n">zero_point</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1848,14 +1849,15 @@ quantized convolution at the moment. Default: “zeros”</p></li>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch.nn.quantized</span> <span class="k">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">qF</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">filters</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bias</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bias</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quint8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dtype_inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quint8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dtype_filters</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">qint8</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">q_filters</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quantize_per_tensor</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">q_inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quantize_per_tensor</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">qF</span><span class="o">.</span><span class="n">conv3d</span><span class="p">(</span><span class="n">q_inputs</span><span class="p">,</span> <span class="n">q_filters</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q_filters</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quantize_per_tensor</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="n">dtype_filters</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q_inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quantize_per_tensor</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="n">dtype_inputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qF</span><span class="o">.</span><span class="n">conv3d</span><span class="p">(</span><span class="n">q_inputs</span><span class="p">,</span> <span class="n">q_filters</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="o">=</span><span class="n">zero_point</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>

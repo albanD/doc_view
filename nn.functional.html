@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -130,7 +131,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -167,7 +168,7 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Autograd mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Advanced autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cuda.html">CUDA semantics</a></li>
@@ -177,6 +178,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notes/large_scale_deployments.html">Features for large-scale deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/randomness.html">Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/windows.html">Windows FAQ</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
@@ -199,7 +201,8 @@
 <li class="toctree-l1"><a class="reference internal" href="distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim.html">torch.optim</a></li>
@@ -1237,7 +1240,13 @@ is the sigmoid function and <span class="math"><span class="katex"><span class="
 <dl class="function">
 <dt id="torch.nn.functional.softplus">
 <code class="sig-prename descclassname">torch.nn.functional.</code><code class="sig-name descname">softplus</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">beta=1</em>, <em class="sig-param">threshold=20</em><span class="sig-paren">)</span> &#x2192; Tensor<a class="headerlink" href="#torch.nn.functional.softplus" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Applies element-wise, the function <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Softplus</mtext><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mi>β</mi></mfrac><mo>∗</mo><mi>log</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>exp</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>β</mi><mo>∗</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{Softplus}(x) = \frac{1}{\beta} * \log(1 + \exp(\beta * x))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Softplus</span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.326216em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05278em;">β</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">exp</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05278em;">β</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span>
+
+</span>.</p>
+<p>For numerical stability the implementation reverts to the linear function
+for inputs above <a class="reference internal" href="#torch.nn.functional.threshold" title="torch.nn.functional.threshold"><code class="xref py py-attr docutils literal notranslate"><span class="pre">threshold</span></code></a> (default <code class="docutils literal notranslate"><span class="pre">20</span></code>).</p>
+<p>See <a class="reference internal" href="nn.html#torch.nn.Softplus" title="torch.nn.Softplus"><code class="xref py py-class docutils literal notranslate"><span class="pre">Softplus</span></code></a> for more details.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="softmin">
@@ -2568,16 +2577,16 @@ Default: <code class="docutils literal notranslate"><span class="pre">'constant'
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t4d</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p1d</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># pad last dim by 1 on each side</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">t4d</span><span class="p">,</span> <span class="n">p1d</span><span class="p">,</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># effectively zero padding</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
 <span class="go">torch.Size([3, 3, 4, 4])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p2d</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># pad last dim by (1, 1) and 2nd to last by (2, 2)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">t4d</span><span class="p">,</span> <span class="n">p2d</span><span class="p">,</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
 <span class="go">torch.Size([3, 3, 8, 4])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">t4d</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p3d</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># pad by (0, 1), (2, 1), and (3, 3)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">t4d</span><span class="p">,</span> <span class="n">p3d</span><span class="p">,</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
 <span class="go">torch.Size([3, 9, 7, 3])</span>
 </pre></div>
 </div>
@@ -2588,7 +2597,7 @@ Default: <code class="docutils literal notranslate"><span class="pre">'constant'
 <h3><span class="hidden-section">interpolate</span><a class="headerlink" href="#interpolate" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="torch.nn.functional.interpolate">
-<code class="sig-prename descclassname">torch.nn.functional.</code><code class="sig-name descname">interpolate</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">size=None</em>, <em class="sig-param">scale_factor=None</em>, <em class="sig-param">mode='nearest'</em>, <em class="sig-param">align_corners=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/nn/functional.html#interpolate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.nn.functional.interpolate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">torch.nn.functional.</code><code class="sig-name descname">interpolate</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">size=None</em>, <em class="sig-param">scale_factor=None</em>, <em class="sig-param">mode='nearest'</em>, <em class="sig-param">align_corners=None</em>, <em class="sig-param">use_scale_factor=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/nn/functional.html#interpolate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.nn.functional.interpolate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Down/up samples the input to either the given <code class="xref py py-attr docutils literal notranslate"><span class="pre">size</span></code> or the given
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">scale_factor</span></code></p>
 <p>The algorithm used for interpolation is determined by <code class="xref py py-attr docutils literal notranslate"><span class="pre">mode</span></code>.</p>
@@ -2617,6 +2626,14 @@ for out-of-boundary values, making this operation <em>independent</em> of input 
 when <code class="xref py py-attr docutils literal notranslate"><span class="pre">scale_factor</span></code> is kept the same. This only has an effect when <code class="xref py py-attr docutils literal notranslate"><span class="pre">mode</span></code>
 is <code class="docutils literal notranslate"><span class="pre">'linear'</span></code>, <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code>, <code class="docutils literal notranslate"><span class="pre">'bicubic'</span></code> or <code class="docutils literal notranslate"><span class="pre">'trilinear'</span></code>.
 Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>use_scale_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – When scale_factor is passed as a parameter, it can be
+directly used in the output computation, or can be used to compute the output size which
+will later be used to infer new scales values. In the second case, the value of the scales
+used in the interpolation can be different than the ones specified by the user for non integer
+values of scale_factor (due to floating point precision).
+If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, scale_factor is used in the interpolation.
+If set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, the output_size is computed and new scales are infered for the interpolation.
+Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
 </ul>
 </dd>
 </dl>
@@ -2636,6 +2653,13 @@ input size. This was the default behavior for these modes up to version
 0.3.1. Since then, the default behavior is <code class="docutils literal notranslate"><span class="pre">align_corners</span> <span class="pre">=</span> <span class="pre">False</span></code>.
 See <a class="reference internal" href="nn.html#torch.nn.Upsample" title="torch.nn.Upsample"><code class="xref py py-class docutils literal notranslate"><span class="pre">Upsample</span></code></a> for concrete examples on how this
 affects the outputs.</p>
+<p>When scale_factor is specified, if use_scale_factor=False,
+scale_factor is used to compute the output_size which will then
+be used to infer new scales for the interpolation. This is the current
+default behavior when use_scale_factor is not specified.
+The default behavior for use_scale_factor will change to True
+in 1.5.0, and scale_factor will be used in the interpolation
+calculation.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

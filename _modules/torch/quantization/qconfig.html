@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -128,7 +129,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -198,7 +199,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../optim.html">torch.optim</a></li>
@@ -327,8 +329,8 @@
 <span class="sd">    Observer classes have usually reasonable default arguments, but they can be overwritten with `with_args`</span>
 <span class="sd">    method (that behaves like functools.partial):</span>
 
-<span class="sd">      my_qconfig = QConfig(activation=MinMaxObserver.with_args(dtype=torch.qint8),</span>
-<span class="sd">                           weight=default_observer.with_args(dtype=torch.qint8))</span>
+<span class="sd">      my_qconfig = QConfig(activation=MinMaxObserver.with_args(dtype=torch.qint8), </span>
+<span class="sd">      weight=default_observer.with_args(dtype=torch.qint8))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">weight</span><span class="p">):</span>
         <span class="c1"># catch common mistakes</span>

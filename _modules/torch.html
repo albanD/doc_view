@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -128,7 +129,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -198,7 +199,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optim.html">torch.optim</a></li>
@@ -652,6 +654,11 @@
 <span class="c1"># the memory format could be preserved, and it was switched to old default</span>
 <span class="c1"># behaviour of contiguous</span>
 <span class="n">legacy_contiguous_format</span> <span class="o">=</span> <span class="n">contiguous_format</span>
+
+<span class="c1"># Register fork handler to initialize OpenMP in child processes (see gh-28389)</span>
+<span class="kn">from</span> <span class="nn">torch.multiprocessing._atfork</span> <span class="k">import</span> <span class="n">register_after_fork</span>
+<span class="n">register_after_fork</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">register_after_fork</span>
 </pre></div>
 
              </article>

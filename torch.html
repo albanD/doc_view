@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -130,7 +131,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -167,7 +168,7 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Autograd mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Advanced autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cuda.html">CUDA semantics</a></li>
@@ -177,6 +178,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notes/large_scale_deployments.html">Features for large-scale deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/randomness.html">Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/windows.html">Windows FAQ</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
@@ -199,7 +201,8 @@
 <li class="toctree-l1"><a class="reference internal" href="distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim.html">torch.optim</a></li>
@@ -2412,8 +2415,12 @@ returned tensor. Default: <code class="docutils literal notranslate"><span class
 
 <dl class="function">
 <dt id="torch.randint">
-<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">randint</code><span class="sig-paren">(</span><em class="sig-param">low=0</em>, <em class="sig-param">high</em>, <em class="sig-param">size</em>, <em class="sig-param">*</em>, <em class="sig-param">generator=None</em>, <em class="sig-param">out=None</em>, <em class="sig-param">dtype=None</em>, <em class="sig-param">layout=torch.strided</em>, <em class="sig-param">device=None</em>, <em class="sig-param">requires_grad=False</em><span class="sig-paren">)</span> &#x2192; Tensor<a class="headerlink" href="#torch.randint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a tensor filled with random integers generated uniformly
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">randint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#torch.randint" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>randint(low=0, high, size, <a href="#id3"><span class="problematic" id="id4">*</span></a>, generator=None, out=None, </dt><dd><p>dtype=None, layout=torch.strided, device=None, requires_grad=False) -&gt; Tensor</p>
+</dd>
+</dl>
+<p>Returns a tensor filled with random integers generated uniformly
 between <code class="xref py py-attr docutils literal notranslate"><span class="pre">low</span></code> (inclusive) and <code class="xref py py-attr docutils literal notranslate"><span class="pre">high</span></code> (exclusive).</p>
 <p>The shape of the tensor is defined by the variable argument <code class="xref py py-attr docutils literal notranslate"><span class="pre">size</span></code>.</p>
 <dl class="field-list simple">
@@ -3715,6 +3722,35 @@ the largest integer less than or equal to each element.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="torch.floor_divide">
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">floor_divide</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">other</em><span class="sig-paren">)</span> &#x2192; Tensor<a class="headerlink" href="#torch.floor_divide" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the division of the inputs rounded down to the nearest integer. See <a class="reference internal" href="#torch.div" title="torch.div"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.div()</span></code></a>
+for type promotion and broadcasting rules.</p>
+<div class="math">
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext>out</mtext><mi>i</mi></msub><mo>=</mo><mrow><mo fence="true">⌊</mo><mfrac><msub><mtext>input</mtext><mi>i</mi></msub><msub><mtext>other</mtext><mi>i</mi></msub></mfrac><mo fence="true">⌋</mo></mrow></mrow><annotation encoding="application/x-tex">\text{{out}}_i = \left\lfloor \frac{{\text{{input}}_i}}{{\text{{other}}_i}} \right\rfloor
+
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76508em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord text"><span class="mord"><span class="mord">o</span><span class="mord">u</span><span class="mord">t</span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">⌊</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3448600000000002em;"><span style="top:-2.3139999999999996em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord text"><span class="mord"><span class="mord">o</span><span class="mord">t</span><span class="mord">h</span><span class="mord">e</span><span class="mord">r</span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.6769999999999996em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord text"><span class="mord"><span class="mord">i</span><span class="mord">n</span><span class="mord">p</span><span class="mord">u</span><span class="mord">t</span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.21752399999999997em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24414em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.8360000000000001em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">⌋</span></span></span></span></span></span></span>
+
+</div><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a>) – the numerator tensor</p></li>
+<li><p><strong>other</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a><em> or </em><em>Scalar</em>) – the denominator</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">floor_divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">tensor([2.0, 1.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">floor_divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">)</span>
+<span class="go">tensor([2.0, 2.0])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="torch.fmod">
 <code class="sig-prename descclassname">torch.</code><code class="sig-name descname">fmod</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">other</em>, <em class="sig-param">out=None</em><span class="sig-paren">)</span> &#x2192; Tensor<a class="headerlink" href="#torch.fmod" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the element-wise remainder of division.</p>
@@ -3964,6 +4000,37 @@ of <code class="xref py py-attr docutils literal notranslate"><span class="pre">
 </dd></dl>
 
 <dl class="function">
+<dt id="torch.logical_and">
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">logical_and</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">other</em>, <em class="sig-param">out=None</em><span class="sig-paren">)</span> &#x2192; Tensor<a class="headerlink" href="#torch.logical_and" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the element-wise logical AND of the given input tensors. Zeros are treated as <code class="docutils literal notranslate"><span class="pre">False</span></code> and nonzeros are
+treated as <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a>) – the input tensor.</p></li>
+<li><p><strong>other</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a>) – the tensor to compute AND with</p></li>
+<li><p><strong>out</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a><em>, </em><em>optional</em>) – the output tensor.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]))</span>
+<span class="go">tensor([ True, False, False])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">tensor([False, False,  True, False])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">double</span><span class="p">(),</span> <span class="n">b</span><span class="o">.</span><span class="n">double</span><span class="p">())</span>
+<span class="go">tensor([False, False,  True, False])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">double</span><span class="p">(),</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">tensor([False, False,  True, False])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">))</span>
+<span class="go">tensor([False, False,  True, False])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="torch.logical_not">
 <code class="sig-prename descclassname">torch.</code><code class="sig-name descname">logical_not</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">out=None</em><span class="sig-paren">)</span> &#x2192; Tensor<a class="headerlink" href="#torch.logical_not" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the element-wise logical NOT of the given input tensor. If not specified, the output tensor will have the bool
@@ -3978,13 +4045,44 @@ dtype. If the input tensor is not a bool tensor, zeros are treated as <code clas
 </dl>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]))</span>
-<span class="go">tensor([ False,  True])</span>
+<span class="go">tensor([False,  True])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int8</span><span class="p">))</span>
 <span class="go">tensor([ True, False, False])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">))</span>
 <span class="go">tensor([ True, False, False])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int16</span><span class="p">))</span>
 <span class="go">tensor([1, 0, 0], dtype=torch.int16)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="torch.logical_or">
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">logical_or</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">other</em>, <em class="sig-param">out=None</em><span class="sig-paren">)</span> &#x2192; Tensor<a class="headerlink" href="#torch.logical_or" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the element-wise logical OR of the given input tensors. Zeros are treated as <code class="docutils literal notranslate"><span class="pre">False</span></code> and nonzeros are
+treated as <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a>) – the input tensor.</p></li>
+<li><p><strong>other</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a>) – the tensor to compute OR with</p></li>
+<li><p><strong>out</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a><em>, </em><em>optional</em>) – the output tensor.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]))</span>
+<span class="go">tensor([ True, False,  True])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">tensor([ True,  True,  True, False])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">double</span><span class="p">(),</span> <span class="n">b</span><span class="o">.</span><span class="n">double</span><span class="p">())</span>
+<span class="go">tensor([ True,  True,  True, False])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">double</span><span class="p">(),</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">tensor([ True,  True,  True, False])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">))</span>
+<span class="go">tensor([ True,  True,  True, False])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -4005,7 +4103,7 @@ treated as <code class="docutils literal notranslate"><span class="pre">True</sp
 </dl>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_xor</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]))</span>
-<span class="go">tensor([ False, False,  True])</span>
+<span class="go">tensor([False, False,  True])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">logical_xor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
@@ -4571,6 +4669,28 @@ M1001 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <span class="go">tensor([-2.0755,  1.0226,  0.0831,  0.4806])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 <span class="go">tensor([    nan,  1.0112,  0.2883,  0.6933])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="torch.square">
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">square</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">out=None</em><span class="sig-paren">)</span> &#x2192; Tensor<a class="headerlink" href="#torch.square" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new tensor with the square of the elements of <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a>) – the input tensor.</p></li>
+<li><p><strong>out</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a><em>, </em><em>optional</em>) – the output tensor.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">tensor([-2.0755,  1.0226,  0.0831,  0.4806])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">tensor([ 4.3077,  1.0457,  0.0069,  0.2310])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -5661,7 +5781,7 @@ biased estimator. Otherwise, Bessel’s correction will be used.</p>
 
 <dl class="function">
 <dt id="torch.argsort">
-<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">argsort</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">dim=-1</em>, <em class="sig-param">descending=False</em>, <em class="sig-param">out=None</em><span class="sig-paren">)</span> &#x2192; LongTensor<a class="headerlink" href="#torch.argsort" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">argsort</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">dim=-1</em>, <em class="sig-param">descending=False</em><span class="sig-paren">)</span> &#x2192; LongTensor<a class="headerlink" href="#torch.argsort" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the indices that sort a tensor along a given dimension in ascending
 order by value.</p>
 <p>This is the second value returned by <a class="reference internal" href="#torch.sort" title="torch.sort"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.sort()</span></code></a>.  See its documentation
@@ -5965,10 +6085,10 @@ can be optionally given to be used as output buffers</p></li>
 <code class="sig-prename descclassname">torch.</code><code class="sig-name descname">max</code><span class="sig-paren">(</span><em class="sig-param">input</em><span class="sig-paren">)</span> &#x2192; Tensor</dt>
 <dd></dd></dl>
 
-<p>Returns the maximum value of all elements in the <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> tensor.</p>
+<p>Returns the maximum value of all elements in the <code class="docutils literal notranslate"><span class="pre">input</span></code> tensor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>{input}</strong> – </p>
+<dd class="field-odd"><p><strong>input</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a>) – the input tensor.</p>
 </dd>
 </dl>
 <p>Example:</p>
@@ -5988,16 +6108,23 @@ can be optionally given to be used as output buffers</p></li>
 value of each row of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> tensor in the given dimension
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code>. And <code class="docutils literal notranslate"><span class="pre">indices</span></code> is the index location of each maximum value found
 (argmax).</p>
-<p>If <code class="xref py py-attr docutils literal notranslate"><span class="pre">keepdim</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the output tensors are of the same size
-as <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> except in the dimension <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> where they are of size 1.
-Otherwise, <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> is squeezed (see <a class="reference internal" href="#torch.squeeze" title="torch.squeeze"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.squeeze()</span></code></a>), resulting
-in the output tensors having 1 fewer dimension than <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">indices</span></code> does not necessarily contain the first occurrence of each
+maximal value found, unless it is unique.
+The exact implementation details are device-specific.
+Do not expect the same result when run on CPU and GPU in general.</p>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">keepdim</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the output tensors are of the same size
+as <code class="docutils literal notranslate"><span class="pre">input</span></code> except in the dimension <code class="docutils literal notranslate"><span class="pre">dim</span></code> where they are of size 1.
+Otherwise, <code class="docutils literal notranslate"><span class="pre">dim</span></code> is squeezed (see <a class="reference internal" href="#torch.squeeze" title="torch.squeeze"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.squeeze()</span></code></a>), resulting
+in the output tensors having 1 fewer dimension than <code class="docutils literal notranslate"><span class="pre">input</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>{input}</strong> – </p></li>
-<li><p><strong>{dim}</strong> – </p></li>
-<li><p><strong>Default</strong> (<em>{keepdim}</em>) – <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>input</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>Tensor</em></a>) – the input tensor.</p></li>
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the dimension to reduce.</p></li>
+<li><p><strong>keepdim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether the output tensor has <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> retained or not. Default: <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
 <li><p><strong>out</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em>, </em><em>optional</em>) – the result tuple of two output tensors (max, max_indices)</p></li>
 </ul>
 </dd>
@@ -6018,9 +6145,9 @@ in the output tensors having 1 fewer dimension than <code class="xref py py-attr
 <code class="sig-prename descclassname">torch.</code><code class="sig-name descname">max</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">other</em>, <em class="sig-param">out=None</em><span class="sig-paren">)</span> &#x2192; Tensor</dt>
 <dd></dd></dl>
 
-<p>Each element of the tensor <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> is compared with the corresponding
-element of the tensor <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code> and an element-wise maximum is taken.</p>
-<p>The shapes of <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code> don’t need to match,
+<p>Each element of the tensor <code class="docutils literal notranslate"><span class="pre">input</span></code> is compared with the corresponding
+element of the tensor <code class="docutils literal notranslate"><span class="pre">other</span></code> and an element-wise maximum is taken.</p>
+<p>The shapes of <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">other</span></code> don’t need to match,
 but they must be <a class="reference internal" href="notes/broadcasting.html#broadcasting-semantics"><span class="std std-ref">broadcastable</span></a>.</p>
 <div class="math">
 <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext>out</mtext><mi>i</mi></msub><mo>=</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><msub><mtext>tensor</mtext><mi>i</mi></msub><mo separator="true">,</mo><msub><mtext>other</mtext><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{out}_i = \max(\text{tensor}_i, \text{other}_i)
@@ -6085,6 +6212,13 @@ follows the <a class="reference internal" href="notes/broadcasting.html#broadcas
 value of each row of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> tensor in the given dimension
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code>. And <code class="docutils literal notranslate"><span class="pre">indices</span></code> is the index location of each minimum value found
 (argmin).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">indices</span></code> does not necessarily contain the first occurrence of each
+minimal value found, unless it is unique.
+The exact implementation details are device-specific.
+Do not expect the same result when run on CPU and GPU in general.</p>
+</div>
 <p>If <code class="xref py py-attr docutils literal notranslate"><span class="pre">keepdim</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the output tensors are of the same size as
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> except in the dimension <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> where they are of size 1.
 Otherwise, <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> is squeezed (see <a class="reference internal" href="#torch.squeeze" title="torch.squeeze"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.squeeze()</span></code></a>), resulting in
@@ -6619,7 +6753,7 @@ the size of the original signal (without the batch dimensions if in batched
 mode) to recover it with correct shape.</p>
 <p>Therefore, to invert an <a class="reference internal" href="#torch.rfft" title="torch.rfft"><code class="xref py py-func docutils literal notranslate"><span class="pre">rfft()</span></code></a>, the <code class="xref py py-attr docutils literal notranslate"><span class="pre">normalized</span></code> and
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">onesided</span></code> arguments should be set identically for <a class="reference internal" href="#torch.irfft" title="torch.irfft"><code class="xref py py-func docutils literal notranslate"><span class="pre">irfft()</span></code></a>,
-and preferrably a <code class="xref py py-attr docutils literal notranslate"><span class="pre">signal_sizes</span></code> is given to avoid size mismatch. See the
+and preferably a <code class="xref py py-attr docutils literal notranslate"><span class="pre">signal_sizes</span></code> is given to avoid size mismatch. See the
 example below for a case of size mismatch.</p>
 <p>See <a class="reference internal" href="#torch.rfft" title="torch.rfft"><code class="xref py py-func docutils literal notranslate"><span class="pre">rfft()</span></code></a> for details on conjugate symmetry.</p>
 </div>
@@ -7963,7 +8097,7 @@ than the value <code class="xref py py-attr docutils literal notranslate"><span 
 <p>Repeat elements of a tensor.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>This is different from <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.repeat()</span></code> but similar to <cite>numpy.repeat</cite>.</p>
+<p>This is different from <a class="reference internal" href="tensors.html#torch.Tensor.repeat" title="torch.Tensor.repeat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.Tensor.repeat()</span></code></a> but similar to <code class="docutils literal notranslate"><span class="pre">numpy.repeat</span></code>.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -8217,10 +8351,13 @@ the main diagonal. The main diagonal are the set of indices
 where <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>d</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">d_{1}, d_{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>
 
 </span> are the dimensions of the matrix.</p>
-<p>NOTE: when running on ‘cuda’, row * col must be less than <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>59</mn></msup></mrow><annotation encoding="application/x-tex">2^{59}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">5</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span></span>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When running on CUDA, <code class="docutils literal notranslate"><span class="pre">row</span> <span class="pre">*</span> <span class="pre">col</span></code> must be less than <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>59</mn></msup></mrow><annotation encoding="application/x-tex">2^{59}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">5</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span></span>
 
 </span> to
 prevent overflow during calculation.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -8351,10 +8488,13 @@ the main diagonal. The main diagonal are the set of indices
 where <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>d</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">d_{1}, d_{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>
 
 </span> are the dimensions of the matrix.</p>
-<p>NOTE: when running on ‘cuda’, row * col must be less than <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>59</mn></msup></mrow><annotation encoding="application/x-tex">2^{59}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">5</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span></span>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When running on CUDA, <code class="docutils literal notranslate"><span class="pre">row</span> <span class="pre">*</span> <span class="pre">col</span></code> must be less than <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>59</mn></msup></mrow><annotation encoding="application/x-tex">2^{59}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">5</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span></span>
 
 </span> to
 prevent overflow during calculation.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -10043,6 +10183,11 @@ of shape <span class="math"><span class="katex"><span class="katex-mathml"><math
 </span> respectively. <code class="xref py py-attr docutils literal notranslate"><span class="pre">some</span></code> will be ignored here.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+<p>The singular values are returned in descending order. If <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> is a batch of matrices,
+then the singular values of each matrix in the batch is returned in descending order.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>The implementation of SVD on CPU uses the LAPACK routine <cite>?gesdd</cite> (a divide-and-conquer
 algorithm) instead of <cite>?gesvd</cite> for speed. Analogously, the SVD on GPU uses the MAGMA routine
 <cite>gesdd</cite> as well.</p>
@@ -10135,6 +10280,11 @@ both eigenvalues and eigenvectors are computed.</p>
 <p>Since the input matrix <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> is supposed to be symmetric,
 only the upper triangular portion is used by default.</p>
 <p>If <code class="xref py py-attr docutils literal notranslate"><span class="pre">upper</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>, then lower triangular portion is used.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The eigenvalues are returned in ascending order. If <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> is a batch of matrices,
+then the eigenvalues of each matrix in the batch is returned in ascending order.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Irrespective of the original strides, the returned matrix <cite>V</cite> will
@@ -10434,6 +10584,11 @@ promotion logic.</p>
 </pre></div>
 </div>
 </dd></dl>
+
+<dl class="function">
+<dt id="torch.export_opnames">
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">export_opnames</code><span class="sig-paren">(</span><em class="sig-param">arg0: torch._C.ScriptModule</em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#torch.export_opnames" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 </div>

@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../../../genindex.html" />
@@ -128,7 +129,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -198,7 +199,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../../../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../../distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../../optim.html">torch.optim</a></li>
@@ -362,8 +364,8 @@
 
 <span class="sd">    We adopt the same interface as :class:`torch.nn.quantized.Conv3d`.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        Same as torch.nn.quantized.Conv3d</span>
+<span class="sd">    .. note::</span>
+<span class="sd">    Attributes: Same as torch.nn.quantized.Conv3d</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_FLOAT_MODULE</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">intrinsic</span><span class="o">.</span><span class="n">ConvReLU3d</span>
@@ -390,10 +392,7 @@
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_float</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mod</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">intrinsic</span><span class="o">.</span><span class="n">qat</span><span class="o">.</span><span class="n">ConvBnReLU3d</span><span class="p">:</span>
-            <span class="n">mod</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">fuse_conv_bn_weights</span><span class="p">(</span>
-                <span class="n">mod</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">running_mean</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">running_var</span><span class="p">,</span>
-                <span class="n">mod</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+        <span class="c1"># TODO: Add qat support for ConvReLU3d and ConvBnReLU3d</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ConvReLU3d</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">from_float</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span></div>
 </pre></div>
 

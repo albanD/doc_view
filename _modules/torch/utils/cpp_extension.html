@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -128,7 +129,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -198,7 +199,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../optim.html">torch.optim</a></li>
@@ -327,8 +329,6 @@
 
 
 <span class="n">IS_WINDOWS</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;win32&#39;</span>
-
-<span class="n">BUILD_NAMEDTENSOR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;BUILD_NAMEDTENSOR&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span>
 
 <span class="k">def</span> <span class="nf">_find_cuda_home</span><span class="p">():</span>
     <span class="sd">&#39;&#39;&#39;Finds the CUDA install path.&#39;&#39;&#39;</span>
@@ -534,7 +534,7 @@
 <span class="sd">    A custom :mod:`setuptools` build extension .</span>
 
 <span class="sd">    This :class:`setuptools.build_ext` subclass takes care of passing the</span>
-<span class="sd">    minimum required compiler flags (e.g. ``-std=c++11``) as well as mixed</span>
+<span class="sd">    minimum required compiler flags (e.g. ``-std=c++14``) as well as mixed</span>
 <span class="sd">    C++/CUDA compilation (and support for CUDA files in general).</span>
 
 <span class="sd">    When using :class:`BuildExtension`, it is allowed to supply a dictionary</span>
@@ -564,8 +564,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_abi</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">extension</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extensions</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_compile_flag</span><span class="p">(</span><span class="n">extension</span><span class="p">,</span> <span class="s1">&#39;-DTORCH_API_INCLUDE_EXTENSION_H&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">BUILD_NAMEDTENSOR</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_add_compile_flag</span><span class="p">(</span><span class="n">extension</span><span class="p">,</span> <span class="s1">&#39;-DBUILD_NAMEDTENSOR&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_define_torch_extension_name</span><span class="p">(</span><span class="n">extension</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_gnu_cpp_abi_flag</span><span class="p">(</span><span class="n">extension</span><span class="p">)</span>
 
@@ -598,7 +596,7 @@
                 <span class="c1"># NVCC does not allow multiple -std to be passed, so we avoid</span>
                 <span class="c1"># overriding the option if the user explicitly passed it.</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">flag</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;-std=&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">flag</span> <span class="ow">in</span> <span class="n">cflags</span><span class="p">):</span>
-                    <span class="n">cflags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-std=c++11&#39;</span><span class="p">)</span>
+                    <span class="n">cflags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-std=c++14&#39;</span><span class="p">)</span>
 
                 <span class="n">original_compile</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">cc_args</span><span class="p">,</span> <span class="n">cflags</span><span class="p">,</span> <span class="n">pp_opts</span><span class="p">)</span>
             <span class="k">finally</span><span class="p">:</span>
@@ -1446,8 +1444,6 @@
 
     <span class="n">common_cflags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-DTORCH_EXTENSION_NAME=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span>
     <span class="n">common_cflags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-DTORCH_API_INCLUDE_EXTENSION_H&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">BUILD_NAMEDTENSOR</span><span class="p">:</span>
-        <span class="n">common_cflags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-DBUILD_NAMEDTENSOR&#39;</span><span class="p">)</span>
     <span class="n">common_cflags</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;-I</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">include</span><span class="p">)</span> <span class="k">for</span> <span class="n">include</span> <span class="ow">in</span> <span class="n">user_includes</span><span class="p">]</span>
     <span class="n">common_cflags</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;-isystem </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">include</span><span class="p">)</span> <span class="k">for</span> <span class="n">include</span> <span class="ow">in</span> <span class="n">system_includes</span><span class="p">]</span>
 
@@ -1458,7 +1454,7 @@
         <span class="kn">from</span> <span class="nn">distutils.spawn</span> <span class="k">import</span> <span class="n">_nt_quote_args</span>
         <span class="n">cflags</span> <span class="o">=</span> <span class="n">_nt_quote_args</span><span class="p">(</span><span class="n">cflags</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">cflags</span> <span class="o">=</span> <span class="n">common_cflags</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;-fPIC&#39;</span><span class="p">,</span> <span class="s1">&#39;-std=c++11&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">extra_cflags</span>
+        <span class="n">cflags</span> <span class="o">=</span> <span class="n">common_cflags</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;-fPIC&#39;</span><span class="p">,</span> <span class="s1">&#39;-std=c++14&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">extra_cflags</span>
     <span class="n">flags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cflags = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cflags</span><span class="p">))]</span>
 
     <span class="k">if</span> <span class="n">with_cuda</span><span class="p">:</span>
@@ -1472,7 +1468,7 @@
             <span class="n">cuda_flags</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;--compiler-options&#39;</span><span class="p">,</span> <span class="s2">&quot;&#39;-fPIC&#39;&quot;</span><span class="p">]</span>
             <span class="n">cuda_flags</span> <span class="o">+=</span> <span class="n">extra_cuda_cflags</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">flag</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;-std=&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">flag</span> <span class="ow">in</span> <span class="n">cuda_flags</span><span class="p">):</span>
-                <span class="n">cuda_flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-std=c++11&#39;</span><span class="p">)</span>
+                <span class="n">cuda_flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-std=c++14&#39;</span><span class="p">)</span>
 
         <span class="n">flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;cuda_flags = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cuda_flags</span><span class="p">)))</span>
 

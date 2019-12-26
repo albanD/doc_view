@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -128,7 +129,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -198,7 +199,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../optim.html">torch.optim</a></li>
@@ -375,6 +377,14 @@
     <span class="k">def</span> <span class="nf">calculate_qparams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">pass</span>
 
+    <span class="c1"># Returns all quantization parameters that&#39;s needed</span>
+    <span class="c1"># for a quantize function call</span>
+    <span class="c1"># For instance, per channel obsserver will return</span>
+    <span class="c1"># scales, zero_points and axis</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_qparams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">pass</span>
+
     <span class="n">with_args</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">_with_args</span><span class="p">)</span>
 
 
@@ -426,7 +436,7 @@
         <span class="p">),</span> <span class="s2">&quot;Default Observer only works for qint8 and quint8 data type&quot;</span>
 
     <span class="k">def</span> <span class="nf">_calculate_per_channel_qparams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_vals</span><span class="p">,</span> <span class="n">max_vals</span><span class="p">):</span>
-        <span class="c1"># type: (Optional[Tensor], Optional[Tensor]) -&gt; Tuple[Tensor, Tensor, int]</span>
+        <span class="c1"># type: (Optional[Tensor], Optional[Tensor]) -&gt; Tuple[Tensor, Tensor]</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculates the per channel quantization parameters, given min and max</span>
 <span class="sd">        value tensors.</span>
 
@@ -443,7 +453,7 @@
                 <span class="s2">&quot;must run observer before calling calculate_qparams.</span><span class="se">\</span>
 <span class="s2">                                    Returning default scale and zero point &quot;</span>
             <span class="p">)</span>
-            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ch_axis</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">min_vals</span><span class="p">)):</span>
             <span class="k">assert</span> <span class="p">(</span>
@@ -460,7 +470,7 @@
             <span class="n">scales</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">qparam</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">zero_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">qparam</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-        <span class="k">return</span> <span class="n">scales</span><span class="p">,</span> <span class="n">zero_points</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ch_axis</span>
+        <span class="k">return</span> <span class="n">scales</span><span class="p">,</span> <span class="n">zero_points</span>
 
     <span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">export</span>
     <span class="k">def</span> <span class="nf">_calculate_qparams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">):</span>
@@ -518,6 +528,10 @@
 
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">scale</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">zero_point</span><span class="p">])</span>
 
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">export</span>
+    <span class="k">def</span> <span class="nf">get_qparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Get all quantization parameters needed for quantize call&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_qparams</span><span class="p">()</span>
 
 <div class="viewcode-block" id="MinMaxObserver"><a class="viewcode-back" href="../../../quantization.html#torch.quantization.MinMaxObserver">[docs]</a><span class="k">class</span> <span class="nc">MinMaxObserver</span><span class="p">(</span><span class="n">_ObserverBase</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Observer module for computing the quantization parameters based on the</span>
@@ -638,9 +652,14 @@
     <span class="k">def</span> <span class="nf">_load_from_state_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">local_metadata</span><span class="p">,</span> <span class="n">strict</span><span class="p">,</span>
                               <span class="n">missing_keys</span><span class="p">,</span> <span class="n">unexpected_keys</span><span class="p">,</span> <span class="n">error_msgs</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">min_val</span> <span class="o">=</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;min_val&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_val</span> <span class="o">=</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;max_val&#39;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MinMaxObserver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_load_from_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">local_metadata</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">local_state</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;min_val&#39;</span><span class="p">,</span> <span class="s1">&#39;max_val&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">local_state</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">strict</span><span class="p">:</span>
+                <span class="n">missing_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MinMaxObserver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_load_from_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">local_metadata</span><span class="p">,</span> <span class="n">strict</span><span class="p">,</span>
                                                           <span class="n">missing_keys</span><span class="p">,</span> <span class="n">unexpected_keys</span><span class="p">,</span> <span class="n">error_msgs</span><span class="p">)</span></div>
 
 
@@ -782,6 +801,11 @@
     <span class="k">def</span> <span class="nf">calculate_qparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_per_channel_qparams</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_vals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_vals</span><span class="p">)</span>
 
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">export</span>
+    <span class="k">def</span> <span class="nf">get_qparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">scales</span><span class="p">,</span> <span class="n">zero_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_qparams</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">scales</span><span class="p">,</span> <span class="n">zero_points</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ch_axis</span>
+
     <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;min_val=</span><span class="si">{}</span><span class="s2">, max_val=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_vals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_vals</span><span class="p">)</span>
 
@@ -792,9 +816,14 @@
 
     <span class="k">def</span> <span class="nf">_load_from_state_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">local_metadata</span><span class="p">,</span> <span class="n">strict</span><span class="p">,</span>
                               <span class="n">missing_keys</span><span class="p">,</span> <span class="n">unexpected_keys</span><span class="p">,</span> <span class="n">error_msgs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">min_vals</span> <span class="o">=</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;min_vals&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_vals</span> <span class="o">=</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;max_vals&#39;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">PerChannelMinMaxObserver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_load_from_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">local_metadata</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">local_state</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;min_vals&#39;</span><span class="p">,</span> <span class="s1">&#39;max_vals&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">local_state</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">strict</span><span class="p">:</span>
+                <span class="n">missing_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PerChannelMinMaxObserver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_load_from_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">local_metadata</span><span class="p">,</span> <span class="n">strict</span><span class="p">,</span>
                                                                     <span class="n">missing_keys</span><span class="p">,</span> <span class="n">unexpected_keys</span><span class="p">,</span> <span class="n">error_msgs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MovingAveragePerChannelMinMaxObserver"><a class="viewcode-back" href="../../../quantization.html#torch.quantization.MovingAveragePerChannelMinMaxObserver">[docs]</a><span class="k">class</span> <span class="nc">MovingAveragePerChannelMinMaxObserver</span><span class="p">(</span><span class="n">PerChannelMinMaxObserver</span><span class="p">):</span>
@@ -1128,9 +1157,15 @@
 
     <span class="k">def</span> <span class="nf">_load_from_state_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">local_metadata</span><span class="p">,</span> <span class="n">strict</span><span class="p">,</span>
                               <span class="n">missing_keys</span><span class="p">,</span> <span class="n">unexpected_keys</span><span class="p">,</span> <span class="n">error_msgs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">min_val</span> <span class="o">=</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;min_val&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_val</span> <span class="o">=</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;max_val&#39;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">HistogramObserver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_load_from_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">local_metadata</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>
+
+        <span class="n">local_state</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;min_val&#39;</span><span class="p">,</span> <span class="s1">&#39;max_val&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">local_state</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">strict</span><span class="p">:</span>
+                <span class="n">missing_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HistogramObserver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_load_from_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">local_metadata</span><span class="p">,</span> <span class="n">strict</span><span class="p">,</span>
                                                              <span class="n">missing_keys</span><span class="p">,</span> <span class="n">unexpected_keys</span><span class="p">,</span> <span class="n">error_msgs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RecordingObserver"><a class="viewcode-back" href="../../../quantization.html#torch.quantization.RecordingObserver">[docs]</a><span class="k">class</span> <span class="nc">RecordingObserver</span><span class="p">(</span><span class="n">_ObserverBase</span><span class="p">):</span>
@@ -1181,7 +1216,10 @@
         <span class="k">return</span> <span class="n">x</span>
 
     <span class="k">def</span> <span class="nf">calculate_qparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;calculate_qparams should not be called for NoopObserver&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;calculate_qparams should not be called for NoopObserver&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_qparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_qparams</span><span class="p">()</span></div>
 
 
 <span class="c1"># Restrict activations to be in the range (0,127)</span>

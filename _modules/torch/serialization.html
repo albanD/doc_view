@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -128,7 +129,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -198,7 +199,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../optim.html">torch.optim</a></li>
@@ -392,6 +394,47 @@
     <span class="n">queue_elem</span> <span class="o">=</span> <span class="p">(</span><span class="n">priority</span><span class="p">,</span> <span class="n">tagger</span><span class="p">,</span> <span class="n">deserializer</span><span class="p">)</span>
     <span class="n">_package_registry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">queue_elem</span><span class="p">)</span>
     <span class="n">_package_registry</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">check_module_version_greater_or_equal</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">req_version_tuple</span><span class="p">,</span> <span class="n">error_if_malformed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Check if a module&#39;s version satisfies requirements</span>
+
+<span class="sd">    Usually, a module&#39;s version string will be like &#39;x.y.z&#39;, which would be represented</span>
+<span class="sd">    as a tuple (x, y, z), but sometimes it could be an unexpected format. If the version</span>
+<span class="sd">    string does not match the given tuple&#39;s format up to the length of the tuple, then</span>
+<span class="sd">    error and exit or emit a warning.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        module: the module to check the version of</span>
+<span class="sd">        req_version_tuple: tuple (usually of ints) representing the required version</span>
+<span class="sd">        error_if_malformed: whether we should exit if module version string is malformed</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        requirement_is_met: bool</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version_strs</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">__version__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="c1"># Cast module version fields to match the types of the required version</span>
+        <span class="n">module_version</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="nb">type</span><span class="p">(</span><span class="n">req_field</span><span class="p">)(</span><span class="n">version_strs</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">req_field</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">req_version_tuple</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">requirement_is_met</span> <span class="o">=</span> <span class="n">module_version</span> <span class="o">&gt;=</span> <span class="n">req_version_tuple</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; module version string is malformed &#39;</span><span class="si">%s</span><span class="s2">&#39; and cannot be compared&quot;</span>
+            <span class="s2">&quot; with tuple </span><span class="si">%s</span><span class="s2">&quot;</span>
+        <span class="p">)</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">module</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">req_version_tuple</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">error_if_malformed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span> <span class="o">+</span> <span class="s1">&#39;, but continuing assuming that requirement is met&#39;</span><span class="p">)</span>
+            <span class="n">requirement_is_met</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="n">requirement_is_met</span>
 
 
 <span class="k">def</span> <span class="nf">_cpu_tag</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
@@ -598,6 +641,24 @@
     <span class="k">except</span> <span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">UnsupportedOperation</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">raise_err_msg</span><span class="p">([</span><span class="s2">&quot;seek&quot;</span><span class="p">,</span> <span class="s2">&quot;tell&quot;</span><span class="p">],</span> <span class="n">e</span><span class="p">)</span>
 
+<span class="k">def</span> <span class="nf">_check_dill_version</span><span class="p">(</span><span class="n">pickle_module</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Checks if using dill as the pickle module, and if so, checks if it is the correct version.</span>
+<span class="sd">    If dill version is lower than 0.3.1, a ValueError is raised.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pickle_module: module used for pickling metadata and objects</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">pickle_module</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;dill&#39;</span><span class="p">:</span>
+        <span class="n">required_dill_version</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_module_version_greater_or_equal</span><span class="p">(</span><span class="n">pickle_module</span><span class="p">,</span> <span class="n">required_dill_version</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                <span class="s2">&quot;&#39;torch&#39; supports dill &gt;= </span><span class="si">%s</span><span class="s2">, but you have dill </span><span class="si">%s</span><span class="s2">.&quot;</span>
+                <span class="s2">&quot; Please upgrade dill or switch to &#39;pickle&#39;&quot;</span>
+            <span class="p">)</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">required_dill_version</span><span class="p">]),</span>
+                <span class="n">pickle_module</span><span class="o">.</span><span class="n">__version__</span>
+            <span class="p">))</span>
 
 <div class="viewcode-block" id="save"><a class="viewcode-back" href="../../torch.html#torch.save">[docs]</a><span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">pickle_module</span><span class="o">=</span><span class="n">pickle</span><span class="p">,</span> <span class="n">pickle_protocol</span><span class="o">=</span><span class="n">DEFAULT_PROTOCOL</span><span class="p">,</span> <span class="n">_use_new_zipfile_serialization</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Saves an object to a disk file.</span>
@@ -626,6 +687,8 @@
 <span class="sd">        &gt;&gt;&gt; buffer = io.BytesIO()</span>
 <span class="sd">        &gt;&gt;&gt; torch.save(x, buffer)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_check_dill_version</span><span class="p">(</span><span class="n">pickle_module</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">_use_new_zipfile_serialization</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">_open_zipfile_writer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">as</span> <span class="n">opened_file</span><span class="p">:</span>
             <span class="n">_save</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">opened_file</span><span class="p">,</span> <span class="n">pickle_module</span><span class="p">,</span> <span class="n">pickle_protocol</span><span class="p">)</span>
@@ -746,7 +809,7 @@
 
     <span class="c1"># Write each tensor to a file named tensor/the_tensor_key in the zip archive</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">serialized_storages</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;tensors/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;data/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="n">storage</span> <span class="o">=</span> <span class="n">serialized_storages</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="n">num_bytes</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="n">storage</span><span class="o">.</span><span class="n">element_size</span><span class="p">()</span>
         <span class="n">zip_file</span><span class="o">.</span><span class="n">write_record</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">data_ptr</span><span class="p">(),</span> <span class="n">num_bytes</span><span class="p">)</span>
@@ -826,12 +889,19 @@
 <span class="sd">        # Load a module with &#39;ascii&#39; encoding for unpickling</span>
 <span class="sd">        &gt;&gt;&gt; torch.load(&#39;module.pt&#39;, encoding=&#39;ascii&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_check_dill_version</span><span class="p">(</span><span class="n">pickle_module</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;encoding&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pickle_load_args</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="n">pickle_load_args</span><span class="p">[</span><span class="s1">&#39;encoding&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
 
     <span class="k">with</span> <span class="n">_open_file_like</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">opened_file</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">_is_zipfile</span><span class="p">(</span><span class="n">opened_file</span><span class="p">):</span>
             <span class="k">with</span> <span class="n">_open_zipfile_reader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">as</span> <span class="n">opened_zipfile</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">_is_torchscript_zip</span><span class="p">(</span><span class="n">opened_zipfile</span><span class="p">):</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;torch.load&#39; received a zip file that looks like a TorchScript archive&quot;</span>
+                                  <span class="s2">&quot; dispatching to &#39;torch.jit.load&#39; (call &#39;torch.jit.load&#39; directly to&quot;</span>
+                                  <span class="s2">&quot; silence this warning)&quot;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">_load</span><span class="p">(</span><span class="n">opened_zipfile</span><span class="p">,</span> <span class="n">map_location</span><span class="p">,</span> <span class="n">pickle_module</span><span class="p">,</span> <span class="o">**</span><span class="n">pickle_load_args</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_legacy_load</span><span class="p">(</span><span class="n">opened_file</span><span class="p">,</span> <span class="n">map_location</span><span class="p">,</span> <span class="n">pickle_module</span><span class="p">,</span> <span class="o">**</span><span class="n">pickle_load_args</span><span class="p">)</span></div>
 
@@ -1061,7 +1131,7 @@
 
     <span class="k">def</span> <span class="nf">load_tensor</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
         <span class="n">loaded_storages</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">restore_location</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;tensors/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;data/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="n">size_long</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s2">&quot;&lt;Q&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
         <span class="n">tensor_file</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">size_long</span> <span class="o">+</span> <span class="n">zip_file</span><span class="o">.</span><span class="n">get_record</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1075,7 +1145,6 @@
 
         <span class="k">assert</span> <span class="n">typename</span> <span class="o">==</span> <span class="s1">&#39;storage&#39;</span><span class="p">,</span> \
             <span class="s2">&quot;Unknown typename for persistent_load, expected &#39;storage&#39; but got &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">typename</span><span class="p">)</span>
-
         <span class="n">data_type</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">data</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">loaded_storages</span><span class="p">:</span>
             <span class="n">load_tensor</span><span class="p">(</span><span class="n">data_type</span><span class="p">(</span><span class="n">size</span><span class="p">),</span> <span class="n">size</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">_maybe_decode_ascii</span><span class="p">(</span><span class="n">location</span><span class="p">))</span>
@@ -1089,6 +1158,14 @@
     <span class="n">result</span> <span class="o">=</span> <span class="n">unpickler</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span> <span class="nf">_is_torchscript_zip</span><span class="p">(</span><span class="n">zip_file</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">zip_file</span><span class="o">.</span><span class="n">get_all_records</span><span class="p">():</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;constants.pkl&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 
              </article>

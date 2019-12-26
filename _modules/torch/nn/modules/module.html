@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
@@ -128,7 +129,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -198,7 +199,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../optim.html">torch.optim</a></li>
@@ -565,10 +567,11 @@
 
 <span class="sd">        Example::</span>
 
+<span class="sd">            &gt;&gt;&gt; @torch.no_grad()</span>
 <span class="sd">            &gt;&gt;&gt; def init_weights(m):</span>
 <span class="sd">            &gt;&gt;&gt;     print(m)</span>
 <span class="sd">            &gt;&gt;&gt;     if type(m) == nn.Linear:</span>
-<span class="sd">            &gt;&gt;&gt;         m.weight.data.fill_(1.0)</span>
+<span class="sd">            &gt;&gt;&gt;         m.weight.fill_(1.0)</span>
 <span class="sd">            &gt;&gt;&gt;         print(m.weight)</span>
 <span class="sd">            &gt;&gt;&gt; net = nn.Sequential(nn.Linear(2, 2), nn.Linear(2, 2))</span>
 <span class="sd">            &gt;&gt;&gt; net.apply(init_weights)</span>
@@ -664,6 +667,8 @@
 
 <span class="sd">        .. function:: to(tensor, non_blocking=False)</span>
 
+<span class="sd">        .. function:: to(memory_format=torch.channels_last)</span>
+
 <span class="sd">        Its signature is similar to :meth:`torch.Tensor.to`, but only accepts</span>
 <span class="sd">        floating point desired :attr:`dtype` s. In addition, this method will</span>
 <span class="sd">        only cast the floating point parameters and buffers to :attr:`dtype`</span>
@@ -685,6 +690,9 @@
 <span class="sd">                the floating point parameters and buffers in this module</span>
 <span class="sd">            tensor (torch.Tensor): Tensor whose dtype and device are the desired</span>
 <span class="sd">                dtype and device for all parameters and buffers in this module</span>
+<span class="sd">            memory_format (:class:`torch.memory_format`): the desired memory</span>
+<span class="sd">                format for 4D parameters and buffers in this module (keyword</span>
+<span class="sd">                only argument)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Module: self</span>
@@ -719,7 +727,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">non_blocking</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">_parse_to</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">non_blocking</span><span class="p">,</span> <span class="n">convert_to_format</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">_parse_to</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">dtype</span><span class="o">.</span><span class="n">is_floating_point</span><span class="p">:</span>
@@ -727,6 +735,8 @@
                                 <span class="s1">&#39;dtypes, but got desired dtype=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dtype</span><span class="p">))</span>
 
         <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">convert_to_format</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_floating_point</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> <span class="n">non_blocking</span><span class="p">,</span> <span class="n">memory_format</span><span class="o">=</span><span class="n">convert_to_format</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_floating_point</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> <span class="n">non_blocking</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply</span><span class="p">(</span><span class="n">convert</span><span class="p">)</span></div>
@@ -962,10 +972,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">destination</span><span class="p">[</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span> <span class="k">if</span> <span class="n">keep_vars</span> <span class="k">else</span> <span class="n">param</span><span class="o">.</span><span class="n">data</span>
+                <span class="n">destination</span><span class="p">[</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span> <span class="k">if</span> <span class="n">keep_vars</span> <span class="k">else</span> <span class="n">param</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">buf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">buf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">destination</span><span class="p">[</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span> <span class="k">if</span> <span class="n">keep_vars</span> <span class="k">else</span> <span class="n">buf</span><span class="o">.</span><span class="n">data</span>
+                <span class="n">destination</span><span class="p">[</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span> <span class="k">if</span> <span class="n">keep_vars</span> <span class="k">else</span> <span class="n">buf</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Module.state_dict"><a class="viewcode-back" href="../../../../nn.html#torch.nn.Module.state_dict">[docs]</a>    <span class="k">def</span> <span class="nf">state_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">keep_vars</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns a dictionary containing a whole state of the module.</span>
@@ -1043,10 +1053,11 @@
         <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_state_dict_pre_hooks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="n">hook</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">local_metadata</span><span class="p">,</span> <span class="n">strict</span><span class="p">,</span> <span class="n">missing_keys</span><span class="p">,</span> <span class="n">unexpected_keys</span><span class="p">,</span> <span class="n">error_msgs</span><span class="p">)</span>
 
-        <span class="n">local_name_params</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
-        <span class="n">local_state</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">local_name_params</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="n">local_state</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
 
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">local_state</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
             <span class="n">key</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="p">:</span>
                 <span class="n">input_param</span> <span class="o">=</span> <span class="n">state_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
@@ -1062,11 +1073,9 @@
                                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">input_param</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
                     <span class="k">continue</span>
 
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_param</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">):</span>
-                    <span class="c1"># backwards compatibility for serialized parameters</span>
-                    <span class="n">input_param</span> <span class="o">=</span> <span class="n">input_param</span><span class="o">.</span><span class="n">data</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">param</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">input_param</span><span class="p">)</span>
+                    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+                        <span class="n">param</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">input_param</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="n">error_msgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;While copying the parameter named &quot;</span><span class="si">{}</span><span class="s1">&quot;, &#39;</span>
                                       <span class="s1">&#39;whose dimensions in the model are </span><span class="si">{}</span><span class="s1"> and &#39;</span>
@@ -1166,9 +1175,9 @@
 <span class="sd">        Example::</span>
 
 <span class="sd">            &gt;&gt;&gt; for param in model.parameters():</span>
-<span class="sd">            &gt;&gt;&gt;     print(type(param.data), param.size())</span>
-<span class="sd">            &lt;class &#39;torch.FloatTensor&#39;&gt; (20L,)</span>
-<span class="sd">            &lt;class &#39;torch.FloatTensor&#39;&gt; (20L, 1L, 5L, 5L)</span>
+<span class="sd">            &gt;&gt;&gt;     print(type(param), param.size())</span>
+<span class="sd">            &lt;class &#39;torch.Tensor&#39;&gt; (20L,)</span>
+<span class="sd">            &lt;class &#39;torch.Tensor&#39;&gt; (20L, 1L, 5L, 5L)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="n">recurse</span><span class="p">):</span>
@@ -1214,9 +1223,9 @@
 <span class="sd">        Example::</span>
 
 <span class="sd">            &gt;&gt;&gt; for buf in model.buffers():</span>
-<span class="sd">            &gt;&gt;&gt;     print(type(buf.data), buf.size())</span>
-<span class="sd">            &lt;class &#39;torch.FloatTensor&#39;&gt; (20L,)</span>
-<span class="sd">            &lt;class &#39;torch.FloatTensor&#39;&gt; (20L, 1L, 5L, 5L)</span>
+<span class="sd">            &gt;&gt;&gt;     print(type(buf), buf.size())</span>
+<span class="sd">            &lt;class &#39;torch.Tensor&#39;&gt; (20L,)</span>
+<span class="sd">            &lt;class &#39;torch.Tensor&#39;&gt; (20L, 1L, 5L, 5L)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">buf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">named_buffers</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="n">recurse</span><span class="p">):</span>

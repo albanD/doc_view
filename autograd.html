@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -130,7 +131,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -167,7 +168,7 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Autograd mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Advanced autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cuda.html">CUDA semantics</a></li>
@@ -177,6 +178,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notes/large_scale_deployments.html">Features for large-scale deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/randomness.html">Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/windows.html">Windows FAQ</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
@@ -199,7 +201,8 @@
 <li class="toctree-l1"><a class="reference internal" href="distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim.html">torch.optim</a></li>
@@ -1017,8 +1020,9 @@ Valid keys include: <code class="docutils literal notranslate"><span class="pre"
 <dl class="class">
 <dt id="torch.autograd.profiler.record_function">
 <em class="property">class </em><code class="sig-prename descclassname">torch.autograd.profiler.</code><code class="sig-name descname">record_function</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/autograd/profiler.html#record_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.autograd.profiler.record_function" title="Permalink to this definition">¶</a></dt>
-<dd><p>Context manager that adds a label to a block of Python code when running autograd
-profiler.  It is useful when tracing the code profile.</p>
+<dd><p>Context manager/function decorator that adds a label to a block of
+Python code (or function) when running autograd profiler. It is
+useful when tracing the code profile.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Label assigned to the block of code.</p>

@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -130,7 +131,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -167,7 +168,7 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../notes/autograd.html">Autograd mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/autograd.html">Advanced autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notes/broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notes/cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notes/cuda.html">CUDA semantics</a></li>
@@ -177,6 +178,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../notes/large_scale_deployments.html">Features for large-scale deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notes/multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notes/randomness.html">Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notes/serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notes/windows.html">Windows FAQ</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
@@ -199,7 +201,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optim.html">torch.optim</a></li>
@@ -344,6 +347,7 @@
 <ul class="simple">
 <li><p>Vincent Quenneville-Belair (<a class="reference external" href="https://github.com/vincentqb">vincentqb</a>)</p></li>
 <li><p>Soumith Chintala (<a class="reference external" href="https://github.com/soumith">soumith</a>)</p></li>
+<li><p>Wanchao Liang (<a class="reference external" href="https://github.com/wanchaol">wanchaol</a>)</p></li>
 </ul>
 </div>
 <div class="section" id="autograd-engine">
@@ -412,6 +416,22 @@
 <li><p>Yinghai Lu (<a class="reference external" href="https://github.com/yinghai">yinghai</a>)</p></li>
 </ul>
 </div>
+<div class="section" id="mobile">
+<h3>Mobile<a class="headerlink" href="#mobile" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>David Reiss (<a class="reference external" href="https://github.com/dreiss">dreiss</a>)</p></li>
+<li><p>Jiakai Liu (<a class="reference external" href="https://github.com/ljk53">ljk53</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="quantization">
+<h3>Quantization<a class="headerlink" href="#quantization" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Raghuraman Krishnamoorthi (<a class="reference external" href="https://github.com/dreiss">dreiss</a>)</p></li>
+<li><p>Jerry Zhang (<a class="reference external" href="https://github.com/jerryzh168">jerryzh168</a>)</p></li>
+<li><p>Lingyi Liu (<a class="reference external" href="https://github.com/lly-zero-one">lly-zero-one</a>)</p></li>
+<li><p>James Reed (<a class="reference external" href="https://github.com/jamesr66a">jamesr66a</a>)</p></li>
+</ul>
+</div>
 <div class="section" id="xla">
 <h3>XLA<a class="headerlink" href="#xla" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -461,6 +481,9 @@
 <h3>ONNX &lt;-&gt; PyTorch<a class="headerlink" href="#onnx-pytorch" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Lu Fang (<a class="reference external" href="https://github.com/houseroad">houseroad</a>)</p></li>
+<li><p>Lara Haidar (<a class="reference external" href="https://github.com/lara-hdr">lara-hdr</a>)</p></li>
+<li><p>Spandan Tiwari (<a class="reference external" href="https://github.com/spandantiwari">spandantiwari</a>)</p></li>
+<li><p>Bowen Bao (<a class="reference external" href="https://github.com/BowenBao">BowenBao</a>)</p></li>
 </ul>
 </div>
 <div class="section" id="windows">
@@ -535,6 +558,8 @@
 <li><a class="reference internal" href="#cpu-performance-simd">CPU Performance / SIMD</a></li>
 <li><a class="reference internal" href="#cuda">CUDA</a></li>
 <li><a class="reference internal" href="#mkldnn">MKLDNN</a></li>
+<li><a class="reference internal" href="#mobile">Mobile</a></li>
+<li><a class="reference internal" href="#quantization">Quantization</a></li>
 <li><a class="reference internal" href="#xla">XLA</a></li>
 <li><a class="reference internal" href="#amd-rocm-hip">AMD/ROCm/HIP</a></li>
 <li><a class="reference internal" href="#build-ci">Build + CI</a></li>

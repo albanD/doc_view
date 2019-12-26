@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -130,7 +131,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -167,7 +168,7 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Autograd mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Advanced autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cuda.html">CUDA semantics</a></li>
@@ -177,6 +178,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notes/large_scale_deployments.html">Features for large-scale deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/randomness.html">Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/windows.html">Windows FAQ</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
@@ -199,7 +201,8 @@
 <li class="toctree-l1"><a class="reference internal" href="distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim.html">torch.optim</a></li>
@@ -707,12 +710,12 @@ to multiprocessing in PyTorch.</p>
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">len(dataloader)</span></code> heuristic is based on the length of the sampler used.
 When <code class="xref py py-attr docutils literal notranslate"><span class="pre">dataset</span></code> is an <a class="reference internal" href="#torch.utils.data.IterableDataset" title="torch.utils.data.IterableDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">IterableDataset</span></code></a>,
-an infinite sampler is used, whose <code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code> is not
-implemented, because the actual length depends on both the
-iterable as well as multi-process loading configurations. So one
-should not query this method unless they work with a map-style
-dataset. See <a class="reference internal" href="#dataset-types">Dataset Types</a> for more details on these two types
-of datasets.</p>
+<code class="docutils literal notranslate"><span class="pre">len(dataset)</span></code> (if implemented) is returned instead, regardless
+of multi-process loading configurations, because PyTorch trust
+user <code class="xref py py-attr docutils literal notranslate"><span class="pre">dataset</span></code> code in correctly handling multi-process
+loading to avoid duplicate data. See <a class="reference internal" href="#dataset-types">Dataset Types</a> for more
+details on these two types of datasets and how
+<a class="reference internal" href="#torch.utils.data.IterableDataset" title="torch.utils.data.IterableDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">IterableDataset</span></code></a> interacts with <a class="reference internal" href="#multi-process-data-loading">Multi-process data loading</a>.</p>
 </div>
 </dd></dl>
 

@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -128,7 +129,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -198,7 +199,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../optim.html">torch.optim</a></li>
@@ -1467,6 +1469,13 @@
 
 <span class="n">softplus</span> <span class="o">=</span> <span class="n">_add_docstr</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">softplus(input, beta=1, threshold=20) -&gt; Tensor</span>
+
+<span class="s2">Applies element-wise, the function :math:`\text</span><span class="si">{Softplus}</span><span class="s2">(x) = \frac</span><span class="si">{1}</span><span class="s2">{\beta} * \log(1 + \exp(\beta * x))`.</span>
+
+<span class="s2">For numerical stability the implementation reverts to the linear function</span>
+<span class="s2">for inputs above :attr:`threshold` (default ``20``).</span>
+
+<span class="s2">See :class:`~torch.nn.Softplus` for more details.</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 
 
@@ -2724,7 +2733,7 @@
     <span class="k">return</span> <span class="n">interpolate</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">scale_factor</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="interpolate"><a class="viewcode-back" href="../../../nn.functional.html#torch.nn.functional.interpolate">[docs]</a><span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="interpolate"><a class="viewcode-back" href="../../../nn.functional.html#torch.nn.functional.interpolate">[docs]</a><span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_scale_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Down/up samples the input to either the given :attr:`size` or the given</span>
 <span class="sd">    :attr:`scale_factor`</span>
 
@@ -2757,6 +2766,14 @@
 <span class="sd">            when :attr:`scale_factor` is kept the same. This only has an effect when :attr:`mode`</span>
 <span class="sd">            is ``&#39;linear&#39;``, ``&#39;bilinear&#39;``, ``&#39;bicubic&#39;`` or ``&#39;trilinear&#39;``.</span>
 <span class="sd">            Default: ``False``</span>
+<span class="sd">        use_scale_factor (bool, optional): When scale_factor is passed as a parameter, it can be</span>
+<span class="sd">            directly used in the output computation, or can be used to compute the output size which</span>
+<span class="sd">            will later be used to infer new scales values. In the second case, the value of the scales</span>
+<span class="sd">            used in the interpolation can be different than the ones specified by the user for non integer</span>
+<span class="sd">            values of scale_factor (due to floating point precision).</span>
+<span class="sd">            If set to ``True``, scale_factor is used in the interpolation.</span>
+<span class="sd">            If set to ``False``, the output_size is computed and new scales are infered for the interpolation.</span>
+<span class="sd">            Default: ``False``</span>
 
 <span class="sd">    .. note::</span>
 <span class="sd">        With ``mode=&#39;bicubic&#39;``, it&#39;s possible to cause overshoot, in other words it can produce</span>
@@ -2773,6 +2790,14 @@
 <span class="sd">        See :class:`~torch.nn.Upsample` for concrete examples on how this</span>
 <span class="sd">        affects the outputs.</span>
 
+<span class="sd">        When scale_factor is specified, if use_scale_factor=False,</span>
+<span class="sd">        scale_factor is used to compute the output_size which will then</span>
+<span class="sd">        be used to infer new scales for the interpolation. This is the current</span>
+<span class="sd">        default behavior when use_scale_factor is not specified.</span>
+<span class="sd">        The default behavior for use_scale_factor will change to True</span>
+<span class="sd">        in 1.5.0, and scale_factor will be used in the interpolation</span>
+<span class="sd">        calculation.</span>
+
 <span class="sd">    .. include:: cuda_deterministic_backward.rst</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">.modules.utils</span> <span class="k">import</span> <span class="n">_ntuple</span>
@@ -2786,6 +2811,16 @@
                 <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">scale_factor</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dim</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;scale_factor shape must match input shape. &#39;</span>
                              <span class="s1">&#39;Input is </span><span class="si">{}</span><span class="s1">D, scale_factor size is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">scale_factor</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">scale_factor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">use_scale_factor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># only warn when the scales have floating values since</span>
+            <span class="c1"># the result for ints is the same with/without use_scale_factor</span>
+            <span class="n">is_float_scale_factor</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="ow">not</span> <span class="nb">float</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span><span class="o">.</span><span class="n">is_integer</span><span class="p">()</span> <span class="k">for</span> <span class="n">scale</span> <span class="ow">in</span> <span class="n">_ntuple</span><span class="p">(</span><span class="n">dim</span><span class="p">)(</span><span class="n">scale_factor</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">is_float_scale_factor</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The default behavior for interpolate/upsample with float scale_factor will change &quot;</span>
+                              <span class="s2">&quot;in 1.5.0 to align with other frameworks/libraries, and use scale_factor directly, &quot;</span>
+                              <span class="s2">&quot;instead of relying on the computed output size. &quot;</span>
+                              <span class="s2">&quot;If you wish to keep the old behavior, please set use_scale_factor=False. &quot;</span>
+                              <span class="s2">&quot;See the documentation of nn.Upsample for details. &quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_output_size</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
         <span class="n">_check_size_scale_factor</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
@@ -2801,6 +2836,13 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">scale_factors</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">)]</span>
 
+    <span class="k">def</span> <span class="nf">_scale_factors</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+        <span class="n">scale_factor_len</span> <span class="o">=</span> <span class="n">dim</span> <span class="o">-</span> <span class="mi">2</span>
+        <span class="n">scale_factor_list</span> <span class="o">=</span> <span class="n">_ntuple</span><span class="p">(</span><span class="n">scale_factor_len</span><span class="p">)(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">scale_factor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">use_scale_factor</span><span class="p">:</span>
+            <span class="n">scale_factor_list</span> <span class="o">=</span> <span class="n">_ntuple</span><span class="p">(</span><span class="n">scale_factor_len</span><span class="p">)(</span><span class="n">scale_factor</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">scale_factor_list</span>
+
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="s1">&#39;area&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">align_corners</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;align_corners option can only be set with the &quot;</span>
@@ -2813,12 +2855,15 @@
                           <span class="s2">&quot;See the documentation of nn.Upsample for details.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span>
             <span class="n">align_corners</span> <span class="o">=</span> <span class="kc">False</span>
 
+    <span class="n">scale_factor_list</span> <span class="o">=</span> <span class="n">_scale_factors</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">())</span>
+
     <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;nearest&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_nearest1d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_nearest1d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;nearest&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_nearest2d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_nearest2d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;nearest&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_nearest3d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_nearest3d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+                                               <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;area&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">adaptive_avg_pool1d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;area&#39;</span><span class="p">:</span>
@@ -2826,7 +2871,7 @@
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;area&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">adaptive_avg_pool3d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_linear1d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">align_corners</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_linear1d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">align_corners</span><span class="p">,</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;bilinear&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Got 3D input, but bilinear mode needs 4D input&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;trilinear&#39;</span><span class="p">:</span>
@@ -2834,7 +2879,7 @@
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Got 4D input, but linear mode needs 3D input&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;bilinear&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_bilinear2d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">align_corners</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_bilinear2d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">align_corners</span><span class="p">,</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;trilinear&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Got 4D input, but trilinear mode needs 5D input&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
@@ -2842,9 +2887,10 @@
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;bilinear&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Got 5D input, but bilinear mode needs 4D input&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;trilinear&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_trilinear3d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">align_corners</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_trilinear3d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">align_corners</span><span class="p">,</span>
+                                                 <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
     <span class="k">elif</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;bicubic&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_bicubic2d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">align_corners</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">upsample_bicubic2d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">_output_size</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">align_corners</span><span class="p">,</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scale_factor_list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Input Error: Only 3D, 4D and 5D input Tensors supported&quot;</span>
                                   <span class="s2">&quot; (got </span><span class="si">{}</span><span class="s2">D) for the modes: nearest | linear | bilinear | bicubic | trilinear&quot;</span>
@@ -3150,16 +3196,16 @@
 <span class="sd">        &gt;&gt;&gt; t4d = torch.empty(3, 3, 4, 2)</span>
 <span class="sd">        &gt;&gt;&gt; p1d = (1, 1) # pad last dim by 1 on each side</span>
 <span class="sd">        &gt;&gt;&gt; out = F.pad(t4d, p1d, &quot;constant&quot;, 0)  # effectively zero padding</span>
-<span class="sd">        &gt;&gt;&gt; print(out.data.size())</span>
+<span class="sd">        &gt;&gt;&gt; print(out.size())</span>
 <span class="sd">        torch.Size([3, 3, 4, 4])</span>
 <span class="sd">        &gt;&gt;&gt; p2d = (1, 1, 2, 2) # pad last dim by (1, 1) and 2nd to last by (2, 2)</span>
 <span class="sd">        &gt;&gt;&gt; out = F.pad(t4d, p2d, &quot;constant&quot;, 0)</span>
-<span class="sd">        &gt;&gt;&gt; print(out.data.size())</span>
+<span class="sd">        &gt;&gt;&gt; print(out.size())</span>
 <span class="sd">        torch.Size([3, 3, 8, 4])</span>
 <span class="sd">        &gt;&gt;&gt; t4d = torch.empty(3, 3, 4, 2)</span>
 <span class="sd">        &gt;&gt;&gt; p3d = (0, 1, 2, 1, 3, 3) # pad by (0, 1), (2, 1), and (3, 3)</span>
 <span class="sd">        &gt;&gt;&gt; out = F.pad(t4d, p3d, &quot;constant&quot;, 0)</span>
-<span class="sd">        &gt;&gt;&gt; print(out.data.size())</span>
+<span class="sd">        &gt;&gt;&gt; print(out.size())</span>
 <span class="sd">        torch.Size([3, 9, 7, 3])</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -3487,7 +3533,7 @@
 <span class="sd">        attn_mask: mask that prevents attention to certain positions. This is an additive mask</span>
 <span class="sd">            (i.e. the values will be added to the attention layer).</span>
 <span class="sd">        use_separate_proj_weight: the function accept the proj. weights for query, key,</span>
-<span class="sd">            and value in differnt forms. If false, in_proj_weight will be used, which is</span>
+<span class="sd">            and value in different forms. If false, in_proj_weight will be used, which is</span>
 <span class="sd">            a combination of q_proj_weight, k_proj_weight, v_proj_weight.</span>
 <span class="sd">        q_proj_weight, k_proj_weight, v_proj_weight, in_proj_bias: input projection weight and bias.</span>
 <span class="sd">        static_k, static_v: static key and value used for attention operators.</span>
@@ -3515,9 +3561,6 @@
 <span class="sd">          L is the target sequence length, S is the source sequence length.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">qkv_same</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-    <span class="n">kv_same</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-
     <span class="n">tgt_len</span><span class="p">,</span> <span class="n">bsz</span><span class="p">,</span> <span class="n">embed_dim</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
     <span class="k">assert</span> <span class="n">embed_dim</span> <span class="o">==</span> <span class="n">embed_dim_to_check</span>
     <span class="k">assert</span> <span class="n">key</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="n">value</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
@@ -3526,12 +3569,12 @@
     <span class="k">assert</span> <span class="n">head_dim</span> <span class="o">*</span> <span class="n">num_heads</span> <span class="o">==</span> <span class="n">embed_dim</span><span class="p">,</span> <span class="s2">&quot;embed_dim must be divisible by num_heads&quot;</span>
     <span class="n">scaling</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">head_dim</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mf">0.5</span>
 
-    <span class="k">if</span> <span class="n">use_separate_proj_weight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">qkv_same</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">use_separate_proj_weight</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
             <span class="c1"># self-attention</span>
             <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">linear</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">in_proj_weight</span><span class="p">,</span> <span class="n">in_proj_bias</span><span class="p">)</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">kv_same</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
             <span class="c1"># encoder-decoder attention</span>
             <span class="c1"># This is inline in_proj function with in_proj_weight and in_proj_bias</span>
             <span class="n">_b</span> <span class="o">=</span> <span class="n">in_proj_bias</span>

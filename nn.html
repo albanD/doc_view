@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -130,7 +131,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -167,7 +168,7 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Autograd mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Advanced autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cuda.html">CUDA semantics</a></li>
@@ -177,6 +178,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notes/large_scale_deployments.html">Features for large-scale deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/randomness.html">Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/windows.html">Windows FAQ</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
@@ -199,7 +201,8 @@
 <li class="toctree-l1"><a class="reference internal" href="distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim.html">torch.optim</a></li>
@@ -394,10 +397,11 @@ as well as self. Typical use includes initializing the parameters of a model
 </dd>
 </dl>
 <p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">init_weights</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">init_weights</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">:</span>
-<span class="gp">&gt;&gt;&gt; </span>        <span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>        <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">net</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">init_weights</span><span class="p">)</span>
@@ -437,9 +441,9 @@ are direct members of this module.</p>
 </dl>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">buf</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">buffers</span><span class="p">():</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">buf</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="n">buf</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
-<span class="go">&lt;class &#39;torch.FloatTensor&#39;&gt; (20L,)</span>
-<span class="go">&lt;class &#39;torch.FloatTensor&#39;&gt; (20L, 1L, 5L, 5L)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span> <span class="n">buf</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="go">&lt;class &#39;torch.Tensor&#39;&gt; (20L,)</span>
+<span class="go">&lt;class &#39;torch.Tensor&#39;&gt; (20L, 1L, 5L, 5L)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -764,9 +768,9 @@ are direct members of this module.</p>
 </dl>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="n">param</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
-<span class="go">&lt;class &#39;torch.FloatTensor&#39;&gt; (20L,)</span>
-<span class="go">&lt;class &#39;torch.FloatTensor&#39;&gt; (20L, 1L, 5L, 5L)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">param</span><span class="p">),</span> <span class="n">param</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="go">&lt;class &#39;torch.Tensor&#39;&gt; (20L,)</span>
+<span class="go">&lt;class &#39;torch.Tensor&#39;&gt; (20L, 1L, 5L, 5L)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -954,6 +958,11 @@ included. Keys are corresponding parameter and buffer names.</p>
 <code class="sig-name descname">to</code><span class="sig-paren">(</span><em class="sig-param">tensor</em>, <em class="sig-param">non_blocking=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/nn/modules/module.html#Module.to"><span class="viewcode-link">[source]</span></a></dt>
 <dd></dd></dl>
 
+<dl class="function">
+<dt>
+<code class="sig-name descname">to</code><span class="sig-paren">(</span><em class="sig-param">memory_format=torch.channels_last</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/nn/modules/module.html#Module.to"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
 <p>Its signature is similar to <a class="reference internal" href="tensors.html#torch.Tensor.to" title="torch.Tensor.to"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.Tensor.to()</span></code></a>, but only accepts
 floating point desired <code class="xref py py-attr docutils literal notranslate"><span class="pre">dtype</span></code> s. In addition, this method will
 only cast the floating point parameters and buffers to <code class="xref py py-attr docutils literal notranslate"><span class="pre">dtype</span></code>
@@ -976,6 +985,9 @@ and buffers in this module</p></li>
 the floating point parameters and buffers in this module</p></li>
 <li><p><strong>tensor</strong> (<a class="reference internal" href="tensors.html#torch.Tensor" title="torch.Tensor"><em>torch.Tensor</em></a>) – Tensor whose dtype and device are the desired
 dtype and device for all parameters and buffers in this module</p></li>
+<li><p><strong>memory_format</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.memory_format</span></code>) – the desired memory
+format for 4D parameters and buffers in this module (keyword
+only argument)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -2753,7 +2765,7 @@ and dtype of the <code class="docutils literal notranslate"><span class="pre">in
 </div>
 <p>When the <code class="docutils literal notranslate"><span class="pre">divisor</span></code> tensor contains no zero elements, then
 <code class="docutils literal notranslate"><span class="pre">fold</span></code> and <code class="docutils literal notranslate"><span class="pre">unfold</span></code> operations are inverses of each
-other (upto constant divisor).</p>
+other (up to constant divisor).</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -2904,7 +2916,7 @@ and dtype of the <code class="docutils literal notranslate"><span class="pre">in
 </div>
 <p>When the <code class="docutils literal notranslate"><span class="pre">divisor</span></code> tensor contains no zero elements, then
 <code class="docutils literal notranslate"><span class="pre">fold</span></code> and <code class="docutils literal notranslate"><span class="pre">unfold</span></code> operations are inverses of each
-other (upto constant divisor).</p>
+other (up to constant divisor).</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -5297,7 +5309,7 @@ dimensions</p></li>
 </div><p>SoftPlus is a smooth approximation to the ReLU function and can be used
 to constrain the output of a machine to always be positive.</p>
 <p>For numerical stability the implementation reverts to the linear function
-for inputs above a certain value.</p>
+for inputs above <code class="xref py py-attr docutils literal notranslate"><span class="pre">threshold</span></code> (default <code class="docutils literal notranslate"><span class="pre">20</span></code>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -9469,7 +9481,14 @@ w_{c} = \text{weight}[c] \cdot \mathbb{1}\{c \not= \text{ignore\_index}\},
 
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">ℓ</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.149108em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8694379999999999em;vertical-align:-0.286108em;"></span><span class="mord">−</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">weight</span></span><span class="mopen">[</span><span class="mord mathdefault">c</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord">1</span></span><span class="mopen">{</span><span class="mord mathdefault">c</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel"><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span></span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.06em;vertical-align:-0.31em;"></span><span class="mord text"><span class="mord">ignore_index</span></span><span class="mclose">}</span><span class="mpunct">,</span></span></span></span></span>
 
-</div><p>where <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span>
+</div><p>where <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>
+
+</span> is the input, <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span></span>
+
+</span> is the target, <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span></span></span></span>
+
+</span> is the weight, and
+<span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span>
 
 </span> is the batch size. If <code class="xref py py-attr docutils literal notranslate"><span class="pre">reduction</span></code> is not <code class="docutils literal notranslate"><span class="pre">'none'</span></code>
 (default <code class="docutils literal notranslate"><span class="pre">'mean'</span></code>), then</p>

@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/jit.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -130,7 +131,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+36a47d7 )
+                  master (1.4.0a0+fc3103b )
                 </div>
               
             
@@ -200,7 +201,8 @@
 <li class="toctree-l1"><a class="reference internal" href="distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributions.html">torch.distributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim.html">torch.optim</a></li>
@@ -316,8 +318,63 @@ machines.</p>
 <p class="admonition-title">Warning</p>
 <p>The RPC API is experimental and subject to change.</p>
 </div>
-<div class="section" id="rpc-and-rref-framework">
-<h2>RPC and RRef Framework<a class="headerlink" href="#rpc-and-rref-framework" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
+<p>The distributed RPC framework makes it easy to run functions remotely, supports
+referencing remote objects without copying the real data around, and provides
+autograd and optimizer APIs to transparently run backward and update parameters
+across RPC boundaries. These features can be categorized into four sets of APIs.</p>
+<ol class="arabic simple">
+<li><p><strong>Remote Procedure Call (RPC)</strong> supports running a function on the specified
+destination worker with the given arguments and getting the return value back
+or creating a reference to the return value. There are three main RPC APIs:
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">rpc_sync()</span></code> (synchronous),
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">rpc_async()</span></code> (asynchronous), and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">remote()</span></code> (asynchronous and returns a reference
+to the remote return value). Use the synchronous API if the user code cannot
+proceed without the return value. Otherwise, use the asynchronous API to get
+a future, and wait on the future when the return value is needed on the
+caller. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">remote()</span></code> API is useful when the
+requirement is to create something remotely but never need to fetch it to
+the caller. Imagine the case that a driver process is setting up a parameter
+server and a trainer. The driver can create an embedding table on the
+parameter server and then share the reference to the embedding table with the
+trainer, but itself will never use the embedding table locally. In this case,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">rpc_sync()</span></code> and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">rpc_async()</span></code> are no longer appropriate, as they
+always imply that the return value will be returned to the caller
+immediately or in the future.</p></li>
+<li><p><strong>Remote Reference (RRef)</strong> serves as a distributed shared pointer to a local
+or remote object. It can be shared with other workers and reference counting
+will be handled transparently. Each RRef only has one owner and the object
+only lives on that owner. Non-owner workers holding RRefs can get copies of
+the object from the owner by explicitly requesting it. This is useful when
+a worker needs to access some data object, but itself is neither the creator
+(the caller of <code class="xref py py-meth docutils literal notranslate"><span class="pre">remote()</span></code>) or the owner of the
+object. The distributed optimizer, as we will discuss below, is one example
+of such use cases.</p></li>
+<li><p><strong>Distributed Autograd</strong> stitches together local autograd engines on all the
+workers involved in the forward pass, and automatically reach out to them
+during the backward pass to compute gradients. This is especially helpful if
+the forward pass needs to span multiple machines when conducting, e.g.,
+distributed model parallel training, parameter-server training, etc. With
+this feature, user code no longer needs to worry about how to send gradients
+across RPC boundaries and in which order should the local autograd engines
+be launched, which can become quite complicated where there are nested and
+inter-dependent RPC calls in the forward pass.</p></li>
+<li><p><strong>Distributed Optimizer</strong>’s constructor takes a
+<a class="reference internal" href="optim.html#torch.optim.Optimizer" title="torch.optim.Optimizer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Optimizer()</span></code></a> (e.g., <a class="reference internal" href="optim.html#torch.optim.SGD" title="torch.optim.SGD"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SGD()</span></code></a>,
+<a class="reference internal" href="optim.html#torch.optim.Adagrad" title="torch.optim.Adagrad"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Adagrad()</span></code></a>, etc.) and a list of parameter RRefs, creates an
+<a class="reference internal" href="optim.html#torch.optim.Optimizer" title="torch.optim.Optimizer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Optimizer()</span></code></a> instance on each distinct RRef owner, and
+updates parameters accordingly when running <cite>step()</cite>. When you have
+distributed forward and backward passes, parameters and gradients will be
+scattered across multiple workers, and hence it requires an optimizer on each
+of the involved workers. Distributed Optimizer wraps all those local
+optimizers into one, and provides a concise constructor and <cite>step()</cite> API.</p></li>
+</ol>
+</div>
+<div class="section" id="rpc">
+<span id="id2"></span><h2>RPC<a class="headerlink" href="#rpc" title="Permalink to this headline">¶</a></h2>
 <p>Before using RPC and distributed autograd primitives, initialization must take
 place. To initialize the RPC framework we need to use
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">init_rpc()</span></code> which would initialize the RPC
@@ -325,9 +382,11 @@ framework, RRef framework and distributed autograd. By default, this will also
 initialize the <cite>ProcessGroup</cite> (<code class="xref py py-meth docutils literal notranslate"><span class="pre">init_process_group()</span></code>)
 backend for RPC communication. The <cite>ProcessGroup</cite> backend internally uses gloo
 for communication.</p>
+<p>The following APIs provide primitives allowing users to remotely execute
+functions as well as create (RRefs) to remote data objects.</p>
 </div>
 <div class="section" id="rref">
-<span id="id2"></span><h2>RRef<a class="headerlink" href="#rref" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>RRef<a class="headerlink" href="#rref" title="Permalink to this headline">¶</a></h2>
 <p>An <cite>RRef</cite> (Remote REFerence) is a reference to a value of some type <cite>T</cite>
 (e.g. <cite>Tensor</cite>) on a remote worker. This handle keeps the referenced remote
 value alive on the owner, but there is no implication that the value will be
@@ -336,11 +395,6 @@ multi-machine training by holding references to <a class="reference external" hr
 other workers, and calling the appropriate functions to retrieve or modify their
 parameters during training. See <a class="reference internal" href="notes/rref.html#remote-reference-protocol"><span class="std std-ref">Remote Reference Protocol</span></a> for more
 details.</p>
-</div>
-<div class="section" id="rpc-and-rref-primitives">
-<h2>RPC and RRef primitives<a class="headerlink" href="#rpc-and-rref-primitives" title="Permalink to this headline">¶</a></h2>
-<p>This library provides primitives allowing users to create and modify references
-(RRefs) to remote data as well as remotely execute functions.</p>
 </div>
 <div class="section" id="distributed-autograd-framework">
 <h2>Distributed Autograd Framework<a class="headerlink" href="#distributed-autograd-framework" title="Permalink to this headline">¶</a></h2>
@@ -420,9 +474,9 @@ autograd pass.</p>
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#">Distributed RPC Framework</a><ul>
-<li><a class="reference internal" href="#rpc-and-rref-framework">RPC and RRef Framework</a></li>
+<li><a class="reference internal" href="#basics">Basics</a></li>
+<li><a class="reference internal" href="#rpc">RPC</a></li>
 <li><a class="reference internal" href="#rref">RRef</a></li>
-<li><a class="reference internal" href="#rpc-and-rref-primitives">RPC and RRef primitives</a></li>
 <li><a class="reference internal" href="#distributed-autograd-framework">Distributed Autograd Framework</a></li>
 <li><a class="reference internal" href="#distributed-optimizer">Distributed Optimizer</a></li>
 </ul>
