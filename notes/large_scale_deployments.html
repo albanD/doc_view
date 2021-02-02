@@ -31,7 +31,7 @@
   <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/jit.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -74,11 +74,11 @@
           </li>
 
           <li>
-            <a href="https://pytorch.org/features">Features</a>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
           </li>
 
           <li>
-            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
+            <a href="https://pytorch.org/mobile">Mobile</a>
           </li>
 
           <li>
@@ -90,11 +90,70 @@
           </li>
 
           <li class="active">
-            <a href="https://pytorch.org/docs/stable/index.html">Docs</a>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-orange-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/audio/stable/index.html">
+                  <span class="dropdown-title">torchaudio</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/text/stable/index.html">
+                  <span class="dropdown-title">torchtext</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/docs/stable/torchvision/">
+                  <span class="dropdown-title">torchvision</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/elastic/">
+                  <span class="dropdown-title">TorchElastic</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/serve/">
+                  <span class="dropdown-title">TorchServe</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/xla">
+                  <span class="dropdown-title">PyTorch on XLA Devices</span>
+                  <p></p>
+                </a>
+            </div>
           </li>
 
           <li>
-            <a href="https://pytorch.org/resources">Resources</a>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-arrow">
+                Resources
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/features">
+                  <span class="dropdown-title">About</span>
+                  <p>Learn about PyTorch’s features and capabilities</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class="dropdown-title">Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered.</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class="dropdown-title">Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class="dropdown-title">Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/hub">
+                  <span class="dropdown-title">Models (Beta)</span>
+                  <p>Discover, publish, and reuse pre-trained models</p>
+                </a>
+              </div>
+            </div>
           </li>
 
           <li>
@@ -105,10 +164,8 @@
 
       <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
     </div>
-
   </div>
 </div>
-
 
 <body class="pytorch-body">
 
@@ -131,7 +188,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+fc3103b )
+                  master (1.8.0a0+4d61109 )
                 </div>
               
             
@@ -168,26 +225,24 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="autograd.html">Advanced autograd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amp_examples.html">Automatic Mixed Precision examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autograd.html">Autograd mechanics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cuda.html">CUDA semantics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="distributed_autograd.html">Distributed Autograd Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ddp.html">Distributed Data Parallel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extending.html">Extending PyTorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Features for large-scale deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="randomness.html">Reproducibility</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Windows FAQ</a></li>
-<li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Community</span></p>
+<p class="caption"><span class="caption-text">Language Bindings</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../community/contribution_guide.html">PyTorch Contribution Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../community/governance.html">PyTorch Governance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../community/persons_of_interest.html">PyTorch Governance | Persons of Interest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_index.html">C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/javadoc/">Javadoc</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Python API</span></p>
 <ul>
@@ -196,26 +251,37 @@
 <li class="toctree-l1"><a class="reference internal" href="../nn.functional.html">torch.nn.functional</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tensors.html">torch.Tensor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tensor_attributes.html">Tensor Attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tensor_view.html">Tensor Views</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../autograd.html">torch.autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cuda.html">torch.cuda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../amp.html">torch.cuda.amp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backends.html">torch.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../distributions.html">torch.distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fft.html">torch.fft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../futures.html">torch.futures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fx.html">torch.fx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../jit.html">TorchScript</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg.html">torch.linalg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../torch.overrides.html">torch.overrides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../profiler.html">torch.profiler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optim.html">torch.optim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../complex_numbers.html">Complex Numbers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quantization.html">Quantization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rpc.html">Distributed RPC Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../random.html">torch.random</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sparse.html">torch.sparse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../storage.html">torch.Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark_utils.html">torch.utils.benchmark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bottleneck.html">torch.utils.bottleneck</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../checkpoint.html">torch.utils.checkpoint</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpp_extension.html">torch.utils.cpp_extension</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../data.html">torch.utils.data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dlpack.html">torch.utils.dlpack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile_optimizer.html">torch.utils.mobile_optimizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model_zoo.html">torch.utils.model_zoo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tensorboard.html">torch.utils.tensorboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../type_info.html">Type Info</a></li>
@@ -223,18 +289,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../name_inference.html">Named Tensors operator coverage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../__config__.html">torch.__config__</a></li>
 </ul>
-<p class="caption"><span class="caption-text">torchaudio Reference</span></p>
+<p class="caption"><span class="caption-text">Libraries</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/audio">torchaudio</a></li>
-</ul>
-<p class="caption"><span class="caption-text">torchtext Reference</span></p>
-<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/audio/stable">torchaudio</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://pytorch.org/text">torchtext</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/vision">torchvision</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/elastic/">TorchElastic</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/serve">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Other Languages</span></p>
+<p class="caption"><span class="caption-text">Community</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/cppdocs/">C++ API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../packages.html">Javadoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community/contribution_guide.html">PyTorch Contribution Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community/governance.html">PyTorch Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community/persons_of_interest.html">PyTorch Governance | Persons of Interest</a></li>
 </ul>
 
             
@@ -337,37 +405,37 @@ taken by individual operators on demand. One can use the same mechanism to do
 gathering information about PyTorch workloads running in a given process or
 across the entire set of machines.</p>
 <p>New callbacks for any operator invocation can be added with
-<code class="docutils literal notranslate"><span class="pre">torch::autograd::profiler::pushCallback</span></code>. Hooks will be called with
-<code class="docutils literal notranslate"><span class="pre">torch::autograd::profiler::RecordFunction</span></code> struct that describes invocation
+<code class="docutils literal notranslate"><span class="pre">torch::addGlobalCallback</span></code>. Hooks will be called with
+<code class="docutils literal notranslate"><span class="pre">torch::RecordFunction</span></code> struct that describes invocation
 context (e.g. <cite>name</cite>). If enabled, <code class="docutils literal notranslate"><span class="pre">RecordFunction::inputs()</span></code> contains arguments
 of the function represented as <code class="docutils literal notranslate"><span class="pre">torch::IValue</span></code> variant type. Note, that inputs
 logging is relatively expensive and thus has to be enabled explicitly.</p>
-<p>The operator callbacks also have access to <code class="docutils literal notranslate"><span class="pre">at::getThreadLocalDebugInfo()</span></code>
-interface that returns a pointer to the struct holding the debug information. This
-debug information is supposed to be set earlier with the corresponding
-<code class="docutils literal notranslate"><span class="pre">at::setThreadLocalDebugInfo(debug_info)</span></code> call. Debug information is propagated
-through the forward (including async <code class="docutils literal notranslate"><span class="pre">fork</span></code> tasks) and backward passes and can
-be useful for passing some extra information about execution environment
-(e.g. model id) from the higher layers of the application down to the operator
-callbacks.</p>
+<p>The operator callbacks also have access to <code class="docutils literal notranslate"><span class="pre">c10::ThreadLocalDebugInfo::get()</span></code>
+interface that returns a pointer to the struct holding the debug information.
+This debug information can be set earlier by using <code class="docutils literal notranslate"><span class="pre">at::DebugInfoGuard</span></code> object.
+Debug information is propagated through the forward (including async <code class="docutils literal notranslate"><span class="pre">fork</span></code>
+tasks) and backward passes and can be useful for passing some extra information
+about execution environment (e.g. model id) from the higher layers of the
+application down to the operator callbacks.</p>
 <p>Invoking callbacks adds some overhead, so usually it’s useful to just randomly
-sample operator invocations. This can be enabled on per-callback basis with a
-global sampling rate specified by
-<cite>torch::autograd::profiler::setSamplingProbability</cite>.</p>
-<p>Note, that <code class="docutils literal notranslate"><span class="pre">pushCallback</span></code> and <code class="docutils literal notranslate"><span class="pre">setSamplingProbability</span></code> are not thread-safe
-and can be called only when no PyTorch operator is running. Usually, it’s a good
-idea to call them once during initialization.</p>
+sample operator invocations. This can be enabled on per-callback basis with an
+optional sampling rate passed into <code class="docutils literal notranslate"><span class="pre">torch::addGlobalCallback</span></code>.</p>
+<p>Note, that <code class="docutils literal notranslate"><span class="pre">addGlobalCallback</span></code> is not thread-safe and can be called only when no
+PyTorch operator is running. Usually, it’s a good idea to call them once during
+initialization.</p>
 <p>Here’s an example:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Called somewhere in the program beginning</span>
 <span class="kt">void</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// Sample one in a hundred operator runs randomly</span>
-    <span class="n">torch</span><span class="o">::</span><span class="n">autograd</span><span class="o">::</span><span class="n">setSamplingProbability</span><span class="p">(</span><span class="mf">0.01</span><span class="p">);</span>
-    <span class="n">pushCallback</span><span class="p">(</span>
+    <span class="n">addGlobalCallback</span><span class="p">(</span>
+      <span class="n">RecordFunctionCallback</span><span class="p">(</span>
         <span class="o">&amp;</span><span class="n">onFunctionEnter</span><span class="p">,</span>
-        <span class="o">&amp;</span><span class="n">onFunctionExit</span><span class="p">,</span>
-        <span class="cm">/* needs_inputs */</span> <span class="nb">true</span><span class="p">,</span>
-        <span class="cm">/* sampled */</span> <span class="nb">true</span>
+        <span class="o">&amp;</span><span class="n">onFunctionExit</span><span class="p">)</span>
+      <span class="p">.</span><span class="n">needsInputs</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+      <span class="p">.</span><span class="n">samplingProb</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
     <span class="p">);</span>
+    <span class="c1">// Note, to enable observers in the model calling thread,</span>
+    <span class="c1">// call enableRecordFunction() in the thread before running a model</span>
 <span class="p">}</span>
 
 <span class="kt">void</span> <span class="nf">onFunctionEnter</span><span class="p">(</span><span class="k">const</span> <span class="n">RecordFunction</span><span class="o">&amp;</span> <span class="n">fn</span><span class="p">)</span> <span class="p">{</span>
@@ -404,11 +472,11 @@ example <code class="docutils literal notranslate"><span class="pre">python.impo
 <div class="section" id="attaching-metadata-to-saved-torchscript-models">
 <h2><a class="toc-backref" href="#id3">Attaching metadata to saved TorchScript models</a><a class="headerlink" href="#attaching-metadata-to-saved-torchscript-models" title="Permalink to this headline">¶</a></h2>
 <p>TorchScript modules can be saved as an archive file that bundles serialized
-parameters and module code as TorchScript (see <a class="reference internal" href="../jit.html#torch.jit.save" title="torch.jit.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.jit.save()</span></code></a>). It’s
+parameters and module code as TorchScript (see <a class="reference internal" href="../generated/torch.jit.save.html#torch.jit.save" title="torch.jit.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.jit.save()</span></code></a>). It’s
 often convenient to bundle additional information together with the model, for
 example, description of model producer or auxiliary artifacts.</p>
 <p>It can be achieved by passing the <code class="docutils literal notranslate"><span class="pre">_extra_files</span></code> argument to
-<a class="reference internal" href="../jit.html#torch.jit.save" title="torch.jit.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.jit.save()</span></code></a> and <code class="docutils literal notranslate"><span class="pre">torch::jit::load</span></code> to store and retrieve
+<a class="reference internal" href="../generated/torch.jit.save.html#torch.jit.save" title="torch.jit.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.jit.save()</span></code></a> and <code class="docutils literal notranslate"><span class="pre">torch::jit::load</span></code> to store and retrieve
 arbitrary binary blobs during saving process. Since TorchScript files are
 regular ZIP archives, extra information gets stored as regular files inside
 archive’s <code class="docutils literal notranslate"><span class="pre">extra/</span></code> directory.</p>
@@ -416,8 +484,8 @@ archive’s <code class="docutils literal notranslate"><span class="pre">extra/<
 archive produced in the current process. It might be useful to tag models with
 producer metadata, akin to JPEG metadata produced by digital cameras. Example
 usage might look like:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">SetExportModuleExtraFilesHook</span><span class="p">([](</span><span class="k">const</span> <span class="n">script</span><span class="o">::</span><span class="n">Module</span><span class="o">&amp;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">script</span><span class="o">::</span><span class="n">ExtraFilesMap</span> <span class="n">files</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">SetExportModuleExtraFilesHook</span><span class="p">([](</span><span class="k">const</span> <span class="n">Module</span><span class="o">&amp;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ExtraFilesMap</span> <span class="n">files</span><span class="p">;</span>
     <span class="n">files</span><span class="p">[</span><span class="s">&quot;producer_info.json&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;{</span><span class="se">\&quot;</span><span class="s">user</span><span class="se">\&quot;</span><span class="s">: </span><span class="se">\&quot;</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">getenv</span><span class="p">(</span><span class="s">&quot;USER&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">}&quot;</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">files</span><span class="p">;</span>
 <span class="p">});</span>
@@ -508,16 +576,17 @@ with specialized version. Common extension points include:</p>
 
      
        <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-         <script type="text/javascript" src="../_static/jquery.js"></script>
-         <script type="text/javascript" src="../_static/underscore.js"></script>
-         <script type="text/javascript" src="../_static/doctools.js"></script>
-         <script type="text/javascript" src="../_static/language_data.js"></script>
+         <script src="../_static/jquery.js"></script>
+         <script src="../_static/underscore.js"></script>
+         <script src="../_static/doctools.js"></script>
+         <script src="../_static/language_data.js"></script>
      
 
   
 
   <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
   <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
   <script type="text/javascript" src="../_static/js/theme.js"></script>
 
   <script type="text/javascript">
@@ -591,25 +660,24 @@ with specialized version. Common extension points include:</p>
             <li><a href="https://pytorch.org/features">Features</a></li>
             <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
             <li><a href="https://pytorch.org/blog/">Blog</a></li>
-            <li><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
           </ul>
         </div>
 
         <div class="footer-links-col">
           <ul>
-            <li class="list-title"><a href="https://pytorch.org/support">Support</a></li>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
             <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
             <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
             <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
             <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
-            <li><a href="https://pytorch.slack.com" target="_blank">Slack</a></li>
-            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md" target="_blank">Contributing</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
           </ul>
         </div>
 
         <div class="footer-links-col follow-us-col">
           <ul>
-            <li class="list-title">Follow Us</li>
+            <li class="list-title">Stay Connected</li>
             <li>
               <div id="mc_embed_signup">
                 <form
@@ -646,6 +714,7 @@ with specialized version. Common extension points include:</p>
           <div class="footer-social-icons">
             <a href="https://www.facebook.com/pytorch" target="_blank" class="facebook"></a>
             <a href="https://twitter.com/pytorch" target="_blank" class="twitter"></a>
+            <a href="https://www.youtube.com/pytorch" target="_blank" class="youtube"></a>
           </div>
         </div>
       </div>
@@ -677,15 +746,19 @@ with specialized version. Common extension points include:</p>
       <div class="main-menu">
         <ul>
           <li>
-            <a href="#">Get Started</a>
+            <a href="https://pytorch.org/get-started">Get Started</a>
           </li>
 
           <li>
-            <a href="#">Features</a>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
           </li>
 
           <li>
-            <a href="#">Ecosystem</a>
+            <a href="https://pytorch.org/mobile">Mobile</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/hub">PyTorch Hub</a>
           </li>
 
           <li>
@@ -696,13 +769,65 @@ with specialized version. Common extension points include:</p>
             <a href="https://pytorch.org/tutorials">Tutorials</a>
           </li>
 
-          <li class="active">
-            <a href="https://pytorch.org/docs/stable/index.html">Docs</a>
+          <li class="resources-mobile-menu-title" class="active">
+            Docs
           </li>
 
-          <li>
-            <a href="https://pytorch.org/resources">Resources</a>
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/audio/stable/index.html">torchaudio</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/text/stable/index.html">torchtext</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/docs/stable/torchvision/">torchvision</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/elastic/">TorchElastic</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/serve/">TorchServe</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/xla">PyTorch on XLA Devices</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            Resources
           </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/resources">Developer Resources</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/features">About</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/hub">Models (Beta)</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/#community-module">Community</a>
+            </li>
+
+            <li>
+              <a href="https://discuss.pytorch.org/">Forums</a>
+            </li>
+          </ul>
 
           <li>
             <a href="https://github.com/pytorch/pytorch">Github</a>
@@ -724,6 +849,8 @@ with specialized version. Common extension points include:</p>
       sideMenus.bind();
       scrollToAnchor.bind();
       highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
 
       // Add class to links that have code blocks, since we cannot create links in code blocks
       $("article.pytorch-article a span.pre").each(function(e) {

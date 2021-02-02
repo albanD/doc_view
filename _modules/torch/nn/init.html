@@ -31,7 +31,7 @@
   <!-- <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/css/jit.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -72,11 +72,11 @@
           </li>
 
           <li>
-            <a href="https://pytorch.org/features">Features</a>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
           </li>
 
           <li>
-            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
+            <a href="https://pytorch.org/mobile">Mobile</a>
           </li>
 
           <li>
@@ -88,11 +88,70 @@
           </li>
 
           <li class="active">
-            <a href="https://pytorch.org/docs/stable/index.html">Docs</a>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-orange-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/audio/stable/index.html">
+                  <span class="dropdown-title">torchaudio</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/text/stable/index.html">
+                  <span class="dropdown-title">torchtext</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/docs/stable/torchvision/">
+                  <span class="dropdown-title">torchvision</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/elastic/">
+                  <span class="dropdown-title">TorchElastic</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/serve/">
+                  <span class="dropdown-title">TorchServe</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/xla">
+                  <span class="dropdown-title">PyTorch on XLA Devices</span>
+                  <p></p>
+                </a>
+            </div>
           </li>
 
           <li>
-            <a href="https://pytorch.org/resources">Resources</a>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-arrow">
+                Resources
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/features">
+                  <span class="dropdown-title">About</span>
+                  <p>Learn about PyTorch’s features and capabilities</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class="dropdown-title">Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered.</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class="dropdown-title">Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class="dropdown-title">Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/hub">
+                  <span class="dropdown-title">Models (Beta)</span>
+                  <p>Discover, publish, and reuse pre-trained models</p>
+                </a>
+              </div>
+            </div>
           </li>
 
           <li>
@@ -103,10 +162,8 @@
 
       <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
     </div>
-
   </div>
 </div>
-
 
 <body class="pytorch-body">
 
@@ -129,7 +186,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+fc3103b )
+                  master (1.8.0a0+4d61109 )
                 </div>
               
             
@@ -166,26 +223,25 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../notes/autograd.html">Advanced autograd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/amp_examples.html">Automatic Mixed Precision examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/autograd.html">Autograd mechanics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notes/broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notes/cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notes/cuda.html">CUDA semantics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notes/distributed_autograd.html">Distributed Autograd Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/ddp.html">Distributed Data Parallel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notes/extending.html">Extending PyTorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notes/faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notes/large_scale_deployments.html">Features for large-scale deployments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notes/multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notes/randomness.html">Reproducibility</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notes/rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notes/serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notes/windows.html">Windows FAQ</a></li>
-<li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Community</span></p>
+<p class="caption"><span class="caption-text">Language Bindings</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../community/contribution_guide.html">PyTorch Contribution Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../community/governance.html">PyTorch Governance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../community/persons_of_interest.html">PyTorch Governance | Persons of Interest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cpp_index.html">C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/javadoc/">Javadoc</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Python API</span></p>
 <ul>
@@ -194,26 +250,38 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../nn.functional.html">torch.nn.functional</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tensors.html">torch.Tensor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tensor_attributes.html">Tensor Attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tensor_view.html">Tensor Views</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../autograd.html">torch.autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cuda.html">torch.cuda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../amp.html">torch.cuda.amp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../backends.html">torch.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../distributions.html">torch.distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../fft.html">torch.fft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../futures.html">torch.futures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../fx.html">torch.fx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../jit.html">TorchScript</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../linalg.html">torch.linalg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../torch.overrides.html">torch.overrides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../profiler.html">torch.profiler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../optim.html">torch.optim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../complex_numbers.html">Complex Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pipeline.html">Pipeline Parallelism</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quantization.html">Quantization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rpc.html">Distributed RPC Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../random.html">torch.random</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sparse.html">torch.sparse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../storage.html">torch.Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../benchmark_utils.html">torch.utils.benchmark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bottleneck.html">torch.utils.bottleneck</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../checkpoint.html">torch.utils.checkpoint</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cpp_extension.html">torch.utils.cpp_extension</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../data.html">torch.utils.data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dlpack.html">torch.utils.dlpack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile_optimizer.html">torch.utils.mobile_optimizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../model_zoo.html">torch.utils.model_zoo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tensorboard.html">torch.utils.tensorboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../type_info.html">Type Info</a></li>
@@ -221,18 +289,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../name_inference.html">Named Tensors operator coverage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../__config__.html">torch.__config__</a></li>
 </ul>
-<p class="caption"><span class="caption-text">torchaudio Reference</span></p>
+<p class="caption"><span class="caption-text">Libraries</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/audio">torchaudio</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/audio/stable">torchaudio</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/text/stable">torchtext</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/vision/stable">torchvision</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/elastic/">TorchElastic</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/serve">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
 </ul>
-<p class="caption"><span class="caption-text">torchtext Reference</span></p>
+<p class="caption"><span class="caption-text">Community</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/text">torchtext</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Other Languages</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/cppdocs/">C++ API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../packages.html">Javadoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../community/contribution_guide.html">PyTorch Contribution Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../community/governance.html">PyTorch Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../community/persons_of_interest.html">PyTorch Governance | Persons of Interest</a></li>
 </ul>
 
             
@@ -307,12 +377,12 @@
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <h1>Source code for torch.nn.init</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
-
-<span class="kn">import</span> <span class="nn">math</span>
+<span></span><span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
 <span class="kn">import</span> <span class="nn">torch</span>
+
 
 <span class="c1"># These no_grad_* functions are necessary as wrappers around the parts of these</span>
 <span class="c1"># functions that use `with torch.no_grad()`. The JIT doesn&#39;t support context</span>
@@ -326,6 +396,41 @@
 <span class="k">def</span> <span class="nf">_no_grad_normal_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">):</span>
     <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">tensor</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_no_grad_trunc_normal_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="c1"># Method based on https://people.sc.fsu.edu/~jburkardt/presentations/truncated_normal.pdf</span>
+    <span class="k">def</span> <span class="nf">norm_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Computes standard normal cumulative distribution function</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">erf</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span><span class="p">)))</span> <span class="o">/</span> <span class="mf">2.</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">mean</span> <span class="o">&lt;</span> <span class="n">a</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">std</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">mean</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">std</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;mean is more than 2 std from [a, b] in nn.init.trunc_normal_. &quot;</span>
+                      <span class="s2">&quot;The distribution of values may be incorrect.&quot;</span><span class="p">,</span>
+                      <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="c1"># Values are generated by using a truncated uniform distribution and</span>
+        <span class="c1"># then using the inverse CDF for the normal distribution.</span>
+        <span class="c1"># Get upper and lower cdf values</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">norm_cdf</span><span class="p">((</span><span class="n">a</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span><span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">norm_cdf</span><span class="p">((</span><span class="n">b</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span><span class="p">)</span>
+
+        <span class="c1"># Uniformly fill tensor with values from [l, u], then translate to</span>
+        <span class="c1"># [2l-1, 2u-1].</span>
+        <span class="n">tensor</span><span class="o">.</span><span class="n">uniform_</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">u</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Use inverse cdf transform for normal distribution to get truncated</span>
+        <span class="c1"># standard normal</span>
+        <span class="n">tensor</span><span class="o">.</span><span class="n">erfinv_</span><span class="p">()</span>
+
+        <span class="c1"># Transform to proper mean, std</span>
+        <span class="n">tensor</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">std</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span><span class="p">))</span>
+        <span class="n">tensor</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+
+        <span class="c1"># Clamp to ensure it&#39;s in the proper range</span>
+        <span class="n">tensor</span><span class="o">.</span><span class="n">clamp_</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tensor</span>
 
 
 <span class="k">def</span> <span class="nf">_no_grad_fill_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
@@ -351,6 +456,7 @@
 <span class="sd">    Tanh              :math:`\frac{5}{3}`</span>
 <span class="sd">    ReLU              :math:`\sqrt{2}`</span>
 <span class="sd">    Leaky Relu        :math:`\sqrt{\frac{2}{1 + \text{negative\_slope}^2}}`</span>
+<span class="sd">    SELU              :math:`\frac{3}{4}`</span>
 <span class="sd">    ================= ====================================================</span>
 
 <span class="sd">    Args:</span>
@@ -376,12 +482,13 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;negative_slope </span><span class="si">{}</span><span class="s2"> not a valid number&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">negative_slope</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">nonlinearity</span> <span class="o">==</span> <span class="s1">&#39;selu&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">3.0</span> <span class="o">/</span> <span class="mi">4</span>  <span class="c1"># Value found empirically (https://github.com/pytorch/pytorch/pull/50664)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unsupported nonlinearity </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nonlinearity</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="uniform_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.uniform_">[docs]</a><span class="k">def</span> <span class="nf">uniform_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
-    <span class="c1"># type: (Tensor, float, float) -&gt; Tensor</span>
+<div class="viewcode-block" id="uniform_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.uniform_">[docs]</a><span class="k">def</span> <span class="nf">uniform_</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Fills the input Tensor with values drawn from the uniform</span>
 <span class="sd">    distribution :math:`\mathcal{U}(a, b)`.</span>
 
@@ -397,8 +504,7 @@
     <span class="k">return</span> <span class="n">_no_grad_uniform_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="normal_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.normal_">[docs]</a><span class="k">def</span> <span class="nf">normal_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
-    <span class="c1"># type: (Tensor, float, float) -&gt; Tensor</span>
+<div class="viewcode-block" id="normal_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.normal_">[docs]</a><span class="k">def</span> <span class="nf">normal_</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">mean</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">std</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Fills the input Tensor with values drawn from the normal</span>
 <span class="sd">    distribution :math:`\mathcal{N}(\text{mean}, \text{std}^2)`.</span>
 
@@ -413,9 +519,29 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_no_grad_normal_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span></div>
 
+<span class="k">def</span> <span class="nf">trunc_normal_</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">mean</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">std</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Fills the input Tensor with values drawn from a truncated</span>
+<span class="sd">    normal distribution. The values are effectively drawn from the</span>
+<span class="sd">    normal distribution :math:`\mathcal{N}(\text{mean}, \text{std}^2)`</span>
+<span class="sd">    with values outside :math:`[a, b]` redrawn until they are within</span>
+<span class="sd">    the bounds. The method used for generating the random values works</span>
+<span class="sd">    best when :math:`a \leq \text{mean} \leq b`.</span>
 
-<div class="viewcode-block" id="constant_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.constant_">[docs]</a><span class="k">def</span> <span class="nf">constant_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-    <span class="c1"># type: (Tensor, float) -&gt; Tensor</span>
+<span class="sd">    Args:</span>
+<span class="sd">        tensor: an n-dimensional `torch.Tensor`</span>
+<span class="sd">        mean: the mean of the normal distribution</span>
+<span class="sd">        std: the standard deviation of the normal distribution</span>
+<span class="sd">        a: the minimum cutoff value</span>
+<span class="sd">        b: the maximum cutoff value</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; w = torch.empty(3, 5)</span>
+<span class="sd">        &gt;&gt;&gt; nn.init.trunc_normal_(w)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_no_grad_trunc_normal_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="constant_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.constant_">[docs]</a><span class="k">def</span> <span class="nf">constant_</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Fills the input Tensor with the value :math:`\text{val}`.</span>
 
 <span class="sd">    Args:</span>
@@ -429,8 +555,7 @@
     <span class="k">return</span> <span class="n">_no_grad_fill_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ones_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.ones_">[docs]</a><span class="k">def</span> <span class="nf">ones_</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
-    <span class="c1"># type: (Tensor) -&gt; Tensor</span>
+<div class="viewcode-block" id="ones_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.ones_">[docs]</a><span class="k">def</span> <span class="nf">ones_</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Fills the input Tensor with the scalar value `1`.</span>
 
 <span class="sd">    Args:</span>
@@ -443,8 +568,7 @@
     <span class="k">return</span> <span class="n">_no_grad_fill_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="mf">1.</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="zeros_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.zeros_">[docs]</a><span class="k">def</span> <span class="nf">zeros_</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
-    <span class="c1"># type: (Tensor) -&gt; Tensor</span>
+<div class="viewcode-block" id="zeros_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.zeros_">[docs]</a><span class="k">def</span> <span class="nf">zeros_</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Fills the input Tensor with the scalar value `0`.</span>
 
 <span class="sd">    Args:</span>
@@ -477,34 +601,46 @@
     <span class="k">return</span> <span class="n">tensor</span></div>
 
 
-<div class="viewcode-block" id="dirac_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.dirac_">[docs]</a><span class="k">def</span> <span class="nf">dirac_</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+<div class="viewcode-block" id="dirac_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.dirac_">[docs]</a><span class="k">def</span> <span class="nf">dirac_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Fills the {3, 4, 5}-dimensional input `Tensor` with the Dirac</span>
 <span class="sd">    delta function. Preserves the identity of the inputs in `Convolutional`</span>
-<span class="sd">    layers, where as many input channels are preserved as possible.</span>
+<span class="sd">    layers, where as many input channels are preserved as possible. In case</span>
+<span class="sd">    of groups&gt;1, each group of channels preserves identity</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        tensor: a {3, 4, 5}-dimensional `torch.Tensor`</span>
-
+<span class="sd">        groups (optional): number of groups in the conv layer (default: 1)</span>
 <span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; w = torch.empty(3, 16, 5, 5)</span>
 <span class="sd">        &gt;&gt;&gt; nn.init.dirac_(w)</span>
+<span class="sd">        &gt;&gt;&gt; w = torch.empty(3, 24, 5, 5)</span>
+<span class="sd">        &gt;&gt;&gt; nn.init.dirac_(w, 3)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dimensions</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">ndimension</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">dimensions</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only tensors with 3, 4, or 5 dimensions are supported&quot;</span><span class="p">)</span>
 
     <span class="n">sizes</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-    <span class="n">min_dim</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sizes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sizes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">sizes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="n">groups</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;dim 0 must be divisible by groups&#39;</span><span class="p">)</span>
+
+    <span class="n">out_chans_per_grp</span> <span class="o">=</span> <span class="n">sizes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="n">groups</span>
+    <span class="n">min_dim</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">out_chans_per_grp</span><span class="p">,</span> <span class="n">sizes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
     <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
         <span class="n">tensor</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
 
-        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">min_dim</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">dimensions</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Temporal convolution</span>
-                <span class="n">tensor</span><span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="k">elif</span> <span class="n">dimensions</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># Spatial convolution</span>
-                <span class="n">tensor</span><span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span>  <span class="c1"># Volumetric convolution</span>
-                <span class="n">tensor</span><span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">min_dim</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">dimensions</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Temporal convolution</span>
+                    <span class="n">tensor</span><span class="p">[</span><span class="n">g</span> <span class="o">*</span> <span class="n">out_chans_per_grp</span> <span class="o">+</span> <span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">dimensions</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># Spatial convolution</span>
+                    <span class="n">tensor</span><span class="p">[</span><span class="n">g</span> <span class="o">*</span> <span class="n">out_chans_per_grp</span> <span class="o">+</span> <span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
+                           <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># Volumetric convolution</span>
+                    <span class="n">tensor</span><span class="p">[</span><span class="n">g</span> <span class="o">*</span> <span class="n">out_chans_per_grp</span> <span class="o">+</span> <span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
+                           <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">tensor</span></div>
 
 
@@ -524,8 +660,7 @@
     <span class="k">return</span> <span class="n">fan_in</span><span class="p">,</span> <span class="n">fan_out</span>
 
 
-<div class="viewcode-block" id="xavier_uniform_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.xavier_uniform_">[docs]</a><span class="k">def</span> <span class="nf">xavier_uniform_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
-    <span class="c1"># type: (Tensor, float) -&gt; Tensor</span>
+<div class="viewcode-block" id="xavier_uniform_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.xavier_uniform_">[docs]</a><span class="k">def</span> <span class="nf">xavier_uniform_</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">gain</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Fills the input `Tensor` with values according to the method</span>
 <span class="sd">    described in `Understanding the difficulty of training deep feedforward</span>
 <span class="sd">    neural networks` - Glorot, X. &amp; Bengio, Y. (2010), using a uniform</span>
@@ -552,8 +687,7 @@
     <span class="k">return</span> <span class="n">_no_grad_uniform_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">-</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="xavier_normal_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.xavier_normal_">[docs]</a><span class="k">def</span> <span class="nf">xavier_normal_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
-    <span class="c1"># type: (Tensor, float) -&gt; Tensor</span>
+<div class="viewcode-block" id="xavier_normal_"><a class="viewcode-back" href="../../../nn.init.html#torch.nn.init.xavier_normal_">[docs]</a><span class="k">def</span> <span class="nf">xavier_normal_</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">gain</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Fills the input `Tensor` with values according to the method</span>
 <span class="sd">    described in `Understanding the difficulty of training deep feedforward</span>
 <span class="sd">    neural networks` - Glorot, X. &amp; Bengio, Y. (2010), using a normal</span>
@@ -603,8 +737,8 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        tensor: an n-dimensional `torch.Tensor`</span>
-<span class="sd">        a: the negative slope of the rectifier used after this layer (only </span>
-<span class="sd">        used with ``&#39;leaky_relu&#39;``)</span>
+<span class="sd">        a: the negative slope of the rectifier used after this layer (only</span>
+<span class="sd">            used with ``&#39;leaky_relu&#39;``)</span>
 <span class="sd">        mode: either ``&#39;fan_in&#39;`` (default) or ``&#39;fan_out&#39;``. Choosing ``&#39;fan_in&#39;``</span>
 <span class="sd">            preserves the magnitude of the variance of the weights in the</span>
 <span class="sd">            forward pass. Choosing ``&#39;fan_out&#39;`` preserves the magnitudes in the</span>
@@ -638,8 +772,8 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        tensor: an n-dimensional `torch.Tensor`</span>
-<span class="sd">        a: the negative slope of the rectifier used after this layer (only </span>
-<span class="sd">        used with ``&#39;leaky_relu&#39;``)</span>
+<span class="sd">        a: the negative slope of the rectifier used after this layer (only</span>
+<span class="sd">            used with ``&#39;leaky_relu&#39;``)</span>
 <span class="sd">        mode: either ``&#39;fan_in&#39;`` (default) or ``&#39;fan_out&#39;``. Choosing ``&#39;fan_in&#39;``</span>
 <span class="sd">            preserves the magnitude of the variance of the weights in the</span>
 <span class="sd">            forward pass. Choosing ``&#39;fan_out&#39;`` preserves the magnitudes in the</span>
@@ -811,16 +945,17 @@
 
      
        <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-         <script type="text/javascript" src="../../../_static/jquery.js"></script>
-         <script type="text/javascript" src="../../../_static/underscore.js"></script>
-         <script type="text/javascript" src="../../../_static/doctools.js"></script>
-         <script type="text/javascript" src="../../../_static/language_data.js"></script>
+         <script src="../../../_static/jquery.js"></script>
+         <script src="../../../_static/underscore.js"></script>
+         <script src="../../../_static/doctools.js"></script>
+         <script src="../../../_static/language_data.js"></script>
      
 
   
 
   <script type="text/javascript" src="../../../_static/js/vendor/popper.min.js"></script>
   <script type="text/javascript" src="../../../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
   <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
   <script type="text/javascript">
@@ -894,25 +1029,24 @@
             <li><a href="https://pytorch.org/features">Features</a></li>
             <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
             <li><a href="https://pytorch.org/blog/">Blog</a></li>
-            <li><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
           </ul>
         </div>
 
         <div class="footer-links-col">
           <ul>
-            <li class="list-title"><a href="https://pytorch.org/support">Support</a></li>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
             <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
             <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
             <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
             <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
-            <li><a href="https://pytorch.slack.com" target="_blank">Slack</a></li>
-            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md" target="_blank">Contributing</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
           </ul>
         </div>
 
         <div class="footer-links-col follow-us-col">
           <ul>
-            <li class="list-title">Follow Us</li>
+            <li class="list-title">Stay Connected</li>
             <li>
               <div id="mc_embed_signup">
                 <form
@@ -949,6 +1083,7 @@
           <div class="footer-social-icons">
             <a href="https://www.facebook.com/pytorch" target="_blank" class="facebook"></a>
             <a href="https://twitter.com/pytorch" target="_blank" class="twitter"></a>
+            <a href="https://www.youtube.com/pytorch" target="_blank" class="youtube"></a>
           </div>
         </div>
       </div>
@@ -980,15 +1115,19 @@
       <div class="main-menu">
         <ul>
           <li>
-            <a href="#">Get Started</a>
+            <a href="https://pytorch.org/get-started">Get Started</a>
           </li>
 
           <li>
-            <a href="#">Features</a>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
           </li>
 
           <li>
-            <a href="#">Ecosystem</a>
+            <a href="https://pytorch.org/mobile">Mobile</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/hub">PyTorch Hub</a>
           </li>
 
           <li>
@@ -999,13 +1138,65 @@
             <a href="https://pytorch.org/tutorials">Tutorials</a>
           </li>
 
-          <li class="active">
-            <a href="https://pytorch.org/docs/stable/index.html">Docs</a>
+          <li class="resources-mobile-menu-title" class="active">
+            Docs
           </li>
 
-          <li>
-            <a href="https://pytorch.org/resources">Resources</a>
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/audio/stable/index.html">torchaudio</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/text/stable/index.html">torchtext</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/docs/stable/torchvision/">torchvision</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/elastic/">TorchElastic</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/serve/">TorchServe</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/xla">PyTorch on XLA Devices</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            Resources
           </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/resources">Developer Resources</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/features">About</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/hub">Models (Beta)</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/#community-module">Community</a>
+            </li>
+
+            <li>
+              <a href="https://discuss.pytorch.org/">Forums</a>
+            </li>
+          </ul>
 
           <li>
             <a href="https://github.com/pytorch/pytorch">Github</a>
@@ -1027,6 +1218,8 @@
       sideMenus.bind();
       scrollToAnchor.bind();
       highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
 
       // Add class to links that have code blocks, since we cannot create links in code blocks
       $("article.pytorch-article a span.pre").each(function(e) {

@@ -31,12 +31,12 @@
   <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/jit.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Windows FAQ" href="windows.html" />
-    <link rel="prev" title="Remote Reference Protocol" href="rref.html" /> 
+    <link rel="prev" title="Reproducibility" href="randomness.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -74,11 +74,11 @@
           </li>
 
           <li>
-            <a href="https://pytorch.org/features">Features</a>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
           </li>
 
           <li>
-            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
+            <a href="https://pytorch.org/mobile">Mobile</a>
           </li>
 
           <li>
@@ -90,11 +90,70 @@
           </li>
 
           <li class="active">
-            <a href="https://pytorch.org/docs/stable/index.html">Docs</a>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-orange-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/audio/stable/index.html">
+                  <span class="dropdown-title">torchaudio</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/text/stable/index.html">
+                  <span class="dropdown-title">torchtext</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/docs/stable/torchvision/">
+                  <span class="dropdown-title">torchvision</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/elastic/">
+                  <span class="dropdown-title">TorchElastic</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/serve/">
+                  <span class="dropdown-title">TorchServe</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/xla">
+                  <span class="dropdown-title">PyTorch on XLA Devices</span>
+                  <p></p>
+                </a>
+            </div>
           </li>
 
           <li>
-            <a href="https://pytorch.org/resources">Resources</a>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-arrow">
+                Resources
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/features">
+                  <span class="dropdown-title">About</span>
+                  <p>Learn about PyTorch’s features and capabilities</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class="dropdown-title">Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered.</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class="dropdown-title">Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class="dropdown-title">Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/hub">
+                  <span class="dropdown-title">Models (Beta)</span>
+                  <p>Discover, publish, and reuse pre-trained models</p>
+                </a>
+              </div>
+            </div>
           </li>
 
           <li>
@@ -105,10 +164,8 @@
 
       <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
     </div>
-
   </div>
 </div>
-
 
 <body class="pytorch-body">
 
@@ -131,7 +188,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+fc3103b )
+                  master (1.8.0a0+4d61109 )
                 </div>
               
             
@@ -168,26 +225,24 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="autograd.html">Advanced autograd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amp_examples.html">Automatic Mixed Precision examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autograd.html">Autograd mechanics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cuda.html">CUDA semantics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="distributed_autograd.html">Distributed Autograd Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ddp.html">Distributed Data Parallel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extending.html">Extending PyTorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="large_scale_deployments.html">Features for large-scale deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="randomness.html">Reproducibility</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Windows FAQ</a></li>
-<li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Community</span></p>
+<p class="caption"><span class="caption-text">Language Bindings</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../community/contribution_guide.html">PyTorch Contribution Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../community/governance.html">PyTorch Governance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../community/persons_of_interest.html">PyTorch Governance | Persons of Interest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_index.html">C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/javadoc/">Javadoc</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Python API</span></p>
 <ul>
@@ -196,26 +251,37 @@
 <li class="toctree-l1"><a class="reference internal" href="../nn.functional.html">torch.nn.functional</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tensors.html">torch.Tensor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tensor_attributes.html">Tensor Attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tensor_view.html">Tensor Views</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../autograd.html">torch.autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cuda.html">torch.cuda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../amp.html">torch.cuda.amp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backends.html">torch.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../distributions.html">torch.distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fft.html">torch.fft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../futures.html">torch.futures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fx.html">torch.fx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../jit.html">TorchScript</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg.html">torch.linalg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../torch.overrides.html">torch.overrides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../profiler.html">torch.profiler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optim.html">torch.optim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../complex_numbers.html">Complex Numbers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quantization.html">Quantization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rpc.html">Distributed RPC Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../random.html">torch.random</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sparse.html">torch.sparse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../storage.html">torch.Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark_utils.html">torch.utils.benchmark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bottleneck.html">torch.utils.bottleneck</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../checkpoint.html">torch.utils.checkpoint</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpp_extension.html">torch.utils.cpp_extension</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../data.html">torch.utils.data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dlpack.html">torch.utils.dlpack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile_optimizer.html">torch.utils.mobile_optimizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model_zoo.html">torch.utils.model_zoo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tensorboard.html">torch.utils.tensorboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../type_info.html">Type Info</a></li>
@@ -223,18 +289,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../name_inference.html">Named Tensors operator coverage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../__config__.html">torch.__config__</a></li>
 </ul>
-<p class="caption"><span class="caption-text">torchaudio Reference</span></p>
+<p class="caption"><span class="caption-text">Libraries</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/audio">torchaudio</a></li>
-</ul>
-<p class="caption"><span class="caption-text">torchtext Reference</span></p>
-<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/audio/stable">torchaudio</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://pytorch.org/text">torchtext</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/vision">torchvision</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/elastic/">TorchElastic</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/serve">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Other Languages</span></p>
+<p class="caption"><span class="caption-text">Community</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/cppdocs/">C++ API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../packages.html">Javadoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community/contribution_guide.html">PyTorch Contribution Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community/governance.html">PyTorch Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community/persons_of_interest.html">PyTorch Governance | Persons of Interest</a></li>
 </ul>
 
             
@@ -309,32 +377,303 @@
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <div class="section" id="serialization-semantics">
-<h1>Serialization semantics<a class="headerlink" href="#serialization-semantics" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="best-practices">
-<h2>Best practices<a class="headerlink" href="#best-practices" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="recommended-approach-for-saving-a-model">
-<span id="recommend-saving-models"></span><h3>Recommended approach for saving a model<a class="headerlink" href="#recommended-approach-for-saving-a-model" title="Permalink to this headline">¶</a></h3>
-<p>There are two main approaches for serializing and restoring a model.</p>
-<p>The first (recommended) saves and loads only the model parameters:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">the_model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">PATH</span><span class="p">)</span>
+<h1><a class="toc-backref" href="#id1">Serialization semantics</a><a class="headerlink" href="#serialization-semantics" title="Permalink to this headline">¶</a></h1>
+<p>This note describes how you can save and load PyTorch tensors and module states
+in Python, and how to serialize Python modules so they can be loaded in C++.</p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#serialization-semantics" id="id1">Serialization semantics</a></p>
+<ul>
+<li><p><a class="reference internal" href="#saving-and-loading-tensors" id="id2">Saving and loading tensors</a></p></li>
+<li><p><a class="reference internal" href="#saving-and-loading-tensors-preserves-views" id="id3">Saving and loading tensors preserves views</a></p></li>
+<li><p><a class="reference internal" href="#saving-and-loading-torch-nn-modules" id="id4">Saving and loading torch.nn.Modules</a></p></li>
+<li><p><a class="reference internal" href="#serializing-torch-nn-modules-and-loading-them-in-c" id="id5">Serializing torch.nn.Modules and loading them in C++</a></p></li>
+<li><p><a class="reference internal" href="#saving-and-loading-scriptmodules-across-pytorch-versions" id="id6">Saving and loading ScriptModules across PyTorch versions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#torch-div-performing-integer-division" id="id7">torch.div performing integer division</a></p></li>
+<li><p><a class="reference internal" href="#torch-full-always-inferring-a-float-dtype" id="id8">torch.full always inferring a float dtype</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="saving-and-loading-tensors">
+<h2><a class="toc-backref" href="#id2">Saving and loading tensors</a><a class="headerlink" href="#saving-and-loading-tensors" title="Permalink to this headline">¶</a></h2>
+<p id="saving-loading-tensors"><a class="reference internal" href="../generated/torch.save.html#torch.save" title="torch.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.save()</span></code></a> and <a class="reference internal" href="../generated/torch.load.html#torch.load" title="torch.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.load()</span></code></a> let you easily save and load tensors:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;tensor.pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;tensor.pt&#39;</span><span class="p">)</span>
+<span class="go">tensor([1., 2.])</span>
 </pre></div>
 </div>
-<p>Then later:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">the_model</span> <span class="o">=</span> <span class="n">TheModelClass</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="n">the_model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">PATH</span><span class="p">))</span>
+<p>By convention, PyTorch files are typically written with a ‘.pt’ or ‘.pth’ extension.</p>
+<p><a class="reference internal" href="../generated/torch.save.html#torch.save" title="torch.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.save()</span></code></a> and <a class="reference internal" href="../generated/torch.load.html#torch.load" title="torch.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.load()</span></code></a> use Python’s pickle by default,
+so you can also save multiple tensors as part of Python objects like tuples,
+lists, and dicts:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">]),</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">])}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s1">&#39;tensor_dict.pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;tensor_dict.pt&#39;</span><span class="p">)</span>
+<span class="go">{&#39;a&#39;: tensor([1., 2.]), &#39;b&#39;: tensor([3., 4.])}</span>
 </pre></div>
 </div>
-<p>The second saves and loads the entire model:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">the_model</span><span class="p">,</span> <span class="n">PATH</span><span class="p">)</span>
+<p>Custom data structures that include PyTorch tensors can also be saved if the
+data structure is pickle-able.</p>
+</div>
+<div class="section" id="saving-and-loading-tensors-preserves-views">
+<h2><a class="toc-backref" href="#id3">Saving and loading tensors preserves views</a><a class="headerlink" href="#saving-and-loading-tensors-preserves-views" title="Permalink to this headline">¶</a></h2>
+<p id="preserve-storage-sharing">Saving tensors preserves their view relationships:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evens</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">([</span><span class="n">numbers</span><span class="p">,</span> <span class="n">evens</span><span class="p">],</span> <span class="s1">&#39;tensors.pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_numbers</span><span class="p">,</span> <span class="n">loaded_evens</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;tensors.pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_evens</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_numbers</span>
+<span class="go">tensor([ 1,  4,  3,  8,  5, 12,  7, 16,  9])</span>
 </pre></div>
 </div>
-<p>Then later:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">the_model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">PATH</span><span class="p">)</span>
+<p>Behind the scenes, these tensors share the same “storage.” See
+<a class="reference external" href="https://pytorch.org/docs/master/tensor_view.html">Tensor Views</a> for more
+on views and storage.</p>
+<p>When PyTorch saves tensors it saves their storage objects and tensor
+metadata separately. This is an implementation detail that may change in the
+future, but it typically saves space and lets PyTorch easily
+reconstruct the view relationships between the loaded tensors. In the above
+snippet, for example, only a single storage is written to ‘tensors.pt’.</p>
+<p>In some cases, however, saving the current storage objects may be unnecessary
+and create prohibitively large files. In the following snippet a storage much
+larger than the saved tensor is written to a file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">large</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">small</span> <span class="o">=</span> <span class="n">large</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">small</span><span class="p">,</span> <span class="s1">&#39;small.pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_small</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;small.pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_small</span><span class="o">.</span><span class="n">storage</span><span class="p">()</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="go">999</span>
 </pre></div>
 </div>
-<p>However in this case, the serialized data is bound to the specific classes
-and the exact directory structure used, so it can break in various ways when
-used in other projects, or after some serious refactors.</p>
+<p>Instead of saving only the five values in the <cite>small</cite> tensor to ‘small.pt,’
+the 999 values in the storage it shares with <cite>large</cite> were saved and loaded.</p>
+<p>When saving tensors with fewer elements than their storage objects, the size of
+the saved file can be reduced by first cloning the tensors. Cloning a tensor
+produces a new tensor with a new storage object containing only the values
+in the tensor:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">large</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">small</span> <span class="o">=</span> <span class="n">large</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">small</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="s1">&#39;small.pt&#39;</span><span class="p">)</span>  <span class="c1"># saves a clone of small</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_small</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;small.pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loaded_small</span><span class="o">.</span><span class="n">storage</span><span class="p">()</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+<p>Since the cloned tensors are independent of each other, however, they have
+none of the view relationships the original tensors did. If both file size and
+view relationships are important when saving tensors smaller than their
+storage objects, then care must be taken to construct new tensors that minimize
+the size of their storage objects but still have the desired view relationships
+before saving.</p>
+</div>
+<div class="section" id="saving-and-loading-torch-nn-modules">
+<h2><a class="toc-backref" href="#id4">Saving and loading torch.nn.Modules</a><a class="headerlink" href="#saving-and-loading-torch-nn-modules" title="Permalink to this headline">¶</a></h2>
+<p id="saving-loading-python-modules">See also: <a class="reference external" href="https://pytorch.org/tutorials/beginner/saving_loading_models.html">Tutorial: Saving and loading modules</a></p>
+<p>In PyTorch, a module’s state is frequently serialized using a ‘state dict.’
+A module’s state dict contains all of its parameters and persistent buffers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm1d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">track_running_stats</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">())</span>
+<span class="go">[(&#39;weight&#39;, Parameter containing: tensor([1., 1., 1.], requires_grad=True)),</span>
+<span class="go"> (&#39;bias&#39;, Parameter containing: tensor([0., 0., 0.], requires_grad=True))]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">named_buffers</span><span class="p">())</span>
+<span class="go">[(&#39;running_mean&#39;, tensor([0., 0., 0.])),</span>
+<span class="go"> (&#39;running_var&#39;, tensor([1., 1., 1.])),</span>
+<span class="go"> (&#39;num_batches_tracked&#39;, tensor(0))]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bn</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
+<span class="go">OrderedDict([(&#39;weight&#39;, tensor([1., 1., 1.])),</span>
+<span class="go">             (&#39;bias&#39;, tensor([0., 0., 0.])),</span>
+<span class="go">             (&#39;running_mean&#39;, tensor([0., 0., 0.])),</span>
+<span class="go">             (&#39;running_var&#39;, tensor([1., 1., 1.])),</span>
+<span class="go">             (&#39;num_batches_tracked&#39;, tensor(0))])</span>
+</pre></div>
+</div>
+<p>Instead of saving a module directly, for compatibility reasons it is recommended
+to instead save only its state dict. Python modules even have a function,
+<a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module.load_state_dict" title="torch.nn.Module.load_state_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load_state_dict()</span></code></a>, to restore their states from a state dict:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">&#39;bn.pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bn_state_dict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;bn.pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_bn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm1d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">track_running_stats</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_bn</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">bn_state_dict</span><span class="p">)</span>
+<span class="go">&lt;All keys matched successfully&gt;</span>
+</pre></div>
+</div>
+<p>Note that the state dict is first loaded from its file with <a class="reference internal" href="../generated/torch.load.html#torch.load" title="torch.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.load()</span></code></a>
+and the state then restored with <a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module.load_state_dict" title="torch.nn.Module.load_state_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load_state_dict()</span></code></a>.</p>
+<p>Even custom modules and modules containing other modules have state dicts and
+can use this pattern:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># A module with two linear layers</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">MyModule</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+      <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MyModule</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">l0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">l1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+      <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="n">out0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">l0</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+        <span class="n">out0_relu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">l1</span><span class="p">(</span><span class="n">out0_relu</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span> <span class="o">=</span> <span class="n">MyModule</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
+<span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;l0.weight&#39;</span><span class="p">,</span> <span class="n">tensor</span><span class="p">([[</span> <span class="mf">0.1400</span><span class="p">,</span> <span class="mf">0.4563</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0271</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4406</span><span class="p">],</span>
+                                   <span class="p">[</span><span class="o">-</span><span class="mf">0.3289</span><span class="p">,</span> <span class="mf">0.2827</span><span class="p">,</span> <span class="mf">0.4588</span><span class="p">,</span> <span class="mf">0.2031</span><span class="p">]])),</span>
+             <span class="p">(</span><span class="s1">&#39;l0.bias&#39;</span><span class="p">,</span> <span class="n">tensor</span><span class="p">([</span> <span class="mf">0.0300</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1316</span><span class="p">])),</span>
+             <span class="p">(</span><span class="s1">&#39;l1.weight&#39;</span><span class="p">,</span> <span class="n">tensor</span><span class="p">([[</span><span class="mf">0.6533</span><span class="p">,</span> <span class="mf">0.3413</span><span class="p">]])),</span>
+             <span class="p">(</span><span class="s1">&#39;l1.bias&#39;</span><span class="p">,</span> <span class="n">tensor</span><span class="p">([</span><span class="o">-</span><span class="mf">0.1112</span><span class="p">]))])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">&#39;mymodule.pt&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m_state_dict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;mymodule.pt&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">new_m</span> <span class="o">=</span> <span class="n">MyModule</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">new_m</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">m_state_dict</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">All</span> <span class="n">keys</span> <span class="n">matched</span> <span class="n">successfully</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="serializing-torch-nn-modules-and-loading-them-in-c">
+<h2><a class="toc-backref" href="#id5">Serializing torch.nn.Modules and loading them in C++</a><a class="headerlink" href="#serializing-torch-nn-modules-and-loading-them-in-c" title="Permalink to this headline">¶</a></h2>
+<p id="serializing-python-modules">See also: <a class="reference external" href="https://pytorch.org/tutorials/advanced/cpp_export.html">Tutorial: Loading a TorchScript Model in C++</a></p>
+<p>ScriptModules can be serialized as a TorchScript program and loaded
+using <a class="reference internal" href="../generated/torch.jit.load.html#torch.jit.load" title="torch.jit.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.jit.load()</span></code></a>.
+This serialization encodes all the modules’ methods, submodules, parameters,
+and attributes, and it allows the serialized program to be loaded in C++
+(i.e. without Python).</p>
+<p>The distinction between <a class="reference internal" href="../generated/torch.jit.save.html#torch.jit.save" title="torch.jit.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.jit.save()</span></code></a> and <a class="reference internal" href="../generated/torch.save.html#torch.save" title="torch.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.save()</span></code></a> may not
+be immediately clear. <a class="reference internal" href="../generated/torch.save.html#torch.save" title="torch.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.save()</span></code></a> saves Python objects with pickle.
+This is especially useful for prototyping, researching, and training.
+<a class="reference internal" href="../generated/torch.jit.save.html#torch.jit.save" title="torch.jit.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.jit.save()</span></code></a>, on the other hand, serializes ScriptModules to a format
+that can be loaded in Python or C++. This is useful when saving and loading C++
+modules or for running modules trained in Python with C++, a common practice
+when deploying PyTorch models.</p>
+<p>To script, serialize and load a module in Python:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scripted_module</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="n">MyModule</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">scripted_module</span><span class="p">,</span> <span class="s1">&#39;mymodule.pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;mymodule.pt&#39;</span><span class="p">)</span>
+<span class="go">RecursiveScriptModule( original_name=MyModule</span>
+<span class="go">                      (l0): RecursiveScriptModule(original_name=Linear)</span>
+<span class="go">                      (l1): RecursiveScriptModule(original_name=Linear) )</span>
+</pre></div>
+</div>
+<p>Traced modules can also be saved with <a class="reference internal" href="../generated/torch.jit.save.html#torch.jit.save" title="torch.jit.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.jit.save()</span></code></a>, with the caveat
+that only the traced code path is serialized. The following example demonstrates
+this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># A module with control flow</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">ControlFlowModule</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+      <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ControlFlowModule</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">l0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">l1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+      <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">out0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">l0</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+        <span class="n">out0_relu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">l1</span><span class="p">(</span><span class="n">out0_relu</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">traced_module</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">ControlFlowModule</span><span class="p">(),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">traced_module</span><span class="p">,</span> <span class="s1">&#39;controlflowmodule_traced.pt&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">loaded</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;controlflowmodule_traced.pt&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">loaded</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)))</span>
+<span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.1571</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.3793</span><span class="p">]],</span> <span class="n">grad_fn</span><span class="o">=&lt;</span><span class="n">AddBackward0</span><span class="o">&gt;</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">scripted_module</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="n">ControlFlowModule</span><span class="p">(),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">scripted_module</span><span class="p">,</span> <span class="s1">&#39;controlflowmodule_scripted.pt&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">loaded</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;controlflowmodule_scripted.pt&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="n">loaded</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">tensor</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The above module has an if statement that is not triggered by the traced inputs,
+and so is not part of the traced module and not serialized with it.
+The scripted module, however, contains the if statement and is serialized with it.
+See the <a class="reference external" href="https://pytorch.org/docs/stable/jit.html">TorchScript documentation</a>
+for more on scripting and tracing.</p>
+<p>Finally, to load the module in C++:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="p">::</span><span class="n">jit</span><span class="p">::</span><span class="n">script</span><span class="p">::</span><span class="n">Module</span> <span class="n">module</span><span class="p">;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">module</span> <span class="o">=</span> <span class="n">torch</span><span class="p">::</span><span class="n">jit</span><span class="p">::</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;controlflowmodule_scripted.pt&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>See the <a class="reference external" href="https://pytorch.org/cppdocs/">PyTorch C++ API documentation</a>
+for details about how to use PyTorch modules in C++.</p>
+</div>
+<div class="section" id="saving-and-loading-scriptmodules-across-pytorch-versions">
+<h2><a class="toc-backref" href="#id6">Saving and loading ScriptModules across PyTorch versions</a><a class="headerlink" href="#saving-and-loading-scriptmodules-across-pytorch-versions" title="Permalink to this headline">¶</a></h2>
+<p id="saving-loading-across-versions">The PyTorch Team recommends saving and loading modules with the same version of
+PyTorch. Older versions of PyTorch may not support newer modules, and newer
+versions may have removed or modified older behavior. These changes are
+explicitly described in
+PyTorch’s <a class="reference external" href="https://github.com/pytorch/pytorch/releases">release notes</a>,
+and modules relying on functionality that has changed may need to be updated
+to continue working properly. In limited cases, detailed below, PyTorch will
+preserve the historic behavior of serialized ScriptModules so they do not require
+an update.</p>
+<div class="section" id="torch-div-performing-integer-division">
+<h3><a class="toc-backref" href="#id7">torch.div performing integer division</a><a class="headerlink" href="#torch-div-performing-integer-division" title="Permalink to this headline">¶</a></h3>
+<p>In PyTorch 1.5 and earlier <a class="reference internal" href="../generated/torch.div.html#torch.div" title="torch.div"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.div()</span></code></a> would perform floor division when
+given two integer inputs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># PyTorch 1.5 (and earlier)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+<span class="n">tensor</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In PyTorch 1.7, however, <a class="reference internal" href="../generated/torch.div.html#torch.div" title="torch.div"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.div()</span></code></a> will always perform a true division
+of its inputs, just like division in Python 3:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># PyTorch 1.7</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+<span class="n">tensor</span><span class="p">(</span><span class="mf">1.6667</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The behavior of <a class="reference internal" href="../generated/torch.div.html#torch.div" title="torch.div"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.div()</span></code></a> is preserved in serialized ScriptModules.
+That is, ScriptModules serialized with versions of PyTorch before 1.6 will continue
+to see <a class="reference internal" href="../generated/torch.div.html#torch.div" title="torch.div"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.div()</span></code></a> perform floor division when given two integer inputs
+even when loaded with newer versions of PyTorch. ScriptModules using <a class="reference internal" href="../generated/torch.div.html#torch.div" title="torch.div"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.div()</span></code></a>
+and serialized on PyTorch 1.6 and later cannot be loaded in earlier versions of
+PyTorch, however, since those earlier versions do not understand the new behavior.</p>
+</div>
+<div class="section" id="torch-full-always-inferring-a-float-dtype">
+<h3><a class="toc-backref" href="#id8">torch.full always inferring a float dtype</a><a class="headerlink" href="#torch-full-always-inferring-a-float-dtype" title="Permalink to this headline">¶</a></h3>
+<p>In PyTorch 1.5 and earlier <a class="reference internal" href="../generated/torch.full.html#torch.full" title="torch.full"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.full()</span></code></a> always returned a float tensor,
+regardless of the fill value it’s given:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># PyTorch 1.5 and earlier</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">3</span><span class="p">,),</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Note the integer fill value...</span>
+<span class="n">tensor</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>     <span class="c1"># ...but float tensor!</span>
+</pre></div>
+</div>
+<p>In PyTorch 1.7, however, <a class="reference internal" href="../generated/torch.full.html#torch.full" title="torch.full"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.full()</span></code></a> will infer the returned tensor’s
+dtype from the fill value:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># PyTorch 1.7</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">3</span><span class="p">,),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">3</span><span class="p">,),</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">tensor</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">3</span><span class="p">,),</span> <span class="mf">1.</span><span class="p">)</span>
+<span class="n">tensor</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">3</span><span class="p">,),</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="p">)</span>
+<span class="n">tensor</span><span class="p">([</span><span class="mf">1.</span><span class="o">+</span><span class="mf">1.</span><span class="n">j</span><span class="p">,</span> <span class="mf">1.</span><span class="o">+</span><span class="mf">1.</span><span class="n">j</span><span class="p">,</span> <span class="mf">1.</span><span class="o">+</span><span class="mf">1.</span><span class="n">j</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The behavior of <a class="reference internal" href="../generated/torch.full.html#torch.full" title="torch.full"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.full()</span></code></a> is preserved in serialized ScriptModules. That is,
+ScriptModules serialized with versions of PyTorch before 1.6 will continue to see
+torch.full return float tensors by default, even when given bool or
+integer fill values. ScriptModules using <a class="reference internal" href="../generated/torch.full.html#torch.full" title="torch.full"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.full()</span></code></a> and serialized on PyTorch 1.6
+and later cannot be loaded in earlier versions of PyTorch, however, since those
+earlier versions do not understand the new behavior.</p>
 </div>
 </div>
 </div>
@@ -350,7 +689,7 @@ used in other projects, or after some serious refactors.</p>
         <a href="windows.html" class="btn btn-neutral float-right" title="Windows FAQ" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
-        <a href="rref.html" class="btn btn-neutral" title="Remote Reference Protocol" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+        <a href="randomness.html" class="btn btn-neutral" title="Reproducibility" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
       
     </div>
   
@@ -383,8 +722,13 @@ used in other projects, or after some serious refactors.</p>
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#">Serialization semantics</a><ul>
-<li><a class="reference internal" href="#best-practices">Best practices</a><ul>
-<li><a class="reference internal" href="#recommended-approach-for-saving-a-model">Recommended approach for saving a model</a></li>
+<li><a class="reference internal" href="#saving-and-loading-tensors">Saving and loading tensors</a></li>
+<li><a class="reference internal" href="#saving-and-loading-tensors-preserves-views">Saving and loading tensors preserves views</a></li>
+<li><a class="reference internal" href="#saving-and-loading-torch-nn-modules">Saving and loading torch.nn.Modules</a></li>
+<li><a class="reference internal" href="#serializing-torch-nn-modules-and-loading-them-in-c">Serializing torch.nn.Modules and loading them in C++</a></li>
+<li><a class="reference internal" href="#saving-and-loading-scriptmodules-across-pytorch-versions">Saving and loading ScriptModules across PyTorch versions</a><ul>
+<li><a class="reference internal" href="#torch-div-performing-integer-division">torch.div performing integer division</a></li>
+<li><a class="reference internal" href="#torch-full-always-inferring-a-float-dtype">torch.full always inferring a float dtype</a></li>
 </ul>
 </li>
 </ul>
@@ -404,16 +748,17 @@ used in other projects, or after some serious refactors.</p>
 
      
        <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-         <script type="text/javascript" src="../_static/jquery.js"></script>
-         <script type="text/javascript" src="../_static/underscore.js"></script>
-         <script type="text/javascript" src="../_static/doctools.js"></script>
-         <script type="text/javascript" src="../_static/language_data.js"></script>
+         <script src="../_static/jquery.js"></script>
+         <script src="../_static/underscore.js"></script>
+         <script src="../_static/doctools.js"></script>
+         <script src="../_static/language_data.js"></script>
      
 
   
 
   <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
   <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
   <script type="text/javascript" src="../_static/js/theme.js"></script>
 
   <script type="text/javascript">
@@ -487,25 +832,24 @@ used in other projects, or after some serious refactors.</p>
             <li><a href="https://pytorch.org/features">Features</a></li>
             <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
             <li><a href="https://pytorch.org/blog/">Blog</a></li>
-            <li><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
           </ul>
         </div>
 
         <div class="footer-links-col">
           <ul>
-            <li class="list-title"><a href="https://pytorch.org/support">Support</a></li>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
             <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
             <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
             <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
             <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
-            <li><a href="https://pytorch.slack.com" target="_blank">Slack</a></li>
-            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md" target="_blank">Contributing</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
           </ul>
         </div>
 
         <div class="footer-links-col follow-us-col">
           <ul>
-            <li class="list-title">Follow Us</li>
+            <li class="list-title">Stay Connected</li>
             <li>
               <div id="mc_embed_signup">
                 <form
@@ -542,6 +886,7 @@ used in other projects, or after some serious refactors.</p>
           <div class="footer-social-icons">
             <a href="https://www.facebook.com/pytorch" target="_blank" class="facebook"></a>
             <a href="https://twitter.com/pytorch" target="_blank" class="twitter"></a>
+            <a href="https://www.youtube.com/pytorch" target="_blank" class="youtube"></a>
           </div>
         </div>
       </div>
@@ -573,15 +918,19 @@ used in other projects, or after some serious refactors.</p>
       <div class="main-menu">
         <ul>
           <li>
-            <a href="#">Get Started</a>
+            <a href="https://pytorch.org/get-started">Get Started</a>
           </li>
 
           <li>
-            <a href="#">Features</a>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
           </li>
 
           <li>
-            <a href="#">Ecosystem</a>
+            <a href="https://pytorch.org/mobile">Mobile</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/hub">PyTorch Hub</a>
           </li>
 
           <li>
@@ -592,13 +941,65 @@ used in other projects, or after some serious refactors.</p>
             <a href="https://pytorch.org/tutorials">Tutorials</a>
           </li>
 
-          <li class="active">
-            <a href="https://pytorch.org/docs/stable/index.html">Docs</a>
+          <li class="resources-mobile-menu-title" class="active">
+            Docs
           </li>
 
-          <li>
-            <a href="https://pytorch.org/resources">Resources</a>
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/audio/stable/index.html">torchaudio</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/text/stable/index.html">torchtext</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/docs/stable/torchvision/">torchvision</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/elastic/">TorchElastic</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/serve/">TorchServe</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/xla">PyTorch on XLA Devices</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            Resources
           </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/resources">Developer Resources</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/features">About</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/hub">Models (Beta)</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/#community-module">Community</a>
+            </li>
+
+            <li>
+              <a href="https://discuss.pytorch.org/">Forums</a>
+            </li>
+          </ul>
 
           <li>
             <a href="https://github.com/pytorch/pytorch">Github</a>
@@ -620,6 +1021,8 @@ used in other projects, or after some serious refactors.</p>
       sideMenus.bind();
       scrollToAnchor.bind();
       highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
 
       // Add class to links that have code blocks, since we cannot create links in code blocks
       $("article.pytorch-article a span.pre").each(function(e) {

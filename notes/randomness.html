@@ -31,11 +31,11 @@
   <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/jit.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Remote Reference Protocol" href="rref.html" />
+    <link rel="next" title="Serialization semantics" href="serialization.html" />
     <link rel="prev" title="Multiprocessing best practices" href="multiprocessing.html" /> 
 
   
@@ -74,11 +74,11 @@
           </li>
 
           <li>
-            <a href="https://pytorch.org/features">Features</a>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
           </li>
 
           <li>
-            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
+            <a href="https://pytorch.org/mobile">Mobile</a>
           </li>
 
           <li>
@@ -90,11 +90,70 @@
           </li>
 
           <li class="active">
-            <a href="https://pytorch.org/docs/stable/index.html">Docs</a>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-orange-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/audio/stable/index.html">
+                  <span class="dropdown-title">torchaudio</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/text/stable/index.html">
+                  <span class="dropdown-title">torchtext</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/docs/stable/torchvision/">
+                  <span class="dropdown-title">torchvision</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/elastic/">
+                  <span class="dropdown-title">TorchElastic</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/serve/">
+                  <span class="dropdown-title">TorchServe</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/xla">
+                  <span class="dropdown-title">PyTorch on XLA Devices</span>
+                  <p></p>
+                </a>
+            </div>
           </li>
 
           <li>
-            <a href="https://pytorch.org/resources">Resources</a>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-arrow">
+                Resources
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/features">
+                  <span class="dropdown-title">About</span>
+                  <p>Learn about PyTorch’s features and capabilities</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class="dropdown-title">Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered.</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class="dropdown-title">Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class="dropdown-title">Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/hub">
+                  <span class="dropdown-title">Models (Beta)</span>
+                  <p>Discover, publish, and reuse pre-trained models</p>
+                </a>
+              </div>
+            </div>
           </li>
 
           <li>
@@ -105,10 +164,8 @@
 
       <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
     </div>
-
   </div>
 </div>
-
 
 <body class="pytorch-body">
 
@@ -131,7 +188,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+fc3103b )
+                  master (1.8.0a0+4d61109 )
                 </div>
               
             
@@ -168,26 +225,25 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="autograd.html">Advanced autograd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amp_examples.html">Automatic Mixed Precision examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autograd.html">Autograd mechanics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cuda.html">CUDA semantics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="distributed_autograd.html">Distributed Autograd Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ddp.html">Distributed Data Parallel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extending.html">Extending PyTorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="large_scale_deployments.html">Features for large-scale deployments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules in PyTorch 1.8</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Reproducibility</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Windows FAQ</a></li>
-<li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Community</span></p>
+<p class="caption"><span class="caption-text">Language Bindings</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../community/contribution_guide.html">PyTorch Contribution Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../community/governance.html">PyTorch Governance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../community/persons_of_interest.html">PyTorch Governance | Persons of Interest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_index.html">C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/javadoc/">Javadoc</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Python API</span></p>
 <ul>
@@ -196,26 +252,38 @@
 <li class="toctree-l1"><a class="reference internal" href="../nn.functional.html">torch.nn.functional</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tensors.html">torch.Tensor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tensor_attributes.html">Tensor Attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tensor_view.html">Tensor Views</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../autograd.html">torch.autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cuda.html">torch.cuda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../amp.html">torch.cuda.amp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backends.html">torch.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../distributions.html">torch.distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fft.html">torch.fft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../futures.html">torch.futures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fx.html">torch.fx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../jit.html">TorchScript</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg.html">torch.linalg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../torch.overrides.html">torch.overrides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../profiler.html">torch.profiler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optim.html">torch.optim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../complex_numbers.html">Complex Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipeline.html">Pipeline Parallelism</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quantization.html">Quantization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rpc.html">Distributed RPC Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../random.html">torch.random</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sparse.html">torch.sparse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../storage.html">torch.Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark_utils.html">torch.utils.benchmark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bottleneck.html">torch.utils.bottleneck</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../checkpoint.html">torch.utils.checkpoint</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cpp_extension.html">torch.utils.cpp_extension</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../data.html">torch.utils.data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dlpack.html">torch.utils.dlpack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile_optimizer.html">torch.utils.mobile_optimizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model_zoo.html">torch.utils.model_zoo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tensorboard.html">torch.utils.tensorboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../type_info.html">Type Info</a></li>
@@ -223,18 +291,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../name_inference.html">Named Tensors operator coverage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../__config__.html">torch.__config__</a></li>
 </ul>
-<p class="caption"><span class="caption-text">torchaudio Reference</span></p>
+<p class="caption"><span class="caption-text">Libraries</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/audio">torchaudio</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/audio/stable">torchaudio</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/text/stable">torchtext</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/vision/stable">torchvision</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/elastic/">TorchElastic</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/serve">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
 </ul>
-<p class="caption"><span class="caption-text">torchtext Reference</span></p>
+<p class="caption"><span class="caption-text">Community</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/text">torchtext</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Other Languages</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/cppdocs/">C++ API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../packages.html">Javadoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community/contribution_guide.html">PyTorch Contribution Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community/governance.html">PyTorch Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community/persons_of_interest.html">PyTorch Governance | Persons of Interest</a></li>
 </ul>
 
             
@@ -309,54 +379,144 @@
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <div class="section" id="reproducibility">
-<h1>Reproducibility<a class="headerlink" href="#reproducibility" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Reproducibility<a class="headerlink" href="#reproducibility" title="Permalink to this headline">¶</a></h1>
 <p>Completely reproducible results are not guaranteed across PyTorch releases,
-individual commits or different platforms. Furthermore, results need not be
+individual commits, or different platforms. Furthermore, results may not be
 reproducible between CPU and GPU executions, even when using identical seeds.</p>
-<p>However, in order to make computations deterministic on your specific problem on
-one specific platform and PyTorch release, there are a couple of steps to take.</p>
-<p>There are two pseudorandom number generators involved in PyTorch, which you will
-need to seed manually to make runs reproducible. Furthermore, you should ensure
-that all other libraries your code relies on and which use random numbers also
-use a fixed seed.</p>
-<div class="section" id="pytorch">
-<h2>PyTorch<a class="headerlink" href="#pytorch" title="Permalink to this headline">¶</a></h2>
-<p>You can use <a class="reference internal" href="../torch.html#torch.manual_seed" title="torch.manual_seed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.manual_seed()</span></code></a> to seed the RNG for all devices (both
+<p>However, there are some steps you can take to limit the number of sources of
+nondeterministic behavior for a specific platform, device, and PyTorch release.
+First, you can control sources of randomness that can cause multiple executions
+of your application to behave differently. Second, you can configure PyTorch
+to avoid using nondeterministic algorithms for some operations, so that multiple
+calls to those operations, given the same inputs, will produce the same result.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deterministic operations are often slower than nondeterministic operations, so
+single-run performance may decrease for your model. However, determinism may
+save time in development by facilitating experimentation, debugging, and
+regression testing.</p>
+</div>
+<div class="section" id="controlling-sources-of-randomness">
+<h2>Controlling sources of randomness<a class="headerlink" href="#controlling-sources-of-randomness" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pytorch-random-number-generator">
+<h3>PyTorch random number generator<a class="headerlink" href="#pytorch-random-number-generator" title="Permalink to this headline">¶</a></h3>
+<p>You can use <a class="reference internal" href="../generated/torch.manual_seed.html#torch.manual_seed" title="torch.manual_seed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.manual_seed()</span></code></a> to seed the RNG for all devices (both
 CPU and CUDA):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>There are some PyTorch functions that use CUDA functions that can be a source
-of non-determinism. One class of such CUDA functions are atomic operations,
-in particular <code class="xref py py-attr docutils literal notranslate"><span class="pre">atomicAdd</span></code>, where the order of parallel additions to the
-same value is undetermined and, for floating-point variables, a source of
-variance in the result. PyTorch functions that use <code class="xref py py-attr docutils literal notranslate"><span class="pre">atomicAdd</span></code> in the forward
-include <a class="reference internal" href="../tensors.html#torch.Tensor.index_add_" title="torch.Tensor.index_add_"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.Tensor.index_add_()</span></code></a>, <a class="reference internal" href="../tensors.html#torch.Tensor.scatter_add_" title="torch.Tensor.scatter_add_"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.Tensor.scatter_add_()</span></code></a>,
-<a class="reference internal" href="../torch.html#torch.bincount" title="torch.bincount"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.bincount()</span></code></a>.</p>
-<p>A number of operations have backwards that use <code class="xref py py-attr docutils literal notranslate"><span class="pre">atomicAdd</span></code>, in particular
-<a class="reference internal" href="../nn.functional.html#torch.nn.functional.embedding_bag" title="torch.nn.functional.embedding_bag"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.nn.functional.embedding_bag()</span></code></a>,
-<a class="reference internal" href="../nn.functional.html#torch.nn.functional.ctc_loss" title="torch.nn.functional.ctc_loss"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.nn.functional.ctc_loss()</span></code></a> and many forms of pooling, padding, and sampling.
-There currently is no simple way of avoiding non-determinism in these functions.</p>
 </div>
-<div class="section" id="cudnn">
-<h2>CuDNN<a class="headerlink" href="#cudnn" title="Permalink to this headline">¶</a></h2>
-<p>When running on the CuDNN backend, two further options must be set:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">False</span>
+<div class="section" id="python">
+<h3>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h3>
+<p>For custom operators, you might need to set python seed as well:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">inport</span> <span class="n">random</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Deterministic mode can have a performance impact, depending on your model. This means that due to the deterministic nature of the model, the processing speed (i.e. processed batch items per second) can be lower than when the model is non-deterministic.</p>
 </div>
-</div>
-<div class="section" id="numpy">
-<h2>Numpy<a class="headerlink" href="#numpy" title="Permalink to this headline">¶</a></h2>
-<p>If you or any of the libraries you are using rely on Numpy, you should seed the
-Numpy RNG as well. This can be done with:</p>
+<div class="section" id="random-number-generators-in-other-libraries">
+<h3>Random number generators in other libraries<a class="headerlink" href="#random-number-generators-in-other-libraries" title="Permalink to this headline">¶</a></h3>
+<p>If you or any of the libraries you are using rely on NumPy, you can seed the global
+NumPy RNG with:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, some applications and libraries may use NumPy Random Generator objects,
+not the global RNG
+(<a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html">https://numpy.org/doc/stable/reference/random/generator.html</a>), and those will
+need to be seeded consistently as well.</p>
+<p>If you are using any other libraries that use random number generators, refer to
+the documentation for those libraries to see how to set consistent seeds for them.</p>
+</div>
+<div class="section" id="cuda-convolution-benchmarking">
+<h3>CUDA convolution benchmarking<a class="headerlink" href="#cuda-convolution-benchmarking" title="Permalink to this headline">¶</a></h3>
+<p>The cuDNN library, used by CUDA convolution operations, can be a source of nondeterminism
+across multiple executions of an application. When a cuDNN convolution is called with a
+new set of size parameters, an optional feature can run multiple convolution algorithms,
+benchmarking them to find the fastest one. Then, the fastest algorithm will be used
+consistently during the rest of the process for the corresponding set of size parameters.
+Due to benchmarking noise and different hardware, the benchmark may select different
+algorithms on subsequent runs, even on the same machine.</p>
+<p>Disabling the benchmarking feature with <code class="code docutils literal notranslate"><span class="pre">torch.backends.cudnn.benchmark</span> <span class="pre">=</span> <span class="pre">False</span></code>
+causes cuDNN to deterministically select an algorithm, possibly at the cost of reduced
+performance.</p>
+<p>However, if you do not need reproducibility across multiple executions of your application,
+then performance might improve if the benchmarking feature is enabled with
+<code class="code docutils literal notranslate"><span class="pre">torch.backends.cudnn.benchmark</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p>
+<p>Note that this setting is different from the <code class="code docutils literal notranslate"><span class="pre">torch.backends.cudnn.deterministic</span></code>
+setting discussed below.</p>
+</div>
+</div>
+<div class="section" id="avoiding-nondeterministic-algorithms">
+<h2>Avoiding nondeterministic algorithms<a class="headerlink" href="#avoiding-nondeterministic-algorithms" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="../generated/torch.use_deterministic_algorithms.html#torch.use_deterministic_algorithms" title="torch.use_deterministic_algorithms"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.use_deterministic_algorithms()</span></code></a> lets you configure PyTorch to use
+deterministic algorithms instead of nondeterministic ones where available, and
+to throw an error if an operation is known to be nondeterministic (and without
+a deterministic alternative).</p>
+<p>Please check the documentation for <a class="reference internal" href="../generated/torch.use_deterministic_algorithms.html#torch.use_deterministic_algorithms" title="torch.use_deterministic_algorithms"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.use_deterministic_algorithms()</span></code></a>
+for a full list of affected operations. If an operation does not act correctly
+according to the documentation, or if you need a deterministic implementation
+of an operation that does not have one, please submit an issue:
+<a class="reference external" href="https://github.com/pytorch/pytorch/issues?q=label:%22topic:%20determinism%22">https://github.com/pytorch/pytorch/issues?q=label:%22topic:%20determinism%22</a></p>
+<p>For example, running the nondeterministic CUDA implementation of <a class="reference internal" href="../tensors.html#torch.Tensor.index_add_" title="torch.Tensor.index_add_"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.Tensor.index_add_()</span></code></a>
+will throw an error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; import torch
+&gt;&gt;&gt; torch.use_deterministic_algorithms(True)
+&gt;&gt;&gt; torch.randn(2, 2).cuda().index_add_(0, torch.tensor([0, 1]), torch.randn(2, 2))
+Traceback (most recent call last):
+File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+RuntimeError: index_add_cuda_ does not have a deterministic implementation, but you set
+&#39;torch.use_deterministic_algorithms(True)&#39;. ...
+</pre></div>
+</div>
+<p>When <a class="reference internal" href="../generated/torch.bmm.html#torch.bmm" title="torch.bmm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.bmm()</span></code></a> is called with sparse-dense CUDA tensors it typically uses a
+nondeterministic algorithm, but when the deterministic flag is turned on, its alternate
+deterministic implementation will be used:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">use_deterministic_algorithms</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_sparse</span><span class="p">()</span><span class="o">.</span><span class="n">cuda</span><span class="p">(),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">())</span>
+<span class="go">tensor([[[ 1.1900, -2.3409],</span>
+<span class="go">         [ 0.4796,  0.8003]],</span>
+<span class="go">        [[ 0.1509,  1.8027],</span>
+<span class="go">         [ 0.0333, -1.1444]]], device=&#39;cuda:0&#39;)</span>
+</pre></div>
+</div>
+<p>Furthermore, if you are using CUDA tensors, and your CUDA version is 10.2 or greater, you
+should set the environment variable <cite>CUBLAS_WORKSPACE_CONFIG</cite> according to CUDA documentation:
+<a class="reference external" href="https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility">https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility</a></p>
+<div class="section" id="cuda-convolution-determinism">
+<h3>CUDA convolution determinism<a class="headerlink" href="#cuda-convolution-determinism" title="Permalink to this headline">¶</a></h3>
+<p>While disabling CUDA convolution benchmarking (discussed above) ensures that
+CUDA selects the same algorithm each time an application is run, that algorithm
+itself may be nondeterministic, unless either
+<code class="code docutils literal notranslate"><span class="pre">torch.use_deterministic_algorithms(True)</span></code> or
+<code class="code docutils literal notranslate"><span class="pre">torch.backends.cudnn.deterministic</span> <span class="pre">=</span> <span class="pre">True</span></code> is set. The latter setting
+controls only this behavior, unlike <a class="reference internal" href="../generated/torch.use_deterministic_algorithms.html#torch.use_deterministic_algorithms" title="torch.use_deterministic_algorithms"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.use_deterministic_algorithms()</span></code></a>
+which will make other PyTorch operations behave deterministically, too.</p>
+</div>
+<div class="section" id="cuda-rnn-and-lstm">
+<h3>CUDA RNN and LSTM<a class="headerlink" href="#cuda-rnn-and-lstm" title="Permalink to this headline">¶</a></h3>
+<p>In some versions of CUDA, RNNs and LSTM networks may have non-deterministic behavior.
+See <a class="reference internal" href="../generated/torch.nn.RNN.html#torch.nn.RNN" title="torch.nn.RNN"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.nn.RNN()</span></code></a> and <a class="reference internal" href="../generated/torch.nn.LSTM.html#torch.nn.LSTM" title="torch.nn.LSTM"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.nn.LSTM()</span></code></a> for details and workarounds.</p>
+</div>
+</div>
+<div class="section" id="dataloader">
+<h2>DataLoader<a class="headerlink" href="#dataloader" title="Permalink to this headline">¶</a></h2>
+<p>DataLoader will reseed workers following <a class="reference internal" href="../data.html#data-loading-randomness"><span class="std std-ref">Randomness in multi-process data loading</span></a> algorithm.
+Use <code class="xref py py-meth docutils literal notranslate"><span class="pre">worker_init_fn()</span></code> to preserve reproducibility:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">seed_worker</span><span class="p">(</span><span class="n">worker_id</span><span class="p">):</span>
+    <span class="n">worker_seed</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">initial_seed</span><span class="p">()</span> <span class="o">%</span> <span class="mi">2</span><span class="o">**</span><span class="mi">32</span>
+    <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">worker_seed</span><span class="p">)</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">worker_seed</span><span class="p">)</span>
+
+<span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">train_dataset</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+    <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">,</span>
+    <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">seed_worker</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -370,7 +530,7 @@ Numpy RNG as well. This can be done with:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="rref.html" class="btn btn-neutral float-right" title="Remote Reference Protocol" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
+        <a href="serialization.html" class="btn btn-neutral float-right" title="Serialization semantics" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
         <a href="multiprocessing.html" class="btn btn-neutral" title="Multiprocessing best practices" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
@@ -406,9 +566,19 @@ Numpy RNG as well. This can be done with:</p>
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#">Reproducibility</a><ul>
-<li><a class="reference internal" href="#pytorch">PyTorch</a></li>
-<li><a class="reference internal" href="#cudnn">CuDNN</a></li>
-<li><a class="reference internal" href="#numpy">Numpy</a></li>
+<li><a class="reference internal" href="#controlling-sources-of-randomness">Controlling sources of randomness</a><ul>
+<li><a class="reference internal" href="#pytorch-random-number-generator">PyTorch random number generator</a></li>
+<li><a class="reference internal" href="#python">Python</a></li>
+<li><a class="reference internal" href="#random-number-generators-in-other-libraries">Random number generators in other libraries</a></li>
+<li><a class="reference internal" href="#cuda-convolution-benchmarking">CUDA convolution benchmarking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#avoiding-nondeterministic-algorithms">Avoiding nondeterministic algorithms</a><ul>
+<li><a class="reference internal" href="#cuda-convolution-determinism">CUDA convolution determinism</a></li>
+<li><a class="reference internal" href="#cuda-rnn-and-lstm">CUDA RNN and LSTM</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dataloader">DataLoader</a></li>
 </ul>
 </li>
 </ul>
@@ -426,16 +596,17 @@ Numpy RNG as well. This can be done with:</p>
 
      
        <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-         <script type="text/javascript" src="../_static/jquery.js"></script>
-         <script type="text/javascript" src="../_static/underscore.js"></script>
-         <script type="text/javascript" src="../_static/doctools.js"></script>
-         <script type="text/javascript" src="../_static/language_data.js"></script>
+         <script src="../_static/jquery.js"></script>
+         <script src="../_static/underscore.js"></script>
+         <script src="../_static/doctools.js"></script>
+         <script src="../_static/language_data.js"></script>
      
 
   
 
   <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
   <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
   <script type="text/javascript" src="../_static/js/theme.js"></script>
 
   <script type="text/javascript">
@@ -509,25 +680,24 @@ Numpy RNG as well. This can be done with:</p>
             <li><a href="https://pytorch.org/features">Features</a></li>
             <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
             <li><a href="https://pytorch.org/blog/">Blog</a></li>
-            <li><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
           </ul>
         </div>
 
         <div class="footer-links-col">
           <ul>
-            <li class="list-title"><a href="https://pytorch.org/support">Support</a></li>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
             <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
             <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
             <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
             <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
-            <li><a href="https://pytorch.slack.com" target="_blank">Slack</a></li>
-            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md" target="_blank">Contributing</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
           </ul>
         </div>
 
         <div class="footer-links-col follow-us-col">
           <ul>
-            <li class="list-title">Follow Us</li>
+            <li class="list-title">Stay Connected</li>
             <li>
               <div id="mc_embed_signup">
                 <form
@@ -564,6 +734,7 @@ Numpy RNG as well. This can be done with:</p>
           <div class="footer-social-icons">
             <a href="https://www.facebook.com/pytorch" target="_blank" class="facebook"></a>
             <a href="https://twitter.com/pytorch" target="_blank" class="twitter"></a>
+            <a href="https://www.youtube.com/pytorch" target="_blank" class="youtube"></a>
           </div>
         </div>
       </div>
@@ -595,15 +766,19 @@ Numpy RNG as well. This can be done with:</p>
       <div class="main-menu">
         <ul>
           <li>
-            <a href="#">Get Started</a>
+            <a href="https://pytorch.org/get-started">Get Started</a>
           </li>
 
           <li>
-            <a href="#">Features</a>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
           </li>
 
           <li>
-            <a href="#">Ecosystem</a>
+            <a href="https://pytorch.org/mobile">Mobile</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/hub">PyTorch Hub</a>
           </li>
 
           <li>
@@ -614,13 +789,65 @@ Numpy RNG as well. This can be done with:</p>
             <a href="https://pytorch.org/tutorials">Tutorials</a>
           </li>
 
-          <li class="active">
-            <a href="https://pytorch.org/docs/stable/index.html">Docs</a>
+          <li class="resources-mobile-menu-title" class="active">
+            Docs
           </li>
 
-          <li>
-            <a href="https://pytorch.org/resources">Resources</a>
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/audio/stable/index.html">torchaudio</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/text/stable/index.html">torchtext</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/docs/stable/torchvision/">torchvision</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/elastic/">TorchElastic</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/serve/">TorchServe</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/xla">PyTorch on XLA Devices</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            Resources
           </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/resources">Developer Resources</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/features">About</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/hub">Models (Beta)</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/#community-module">Community</a>
+            </li>
+
+            <li>
+              <a href="https://discuss.pytorch.org/">Forums</a>
+            </li>
+          </ul>
 
           <li>
             <a href="https://github.com/pytorch/pytorch">Github</a>
@@ -642,6 +869,8 @@ Numpy RNG as well. This can be done with:</p>
       sideMenus.bind();
       scrollToAnchor.bind();
       highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
 
       // Add class to links that have code blocks, since we cannot create links in code blocks
       $("article.pytorch-article a span.pre").each(function(e) {

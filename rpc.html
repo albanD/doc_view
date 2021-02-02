@@ -31,12 +31,12 @@
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/css/jit.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="torch.random" href="random.html" />
-    <link rel="prev" title="Quantization" href="quantization.html" /> 
+    <link rel="next" title="Remote Reference Protocol" href="rpc/rref.html" />
+    <link rel="prev" title="torch.nn.quantized.dynamic" href="torch.nn.quantized.dynamic.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -74,11 +74,11 @@
           </li>
 
           <li>
-            <a href="https://pytorch.org/features">Features</a>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
           </li>
 
           <li>
-            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
+            <a href="https://pytorch.org/mobile">Mobile</a>
           </li>
 
           <li>
@@ -90,11 +90,70 @@
           </li>
 
           <li class="active">
-            <a href="https://pytorch.org/docs/stable/index.html">Docs</a>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-orange-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/audio/stable/index.html">
+                  <span class="dropdown-title">torchaudio</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/text/stable/index.html">
+                  <span class="dropdown-title">torchtext</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/docs/stable/torchvision/">
+                  <span class="dropdown-title">torchvision</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/elastic/">
+                  <span class="dropdown-title">TorchElastic</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/serve/">
+                  <span class="dropdown-title">TorchServe</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/xla">
+                  <span class="dropdown-title">PyTorch on XLA Devices</span>
+                  <p></p>
+                </a>
+            </div>
           </li>
 
           <li>
-            <a href="https://pytorch.org/resources">Resources</a>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-arrow">
+                Resources
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/features">
+                  <span class="dropdown-title">About</span>
+                  <p>Learn about PyTorch’s features and capabilities</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class="dropdown-title">Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered.</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class="dropdown-title">Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class="dropdown-title">Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/hub">
+                  <span class="dropdown-title">Models (Beta)</span>
+                  <p>Discover, publish, and reuse pre-trained models</p>
+                </a>
+              </div>
+            </div>
           </li>
 
           <li>
@@ -105,10 +164,8 @@
 
       <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
     </div>
-
   </div>
 </div>
-
 
 <body class="pytorch-body">
 
@@ -131,7 +188,7 @@
               
               
                 <div class="version">
-                  master (1.4.0a0+fc3103b )
+                  master (1.8.0a0+4d61109 )
                 </div>
               
             
@@ -168,26 +225,25 @@
             
               <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Advanced autograd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/amp_examples.html">Automatic Mixed Precision examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/autograd.html">Autograd mechanics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/broadcasting.html">Broadcasting semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/cuda.html">CUDA semantics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notes/distributed_autograd.html">Distributed Autograd Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/ddp.html">Distributed Data Parallel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/extending.html">Extending PyTorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/large_scale_deployments.html">Features for large-scale deployments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/multiprocessing.html">Multiprocessing best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/randomness.html">Reproducibility</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notes/rref.html">Remote Reference Protocol</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/serialization.html">Serialization semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/windows.html">Windows FAQ</a></li>
-<li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Community</span></p>
+<p class="caption"><span class="caption-text">Language Bindings</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="community/contribution_guide.html">PyTorch Contribution Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="community/governance.html">PyTorch Governance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="community/persons_of_interest.html">PyTorch Governance | Persons of Interest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpp_index.html">C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/javadoc/">Javadoc</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Python API</span></p>
 <ul class="current">
@@ -196,26 +252,38 @@
 <li class="toctree-l1"><a class="reference internal" href="nn.functional.html">torch.nn.functional</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tensors.html">torch.Tensor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tensor_attributes.html">Tensor Attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tensor_view.html">Tensor Views</a></li>
 <li class="toctree-l1"><a class="reference internal" href="autograd.html">torch.autograd</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cuda.html">torch.cuda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amp.html">torch.cuda.amp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends.html">torch.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributed.html">torch.distributed</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributions.html">torch.distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fft.html">torch.fft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="futures.html">torch.futures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fx.html">torch.fx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hub.html">torch.hub</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit.html#migrating-to-pytorch-1-2-recursive-scripting-api">Migrating to PyTorch 1.2 Recursive Scripting API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg.html">torch.linalg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torch.overrides.html">torch.overrides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profiler.html">torch.profiler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nn.init.html">torch.nn.init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="onnx.html">torch.onnx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim.html">torch.optim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="complex_numbers.html">Complex Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline Parallelism</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quantization.html">Quantization</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Distributed RPC Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="random.html">torch.random</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sparse.html">torch.sparse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="storage.html">torch.Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark_utils.html">torch.utils.benchmark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bottleneck.html">torch.utils.bottleneck</a></li>
 <li class="toctree-l1"><a class="reference internal" href="checkpoint.html">torch.utils.checkpoint</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp_extension.html">torch.utils.cpp_extension</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data.html">torch.utils.data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dlpack.html">torch.utils.dlpack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile_optimizer.html">torch.utils.mobile_optimizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model_zoo.html">torch.utils.model_zoo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tensorboard.html">torch.utils.tensorboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="type_info.html">Type Info</a></li>
@@ -223,18 +291,20 @@
 <li class="toctree-l1"><a class="reference internal" href="name_inference.html">Named Tensors operator coverage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="__config__.html">torch.__config__</a></li>
 </ul>
-<p class="caption"><span class="caption-text">torchaudio Reference</span></p>
+<p class="caption"><span class="caption-text">Libraries</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/audio">torchaudio</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/audio/stable">torchaudio</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/text/stable">torchtext</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/vision/stable">torchvision</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/elastic/">TorchElastic</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/serve">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
 </ul>
-<p class="caption"><span class="caption-text">torchtext Reference</span></p>
+<p class="caption"><span class="caption-text">Community</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/text">torchtext</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Other Languages</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/cppdocs/">C++ API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packages.html">Javadoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community/contribution_guide.html">PyTorch Contribution Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community/governance.html">PyTorch Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community/persons_of_interest.html">PyTorch Governance | Persons of Interest</a></li>
 </ul>
 
             
@@ -316,7 +386,13 @@ higher-level API to automatically differentiate models split across several
 machines.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The RPC API is experimental and subject to change.</p>
+<p>APIs in the RPC package are stable. There are multiple ongoing work items
+to improve performance and error handling, which will ship in future releases.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please refer to <a class="reference external" href="https://pytorch.org/tutorials/beginner/dist_overview.html">PyTorch Distributed Overview</a>
+for a brief introduction to all features related to distributed training.</p>
 </div>
 <div class="section" id="basics">
 <h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
@@ -366,11 +442,11 @@ inter-dependent RPC calls in the forward pass.</p></li>
 <a class="reference internal" href="optim.html#torch.optim.Optimizer" title="torch.optim.Optimizer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Optimizer()</span></code></a> (e.g., <a class="reference internal" href="optim.html#torch.optim.SGD" title="torch.optim.SGD"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SGD()</span></code></a>,
 <a class="reference internal" href="optim.html#torch.optim.Adagrad" title="torch.optim.Adagrad"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Adagrad()</span></code></a>, etc.) and a list of parameter RRefs, creates an
 <a class="reference internal" href="optim.html#torch.optim.Optimizer" title="torch.optim.Optimizer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Optimizer()</span></code></a> instance on each distinct RRef owner, and
-updates parameters accordingly when running <cite>step()</cite>. When you have
+updates parameters accordingly when running <code class="docutils literal notranslate"><span class="pre">step()</span></code>. When you have
 distributed forward and backward passes, parameters and gradients will be
 scattered across multiple workers, and hence it requires an optimizer on each
 of the involved workers. Distributed Optimizer wraps all those local
-optimizers into one, and provides a concise constructor and <cite>step()</cite> API.</p></li>
+optimizers into one, and provides a concise constructor and <code class="docutils literal notranslate"><span class="pre">step()</span></code> API.</p></li>
 </ol>
 </div>
 <div class="section" id="rpc">
@@ -378,23 +454,307 @@ optimizers into one, and provides a concise constructor and <cite>step()</cite> 
 <p>Before using RPC and distributed autograd primitives, initialization must take
 place. To initialize the RPC framework we need to use
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">init_rpc()</span></code> which would initialize the RPC
-framework, RRef framework and distributed autograd. By default, this will also
-initialize the <cite>ProcessGroup</cite> (<code class="xref py py-meth docutils literal notranslate"><span class="pre">init_process_group()</span></code>)
-backend for RPC communication. The <cite>ProcessGroup</cite> backend internally uses gloo
-for communication.</p>
-<p>The following APIs provide primitives allowing users to remotely execute
-functions as well as create (RRefs) to remote data objects.</p>
+framework, RRef framework and distributed autograd.</p>
+<span class="target" id="module-torch.distributed.rpc"></span><p>The following APIs allow users to remotely execute functions as well as create
+references (RRefs) to remote data objects. In these APIs, when passing a
+<code class="docutils literal notranslate"><span class="pre">Tensor</span></code> as an argument or a return value, the destination worker will try to
+create a <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> with the same meta (i.e., shape, stride, etc.). We
+intentionally disallow transmitting CUDA tensors because it might crash if the
+device lists on source and destination workers do not match. In such cases,
+applications can always explicitly move the input tensors to CPU on the caller
+and move it to the desired devices on the callee if necessary.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>TorchScript support in RPC is a prototype feature and subject to change. Since
+v1.5.0, <code class="docutils literal notranslate"><span class="pre">torch.distributed.rpc</span></code> supports calling TorchScript functions as
+RPC target functions, and this will help improve parallelism on the callee
+side as executing TorchScript functions does not require GIL.</p>
+</div>
+<p>The RPC package also provides decorators which allow applications to specify
+how a given function should be treated on the callee side.</p>
+<dl class="py function">
+<dt id="torch.distributed.rpc.functions.async_execution">
+<code class="sig-prename descclassname">torch.distributed.rpc.functions.</code><code class="sig-name descname">async_execution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fn</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/torch/distributed/rpc/functions.html#async_execution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.distributed.rpc.functions.async_execution" title="Permalink to this definition">¶</a></dt>
+<dd><p>A decorator for a function indicating that the return value of the function
+is guaranteed to be a <a class="reference internal" href="futures.html#torch.futures.Future" title="torch.futures.Future"><code class="xref py py-class docutils literal notranslate"><span class="pre">Future</span></code></a> object and this
+function can run asynchronously on the RPC callee. More specifically, the
+callee extracts the <a class="reference internal" href="futures.html#torch.futures.Future" title="torch.futures.Future"><code class="xref py py-class docutils literal notranslate"><span class="pre">Future</span></code></a> returned by the wrapped
+function and installs subsequent processing steps as a callback to that
+<a class="reference internal" href="futures.html#torch.futures.Future" title="torch.futures.Future"><code class="xref py py-class docutils literal notranslate"><span class="pre">Future</span></code></a>. The installed callback will read the value
+from the <a class="reference internal" href="futures.html#torch.futures.Future" title="torch.futures.Future"><code class="xref py py-class docutils literal notranslate"><span class="pre">Future</span></code></a> when completed and send the
+value back as the RPC response. That also means the returned
+<a class="reference internal" href="futures.html#torch.futures.Future" title="torch.futures.Future"><code class="xref py py-class docutils literal notranslate"><span class="pre">Future</span></code></a> only exists on the callee side and is never
+sent through RPC. This decorator is useful when the wrapped function’s
+(<code class="docutils literal notranslate"><span class="pre">fn</span></code>) execution needs to pause and resume due to, e.g., containing
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">rpc_async()</span></code> or waiting for other signals.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To enable asynchronous execution, applications must pass the
+function object returned by this decorator to RPC APIs. If RPC detected
+attributes installed by this decorator, it knows that this function
+returns a <code class="docutils literal notranslate"><span class="pre">Future</span></code> object and will handle that accordingly.
+However, this does not mean this decorator has to be outmost one when
+defining a function. For example, when combined with <code class="docutils literal notranslate"><span class="pre">&#64;staticmethod</span></code>
+or <code class="docutils literal notranslate"><span class="pre">&#64;classmethod</span></code>, <code class="docutils literal notranslate"><span class="pre">&#64;rpc.functions.async_execution</span></code> needs to be the
+inner decorator to allow the target function be recognized as a static
+or class function. This target function can still execute asynchronously
+because, when accessed, the static or class method preserves attributes
+installed by <code class="docutils literal notranslate"><span class="pre">&#64;rpc.functions.async_execution</span></code>.</p>
+</div>
+<dl>
+<dt>Example::</dt><dd><p>The returned <a class="reference internal" href="futures.html#torch.futures.Future" title="torch.futures.Future"><code class="xref py py-class docutils literal notranslate"><span class="pre">Future</span></code></a> object can come from
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">rpc_async()</span></code>,
+<a class="reference internal" href="futures.html#torch.futures.Future.then" title="torch.futures.Future.then"><code class="xref py py-meth docutils literal notranslate"><span class="pre">then()</span></code></a>, or <a class="reference internal" href="futures.html#torch.futures.Future" title="torch.futures.Future"><code class="xref py py-class docutils literal notranslate"><span class="pre">Future</span></code></a>
+constructor. The example below shows directly using the
+<a class="reference internal" href="futures.html#torch.futures.Future" title="torch.futures.Future"><code class="xref py py-class docutils literal notranslate"><span class="pre">Future</span></code></a> returned by
+<a class="reference internal" href="futures.html#torch.futures.Future.then" title="torch.futures.Future.then"><code class="xref py py-meth docutils literal notranslate"><span class="pre">then()</span></code></a>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch.distributed</span> <span class="kn">import</span> <span class="n">rpc</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># omitting setup and shutdown RPC</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># On all workers</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@rpc</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">async_execution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">async_add_chained</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># This function runs on &quot;worker1&quot; and returns immediately when</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># the callback is installed through the `then(cb)` API. In the</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># mean time, the `rpc_async` to &quot;worker2&quot; can run concurrently.</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># When the return value of that `rpc_async` arrives at</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># &quot;worker1&quot;, &quot;worker1&quot; will run the lambda function accordingly</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># and set the value for the previously returned `Future`, which</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># will then trigger RPC to send the result back to &quot;worker0&quot;.</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">rpc</span><span class="o">.</span><span class="n">rpc_async</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">then</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">lambda</span> <span class="n">fut</span><span class="p">:</span> <span class="n">fut</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span> <span class="o">+</span> <span class="n">z</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># On worker0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">rpc</span><span class="o">.</span><span class="n">rpc_sync</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;worker1&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">async_add_chained</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;worker2&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>  <span class="c1"># prints tensor([3., 3.])</span>
+</pre></div>
+</div>
+<p>When combined with TorchScript decorators, this decorator must be the
+outmost one.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch.futures</span> <span class="kn">import</span> <span class="n">Future</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch.distributed</span> <span class="kn">import</span> <span class="n">rpc</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># omitting setup and shutdown RPC</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># On all workers</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">script_add</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@rpc</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">async_execution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">async_add</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Future</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">rpc</span><span class="o">.</span><span class="n">rpc_async</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">script_add</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># On worker0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">rpc</span><span class="o">.</span><span class="n">rpc_sync</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;worker1&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">async_add</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;worker2&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>  <span class="c1"># prints tensor([2., 2.])</span>
+</pre></div>
+</div>
+<p>When combined with static or class method, this decorator must be the
+inner one.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch.distributed</span> <span class="kn">import</span> <span class="n">rpc</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># omitting setup and shutdown RPC</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># On all workers</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">AsyncExecutionClass</span><span class="p">:</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nd">@staticmethod</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nd">@rpc</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">async_execution</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">static_async_add</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="n">rpc</span><span class="o">.</span><span class="n">rpc_async</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">then</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="k">lambda</span> <span class="n">fut</span><span class="p">:</span> <span class="n">fut</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span> <span class="o">+</span> <span class="n">z</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nd">@classmethod</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nd">@rpc</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">async_execution</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">class_async_add</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">ret_fut</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">rpc</span><span class="o">.</span><span class="n">rpc_async</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">then</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="k">lambda</span> <span class="n">fut</span><span class="p">:</span> <span class="n">ret_fut</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">fut</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span> <span class="o">+</span> <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="n">ret_fut</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nd">@rpc</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">async_execution</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">bound_async_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="n">rpc</span><span class="o">.</span><span class="n">rpc_async</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">then</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="k">lambda</span> <span class="n">fut</span><span class="p">:</span> <span class="n">fut</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span> <span class="o">+</span> <span class="n">z</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># On worker0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">rpc</span><span class="o">.</span><span class="n">rpc_sync</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;worker1&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">AsyncExecutionClass</span><span class="o">.</span><span class="n">static_async_add</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;worker2&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>  <span class="c1"># prints tensor([4., 4.])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">rpc</span><span class="o">.</span><span class="n">rpc_sync</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;worker1&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">AsyncExecutionClass</span><span class="o">.</span><span class="n">class_async_add</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;worker2&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>  <span class="c1"># prints tensor([4., 4.])</span>
+</pre></div>
+</div>
+<p>This decorator also works with RRef helpers, i.e., .
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.distributed.rpc.RRef.rpc_sync()</span></code>,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.distributed.rpc.RRef.rpc_async()</span></code>, and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.distributed.rpc.RRef.remote()</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch.distributed</span> <span class="kn">import</span> <span class="n">rpc</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># reuse the AsyncExecutionClass class above</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rref</span> <span class="o">=</span> <span class="n">rpc</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="s2">&quot;worker1&quot;</span><span class="p">,</span> <span class="n">AsyncExecutionClass</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">rref</span><span class="o">.</span><span class="n">rpc_sync</span><span class="p">()</span><span class="o">.</span><span class="n">static_async_add</span><span class="p">(</span><span class="s2">&quot;worker2&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>  <span class="c1"># prints tensor([4., 4.])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rref</span> <span class="o">=</span> <span class="n">rpc</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="s2">&quot;worker1&quot;</span><span class="p">,</span> <span class="n">AsyncExecutionClass</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">rref</span><span class="o">.</span><span class="n">rpc_async</span><span class="p">()</span><span class="o">.</span><span class="n">static_async_add</span><span class="p">(</span><span class="s2">&quot;worker2&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>  <span class="c1"># prints tensor([4., 4.])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rref</span> <span class="o">=</span> <span class="n">rpc</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="s2">&quot;worker1&quot;</span><span class="p">,</span> <span class="n">AsyncExecutionClass</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ret</span> <span class="o">=</span> <span class="n">rref</span><span class="o">.</span><span class="n">remote</span><span class="p">()</span><span class="o">.</span><span class="n">static_async_add</span><span class="p">(</span><span class="s2">&quot;worker2&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_here</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>  <span class="c1"># prints tensor([4., 4.])</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="backends">
+<span id="rpc-backends"></span><h3>Backends<a class="headerlink" href="#backends" title="Permalink to this headline">¶</a></h3>
+<p>The RPC module can leverage different backends to perform the communication
+between the nodes. The backend to be used can be specified in the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">init_rpc()</span></code> function, by passing a certain value of
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendType</span></code> enum. Regardless of what backend
+is used, the rest of the RPC API won’t change. Each backend also defines its own
+subclass of the <code class="xref py py-class docutils literal notranslate"><span class="pre">RpcBackendOptions</span></code> class, an
+instance of which can also be passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">init_rpc()</span></code>
+to configure the backend’s behavior.</p>
+<div class="section" id="tensorpipe-backend">
+<h4>TensorPipe Backend<a class="headerlink" href="#tensorpipe-backend" title="Permalink to this headline">¶</a></h4>
+<p>The TensorPipe agent, which is the default, leverages <a class="reference external" href="https://github.com/pytorch/tensorpipe">the TensorPipe library</a>, which provides a natively
+point-to-point communication primitive specifically suited for machine learning
+that fundamentally addresses some of the limitations of Gloo. Compared to Gloo,
+it has the advantage of being asynchronous, which allows a large number of
+transfers to occur simultaneously, each at their own speed, without blocking
+each other. It will only open pipes between pairs of nodes when needed, on
+demand, and when one node fails only its incident pipes will be closed, while
+all other ones will keep working as normal. In addition, it is able to support
+multiple different transports (TCP, of course, but also shared memory, NVLink,
+InfiniBand, …) and can automatically detect their availability and negotiate
+the best transport to use for each pipe.</p>
+<p>The TensorPipe backend has been introduced in PyTorch v1.6 and is being actively
+developed. At the moment, it only supports CPU tensors, with GPU support coming
+soon. It comes with a TCP-based transport, just like Gloo. It is also able to
+automatically chunk and multiplex large tensors over multiple sockets and
+threads in order to achieve very high bandwidths. The agent will be able to pick
+the best transport on its own, with no intervention required.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch.distributed</span> <span class="kn">import</span> <span class="n">rpc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MASTER_ADDR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MASTER_PORT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;29500&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rpc</span><span class="o">.</span><span class="n">init_rpc</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;worker1&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">rank</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">world_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">rpc_backend_options</span><span class="o">=</span><span class="n">rpc</span><span class="o">.</span><span class="n">TensorPipeRpcBackendOptions</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">num_worker_threads</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">rpc_timeout</span><span class="o">=</span><span class="mi">20</span> <span class="c1"># 20 second timeout</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># omitting init_rpc invocation on worker2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="process-group-backend">
+<h4>Process Group Backend<a class="headerlink" href="#process-group-backend" title="Permalink to this headline">¶</a></h4>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The Process Group Backend will be deprecated soon, we recommend using the
+TensorPipe Backend instead.</p>
+</div>
+<p>The Process Group agent instantiates a process group from
+the <a class="reference internal" href="distributed.html#module-torch.distributed" title="torch.distributed"><code class="xref py py-mod docutils literal notranslate"><span class="pre">distributed</span></code></a> module and utilizes its point-to-point
+communication capabilities to send RPC messages. Internally, the process
+group uses <a class="reference external" href="https://github.com/facebookincubator/gloo/">the Gloo library</a>.</p>
+<p>Gloo has been hardened by years of extensive use in PyTorch and is thus very
+reliable. However, as it was designed to perform collective communication, it
+may not always be the best fit for RPC. For example, each networking operation
+is synchronous and blocking, which means that it cannot be run in parallel with
+others. Moreover, it opens a connection between all pairs of nodes, and brings
+down all of them when one fails, thus reducing the resiliency and the elasticity
+of the system.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch.distributed</span> <span class="kn">import</span> <span class="n">rpc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MASTER_ADDR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MASTER_PORT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;29500&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rpc</span><span class="o">.</span><span class="n">init_rpc</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;worker1&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">rank</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">world_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">backend</span><span class="o">=</span><span class="n">rpc</span><span class="o">.</span><span class="n">BackendType</span><span class="o">.</span><span class="n">PROCESS_GROUP</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">rpc_backend_options</span><span class="o">=</span><span class="n">rpc</span><span class="o">.</span><span class="n">ProcessGroupRpcBackendOptions</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">num_send_recv_threads</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">rpc_timeout</span><span class="o">=</span><span class="mi">20</span> <span class="c1"># 20 second timeout</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># omitting init_rpc invocation on worker2</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="rref">
 <span id="id3"></span><h2>RRef<a class="headerlink" href="#rref" title="Permalink to this headline">¶</a></h2>
-<p>An <cite>RRef</cite> (Remote REFerence) is a reference to a value of some type <cite>T</cite>
-(e.g. <cite>Tensor</cite>) on a remote worker. This handle keeps the referenced remote
+<p>An <code class="docutils literal notranslate"><span class="pre">RRef</span></code> (Remote REFerence) is a reference to a value of some type <code class="docutils literal notranslate"><span class="pre">T</span></code>
+(e.g. <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>) on a remote worker. This handle keeps the referenced remote
 value alive on the owner, but there is no implication that the value will be
 transferred to the local worker in the future. RRefs can be used in
 multi-machine training by holding references to <a class="reference external" href="https://pytorch.org/docs/stable/nn.html#torch.nn.Module">nn.Modules</a> that exist on
 other workers, and calling the appropriate functions to retrieve or modify their
-parameters during training. See <a class="reference internal" href="notes/rref.html#remote-reference-protocol"><span class="std std-ref">Remote Reference Protocol</span></a> for more
+parameters during training. See <a class="reference internal" href="rpc/rref.html#remote-reference-protocol"><span class="std std-ref">Remote Reference Protocol</span></a> for more
 details.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">More Information about RRef</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rpc/rref.html">Remote Reference Protocol</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rpc/rref.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rpc/rref.html#assumptions">Assumptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rpc/rref.html#rref-lifetime">RRef Lifetime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rpc/rref.html#design-reasoning">Design Reasoning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpc/rref.html#implementation">Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rpc/rref.html#protocol-scenarios">Protocol Scenarios</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rpc/rref.html#user-share-rref-with-owner-as-return-value">User Share RRef with Owner as Return Value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpc/rref.html#user-share-rref-with-owner-as-argument">User Share RRef with Owner as Argument</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpc/rref.html#owner-share-rref-with-user">Owner Share RRef with User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpc/rref.html#user-share-rref-with-user">User Share RRef with User</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div class="section" id="distributed-autograd-framework">
 <h2>Distributed Autograd Framework<a class="headerlink" href="#distributed-autograd-framework" title="Permalink to this headline">¶</a></h2>
@@ -403,8 +763,8 @@ used for applications such as model parallel training. In short, applications
 may send and receive gradient recording tensors over RPC. In the forward pass,
 we record when gradient recording tensors are sent over RPC and during the
 backward pass we use this information to perform a distributed backward pass
-using RPC. For more details see <a class="reference internal" href="notes/distributed_autograd.html#distributed-autograd-design"><span class="std std-ref">Distributed Autograd Design</span></a>.</p>
-<span class="target" id="module-torch.distributed.autograd"></span><dl class="class">
+using RPC. For more details see <a class="reference internal" href="rpc/distributed_autograd.html#distributed-autograd-design"><span class="std std-ref">Distributed Autograd Design</span></a>.</p>
+<span class="target" id="module-torch.distributed.autograd"></span><dl class="py class">
 <dt id="torch.distributed.autograd.context">
 <em class="property">class </em><code class="sig-prename descclassname">torch.distributed.autograd.</code><code class="sig-name descname">context</code><a class="reference internal" href="_modules/torch/distributed/autograd.html#context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.distributed.autograd.context" title="Permalink to this definition">¶</a></dt>
 <dd><p>Context object to wrap forward and backward passes when using
@@ -413,20 +773,66 @@ statement  is required to uniquely identify a distributed backward pass
 on all workers. Each worker stores metadata associated with this
 <code class="docutils literal notranslate"><span class="pre">context_id</span></code>, which is required to correctly execute a distributed
 autograd pass.</p>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">import</span> <span class="nn">torch.distributed.autograd</span> <span class="k">as</span> <span class="nn">dist_autograd</span>
-<span class="o">&gt;&gt;</span> <span class="k">with</span> <span class="n">dist_autograd</span><span class="o">.</span><span class="n">context</span><span class="p">()</span> <span class="k">as</span> <span class="n">context_id</span><span class="p">:</span>
-<span class="o">&gt;&gt;</span>   <span class="n">t1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="o">&gt;&gt;</span>   <span class="n">t2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="o">&gt;&gt;</span>   <span class="n">loss</span> <span class="o">=</span> <span class="n">rpc</span><span class="o">.</span><span class="n">rpc_sync</span><span class="p">(</span><span class="s2">&quot;worker1&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="o">&gt;&gt;</span>   <span class="n">dist_autograd</span><span class="o">.</span><span class="n">backward</span><span class="p">([</span><span class="n">loss</span><span class="p">])</span>
+<dl>
+<dt>Example::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch.distributed.autograd</span> <span class="k">as</span> <span class="nn">dist_autograd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">dist_autograd</span><span class="o">.</span><span class="n">context</span><span class="p">()</span> <span class="k">as</span> <span class="n">context_id</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>  <span class="n">t1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>  <span class="n">t2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>  <span class="n">loss</span> <span class="o">=</span> <span class="n">rpc</span><span class="o">.</span><span class="n">rpc_sync</span><span class="p">(</span><span class="s2">&quot;worker1&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>  <span class="n">dist_autograd</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">context_id</span><span class="p">,</span> <span class="p">[</span><span class="n">loss</span><span class="p">])</span>
 </pre></div>
 </div>
+</dd>
+</dl>
 </dd></dl>
 
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">More Information about RPC Autograd</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rpc/distributed_autograd.html">Distributed Autograd Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rpc/distributed_autograd.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rpc/distributed_autograd.html#autograd-recording-during-the-forward-pass">Autograd recording during the forward pass</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rpc/distributed_autograd.html#distributed-autograd-context">Distributed Autograd Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rpc/distributed_autograd.html#distributed-backward-pass">Distributed Backward Pass</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rpc/distributed_autograd.html#computing-dependencies">Computing dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpc/distributed_autograd.html#fast-mode-algorithm">FAST mode algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rpc/distributed_autograd.html#smart-mode-algorithm">SMART mode algorithm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rpc/distributed_autograd.html#distributed-optimizer">Distributed Optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rpc/distributed_autograd.html#simple-end-to-end-example">Simple end to end example</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div class="section" id="distributed-optimizer">
 <h2>Distributed Optimizer<a class="headerlink" href="#distributed-optimizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="design-notes">
+<h2>Design Notes<a class="headerlink" href="#design-notes" title="Permalink to this headline">¶</a></h2>
+<p>The distributed autograd design note covers the design of the RPC-based distributed autograd framework that is useful for applications such as model parallel training.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="rpc/distributed_autograd.html#distributed-autograd-design"><span class="std std-ref">Distributed Autograd Design</span></a></p></li>
+</ul>
+<p>The RRef design note covers the design of the <a class="reference internal" href="#rref"><span class="std std-ref">RRef</span></a> (Remote REFerence) protocol used to refer to values on remote workers by the framework.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="rpc/rref.html#remote-reference-protocol"><span class="std std-ref">Remote Reference Protocol</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="tutorials">
+<h2>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h2>
+<p>The RPC tutorials introduce users to the RPC framework, provide several example applications
+using <a class="reference internal" href="#distributed-rpc-framework"><span class="std std-ref">torch.distributed.rpc</span></a> APIs, and demonstrate how
+to use <a class="reference external" href="https://pytorch.org/docs/stable/autograd.html#profiler">the profiler</a> to profile RPC-based workloads.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pytorch.org/tutorials/intermediate/rpc_tutorial.html">Getting started with Distributed RPC Framework</a></p></li>
+<li><p><a class="reference external" href="https://pytorch.org/tutorials/intermediate/rpc_param_server_tutorial.html">Implementing a Parameter Server using Distributed RPC Framework</a></p></li>
+<li><p><a class="reference external" href="https://pytorch.org/tutorials/advanced/rpc_ddp_tutorial.html">Combining Distributed DataParallel with Distributed RPC Framework</a></p></li>
+<li><p><a class="reference external" href="https://pytorch.org/tutorials/recipes/distributed_rpc_profiling.html">Profiling RPC-based Workloads</a></p></li>
+<li><p><a class="reference external" href="https://pytorch.org/tutorials/intermediate/rpc_async_execution.html">Implementing batch RPC processing</a></p></li>
+<li><p><a class="reference external" href="https://pytorch.org/tutorials/intermediate/dist_pipeline_parallel_tutorial.html">Distributed Pipeline Parallel</a></p></li>
+</ul>
 </div>
 </div>
 
@@ -438,10 +844,10 @@ autograd pass.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="random.html" class="btn btn-neutral float-right" title="torch.random" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
+        <a href="rpc/rref.html" class="btn btn-neutral float-right" title="Remote Reference Protocol" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
-        <a href="quantization.html" class="btn btn-neutral" title="Quantization" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+        <a href="torch.nn.quantized.dynamic.html" class="btn btn-neutral" title="torch.nn.quantized.dynamic" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
       
     </div>
   
@@ -475,10 +881,19 @@ autograd pass.</p>
               <ul>
 <li><a class="reference internal" href="#">Distributed RPC Framework</a><ul>
 <li><a class="reference internal" href="#basics">Basics</a></li>
-<li><a class="reference internal" href="#rpc">RPC</a></li>
+<li><a class="reference internal" href="#rpc">RPC</a><ul>
+<li><a class="reference internal" href="#backends">Backends</a><ul>
+<li><a class="reference internal" href="#tensorpipe-backend">TensorPipe Backend</a></li>
+<li><a class="reference internal" href="#process-group-backend">Process Group Backend</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#rref">RRef</a></li>
 <li><a class="reference internal" href="#distributed-autograd-framework">Distributed Autograd Framework</a></li>
 <li><a class="reference internal" href="#distributed-optimizer">Distributed Optimizer</a></li>
+<li><a class="reference internal" href="#design-notes">Design Notes</a></li>
+<li><a class="reference internal" href="#tutorials">Tutorials</a></li>
 </ul>
 </li>
 </ul>
@@ -496,16 +911,17 @@ autograd pass.</p>
 
      
        <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-         <script type="text/javascript" src="_static/jquery.js"></script>
-         <script type="text/javascript" src="_static/underscore.js"></script>
-         <script type="text/javascript" src="_static/doctools.js"></script>
-         <script type="text/javascript" src="_static/language_data.js"></script>
+         <script src="_static/jquery.js"></script>
+         <script src="_static/underscore.js"></script>
+         <script src="_static/doctools.js"></script>
+         <script src="_static/language_data.js"></script>
      
 
   
 
   <script type="text/javascript" src="_static/js/vendor/popper.min.js"></script>
   <script type="text/javascript" src="_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
   <script type="text/javascript" src="_static/js/theme.js"></script>
 
   <script type="text/javascript">
@@ -579,25 +995,24 @@ autograd pass.</p>
             <li><a href="https://pytorch.org/features">Features</a></li>
             <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
             <li><a href="https://pytorch.org/blog/">Blog</a></li>
-            <li><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
           </ul>
         </div>
 
         <div class="footer-links-col">
           <ul>
-            <li class="list-title"><a href="https://pytorch.org/support">Support</a></li>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
             <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
             <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
             <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
             <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
-            <li><a href="https://pytorch.slack.com" target="_blank">Slack</a></li>
-            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md" target="_blank">Contributing</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
           </ul>
         </div>
 
         <div class="footer-links-col follow-us-col">
           <ul>
-            <li class="list-title">Follow Us</li>
+            <li class="list-title">Stay Connected</li>
             <li>
               <div id="mc_embed_signup">
                 <form
@@ -634,6 +1049,7 @@ autograd pass.</p>
           <div class="footer-social-icons">
             <a href="https://www.facebook.com/pytorch" target="_blank" class="facebook"></a>
             <a href="https://twitter.com/pytorch" target="_blank" class="twitter"></a>
+            <a href="https://www.youtube.com/pytorch" target="_blank" class="youtube"></a>
           </div>
         </div>
       </div>
@@ -665,15 +1081,19 @@ autograd pass.</p>
       <div class="main-menu">
         <ul>
           <li>
-            <a href="#">Get Started</a>
+            <a href="https://pytorch.org/get-started">Get Started</a>
           </li>
 
           <li>
-            <a href="#">Features</a>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
           </li>
 
           <li>
-            <a href="#">Ecosystem</a>
+            <a href="https://pytorch.org/mobile">Mobile</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/hub">PyTorch Hub</a>
           </li>
 
           <li>
@@ -684,13 +1104,65 @@ autograd pass.</p>
             <a href="https://pytorch.org/tutorials">Tutorials</a>
           </li>
 
-          <li class="active">
-            <a href="https://pytorch.org/docs/stable/index.html">Docs</a>
+          <li class="resources-mobile-menu-title" class="active">
+            Docs
           </li>
 
-          <li>
-            <a href="https://pytorch.org/resources">Resources</a>
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/audio/stable/index.html">torchaudio</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/text/stable/index.html">torchtext</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/docs/stable/torchvision/">torchvision</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/elastic/">TorchElastic</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/serve/">TorchServe</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/xla">PyTorch on XLA Devices</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            Resources
           </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/resources">Developer Resources</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/features">About</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/hub">Models (Beta)</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/#community-module">Community</a>
+            </li>
+
+            <li>
+              <a href="https://discuss.pytorch.org/">Forums</a>
+            </li>
+          </ul>
 
           <li>
             <a href="https://github.com/pytorch/pytorch">Github</a>
@@ -712,6 +1184,8 @@ autograd pass.</p>
       sideMenus.bind();
       scrollToAnchor.bind();
       highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
 
       // Add class to links that have code blocks, since we cannot create links in code blocks
       $("article.pytorch-article a span.pre").each(function(e) {
