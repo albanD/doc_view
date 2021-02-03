@@ -380,32 +380,32 @@
               
   <div class="section" id="modules">
 <span id="id1"></span><h1>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h1>
-<p>PyTorch uses modules to both build and represent neural networks. Modules are:</p>
+<p>PyTorch uses modules to represent neural networks. Modules are:</p>
 <ul class="simple">
-<li><p><strong>Composable building blocks of stateful computation.</strong>
-PyTorch provides a robust library of modules and makes it easy to define new custom modules, allowing for
-simple construction of complex, multi-layer neural networks.</p></li>
+<li><p><strong>Building blocks of stateful computation.</strong>
+PyTorch provides a robust library of modules and makes it simple to define new custom modules, allowing for
+easy construction of elaborate, multi-layer neural networks.</p></li>
 <li><p><strong>Tightly integrated with PyTorch’s</strong>
 <a class="reference external" href="https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html">autograd</a>
-<strong>system.</strong> Modules make it simple to specify learnable parameters for PyTorch’s optimizers to update</p></li>
+<strong>system.</strong> Modules make it simple to specify learnable parameters for PyTorch’s Optimizers to update.</p></li>
 <li><p><strong>Easy to work with and transform.</strong> Modules are straightforward to save and restore, transfer between
-CPU / GPU / TPU devices, prune, quantize, and more</p></li>
+CPU / GPU / TPU devices, prune, quantize, and more.</p></li>
 </ul>
 <p>This note describes modules, and is intended for all PyTorch users. Since modules are so fundamental to PyTorch,
 many topics in this note are elaborated on in other notes or tutorials, and links to many of those documents
 are provided here as well.</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#a-simple-custom-module" id="id2">A Simple Custom Module</a></p></li>
-<li><p><a class="reference internal" href="#modules-as-building-blocks" id="id3">Modules as Building Blocks</a></p></li>
-<li><p><a class="reference internal" href="#neural-network-training-with-modules" id="id4">Neural Network Training with Modules</a></p></li>
-<li><p><a class="reference internal" href="#module-state" id="id5">Module State</a></p></li>
-<li><p><a class="reference internal" href="#module-hooks" id="id6">Module Hooks</a></p></li>
-<li><p><a class="reference internal" href="#advanced-features" id="id7">Advanced Features</a></p></li>
+<li><p><a class="reference internal" href="#a-simple-custom-module" id="id3">A Simple Custom Module</a></p></li>
+<li><p><a class="reference internal" href="#modules-as-building-blocks" id="id4">Modules as Building Blocks</a></p></li>
+<li><p><a class="reference internal" href="#neural-network-training-with-modules" id="id5">Neural Network Training with Modules</a></p></li>
+<li><p><a class="reference internal" href="#module-state" id="id6">Module State</a></p></li>
+<li><p><a class="reference internal" href="#module-hooks" id="id7">Module Hooks</a></p></li>
+<li><p><a class="reference internal" href="#advanced-features" id="id8">Advanced Features</a></p></li>
 </ul>
 </div>
 <div class="section" id="a-simple-custom-module">
-<h2><a class="toc-backref" href="#id2">A Simple Custom Module</a><a class="headerlink" href="#a-simple-custom-module" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">A Simple Custom Module</a><a class="headerlink" href="#a-simple-custom-module" title="Permalink to this headline">¶</a></h2>
 <p>To get started, let’s look at a simpler, custom version of PyTorch’s <a class="reference internal" href="../generated/torch.nn.Linear.html#torch.nn.Linear" title="torch.nn.Linear"><code class="xref py py-class docutils literal notranslate"><span class="pre">Linear</span></code></a> module.
 This module applies an affine transformation to its input.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
@@ -427,16 +427,17 @@ This module applies an affine transformation to its input.</p>
 All modules should subclass <a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module" title="torch.nn.Module"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></a> for composability with other modules.</p></li>
 <li><p><strong>It defines some “state” that is used in computation.</strong>
 Here, the state consists of randomly-initialized <code class="docutils literal notranslate"><span class="pre">weight</span></code> and <code class="docutils literal notranslate"><span class="pre">bias</span></code> tensors that define the affine
-transformation. Because each of these is defined as a <a class="reference internal" href="../generated/torch.nn.parameter.Parameter.html#torch.nn.parameter.Parameter" title="torch.nn.parameter.Parameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code></a>, the module
-will automatically track them and return them from calls to <a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module.parameters" title="torch.nn.Module.parameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">parameters()</span></code></a>. Parameters can be
+transformation. Because each of these is defined as a <a class="reference internal" href="../generated/torch.nn.parameter.Parameter.html#torch.nn.parameter.Parameter" title="torch.nn.parameter.Parameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code></a>, they are
+<em>registered</em> for the module and will automatically be tracked and returned from calls
+to <a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module.parameters" title="torch.nn.Module.parameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">parameters()</span></code></a>. Parameters can be
 considered the “learnable” aspects of the module’s computation (more on this later). Note that modules
-are not <em>required</em> to have state, and can also be stateless.</p></li>
+are not required to have state, and can also be stateless.</p></li>
 <li><p><strong>It defines a forward() function that performs the computation.</strong> For this affine transformation module, the input
 is matrix-multiplied with the <code class="docutils literal notranslate"><span class="pre">weight</span></code> parameter (using the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> short-hand notation) and added to the <code class="docutils literal notranslate"><span class="pre">bias</span></code>
 parameter to produce the output. More generally, the <code class="docutils literal notranslate"><span class="pre">forward()</span></code> implementation for a module can perform arbitrary
 computation involving any number of inputs and outputs.</p></li>
 </ul>
-<p>This simple module demonstrates how modules package state and computation. Instances of this module can be
+<p>This simple module demonstrates how modules package state and computation together. Instances of this module can be
 constructed and called:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">MyLinear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">sample_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -444,8 +445,16 @@ constructed and called:</p>
 <span class="p">:</span> <span class="n">tensor</span><span class="p">([</span><span class="o">-</span><span class="mf">0.3037</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0413</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.2057</span><span class="p">],</span> <span class="n">grad_fn</span><span class="o">=&lt;</span><span class="n">AddBackward0</span><span class="o">&gt;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Note that the module itself is callable, and that calling it calls its <code class="docutils literal notranslate"><span class="pre">forward()</span></code> function.
-The full set of parameters registered by the module can be iterated through via a call to
+<p>Note that the module itself is callable, and that calling it invokes its <code class="docutils literal notranslate"><span class="pre">forward()</span></code> function.
+This name is in reference to the concepts of “forward pass” and “backward pass”, which apply to each module.
+The “forward pass” is responsible for applying the computation represented by the module
+to the given input(s) (as shown in the above snippet). The “backward pass” computes gradients of
+module outputs with respect to its inputs, which can be used for “training” parameters through gradient
+descent methods. PyTorch’s autograd system automatically takes care of this backward pass computation, so it
+is not required to manually implement a <code class="docutils literal notranslate"><span class="pre">backward()</span></code> function for each module. The process of training
+module parameters through successive forward / backward passes is covered in detail in
+<a class="reference internal" href="#neural-network-training-with-modules"><span class="std std-ref">Neural Network Training with Modules</span></a>.</p>
+<p>The full set of parameters registered by the module can be iterated through via a call to
 <a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module.parameters" title="torch.nn.Module.parameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">parameters()</span></code></a> or <a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module.named_parameters" title="torch.nn.Module.named_parameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">named_parameters()</span></code></a>,
 where the latter includes each parameter’s name:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
@@ -460,12 +469,12 @@ where the latter includes each parameter’s name:</p>
 </pre></div>
 </div>
 <p>In general, the parameters registered by a module are aspects of the module’s computation that should be
-“learned”. A later section of this note shows how to update these parameters using one of PyTorch’s optimizers.
+“learned”. A later section of this note shows how to update these parameters using one of PyTorch’s Optimizers.
 Before we get to that, however, let’s first examine how modules can be composed with one another.</p>
 </div>
 <div class="section" id="modules-as-building-blocks">
-<h2><a class="toc-backref" href="#id3">Modules as Building Blocks</a><a class="headerlink" href="#modules-as-building-blocks" title="Permalink to this headline">¶</a></h2>
-<p>Modules can contain other modules, making them useful building blocks for developing more complex functionality.
+<h2><a class="toc-backref" href="#id4">Modules as Building Blocks</a><a class="headerlink" href="#modules-as-building-blocks" title="Permalink to this headline">¶</a></h2>
+<p>Modules can contain other modules, making them useful building blocks for developing more elaborate functionality.
 The simplest way to do this is using the <a class="reference internal" href="../generated/torch.nn.Sequential.html#torch.nn.Sequential" title="torch.nn.Sequential"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequential</span></code></a> module. It allows us to chain together
 multiple modules:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
@@ -481,7 +490,7 @@ multiple modules:</p>
 </div>
 <p>Note that <a class="reference internal" href="../generated/torch.nn.Sequential.html#torch.nn.Sequential" title="torch.nn.Sequential"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequential</span></code></a> automatically feeds the output of the first <code class="docutils literal notranslate"><span class="pre">MyLinear</span></code> module as input
 into the <a class="reference internal" href="../generated/torch.nn.ReLU.html#torch.nn.ReLU" title="torch.nn.ReLU"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReLU</span></code></a>, and the output of that as input into the second <code class="docutils literal notranslate"><span class="pre">MyLinear</span></code> module. As
-shown, it is limited to linear chaining of modules.</p>
+shown, it is limited to in-order chaining of modules.</p>
 <p>In general, it is recommended to define a custom module for anything beyond the simplest use cases, as this gives
 full flexibility on how submodules are used for a module’s computation.</p>
 <p>For example, here’s a simple neural network implemented as a custom module:</p>
@@ -598,17 +607,20 @@ recursively include child parameters, allowing for convenient optimization of al
 </div>
 <p>It’s also easy to move all parameters to a different device or change their precision using
 <a class="reference internal" href="../generated/torch.nn.Module.html#id3" title="torch.nn.Module.to"><code class="xref py py-func docutils literal notranslate"><span class="pre">to()</span></code></a>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dynamic_net</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Move all parameters to a CUDA device</span>
+<span class="n">dynamic_net</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+<span class="c1"># Change precision of all parameters</span>
+<span class="n">dynamic_net</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
 <span class="n">dynamic_net</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
 <span class="p">:</span> <span class="n">tensor</span><span class="p">([</span><span class="mf">6.5166</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">grad_fn</span><span class="o">=&lt;</span><span class="n">AddBackward0</span><span class="o">&gt;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>These examples show how modules can be composed to form complex neural networks. Neural networks are
-also modules themselves, and typically they are modules that contain other modules, which can, in turn, contain
-other modules. The unbounded composability of modules makes the module concept a powerful tool for defining and
-operating with neural networks. PyTorch also provides a large library of optimized modules within the
-<code class="xref py py-mod docutils literal notranslate"><span class="pre">torch.nn</span></code> namespace for computation that is commonly found within neural networks, including pooling,
-convolutions, loss functions, etc.</p>
+<p>These examples show how elaborate neural networks can be formed through module composition. To allow for
+quick and easy construction of neural networks with minimal boilerplate, PyTorch provides a large library of
+performant modules within the <code class="xref py py-mod docutils literal notranslate"><span class="pre">torch.nn</span></code> namespace that perform computation commonly found within neural
+networks, including pooling, convolutions, loss functions, etc.</p>
 <p>In the next section, we give a full example of training a neural network.</p>
 <p>For more information, check out:</p>
 <ul class="simple">
@@ -618,17 +630,16 @@ convolutions, loss functions, etc.</p>
 </ul>
 </div>
 <div class="section" id="neural-network-training-with-modules">
-<h2><a class="toc-backref" href="#id4">Neural Network Training with Modules</a><a class="headerlink" href="#neural-network-training-with-modules" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><a class="toc-backref" href="#id5">Neural Network Training with Modules</a><a class="headerlink" href="#neural-network-training-with-modules" title="Permalink to this headline">¶</a></h2>
 <p>Once a network is built, it has to be trained, and its parameters can be easily optimized with one of PyTorch’s
-optimizers from <a class="reference internal" href="../optim.html#module-torch.optim" title="torch.optim"><code class="xref py py-mod docutils literal notranslate"><span class="pre">torch.optim</span></code></a>:</p>
+Optimizers from <a class="reference internal" href="../optim.html#module-torch.optim" title="torch.optim"><code class="xref py py-mod docutils literal notranslate"><span class="pre">torch.optim</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the network (from previous section) and optimizer</span>
 <span class="n">net</span> <span class="o">=</span> <span class="n">Net</span><span class="p">()</span>
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 
 <span class="c1"># Run a sample training loop that &quot;teaches&quot; the network</span>
 <span class="c1"># to output the constant zero function</span>
-<span class="n">iters</span> <span class="o">=</span> <span class="mi">10000</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
   <span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
   <span class="n">output</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
   <span class="n">loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
@@ -637,7 +648,8 @@ optimizers from <a class="reference internal" href="../optim.html#module-torch.o
   <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>In this simplified example, the network simply learns to output zero, which is not very interesting, but the
+<p>In this simplified example, the network learns to simply output zero, as any non-zero output is “penalized” according
+to its absolute value by employing <a class="reference internal" href="../generated/torch.abs.html#torch.abs" title="torch.abs"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.abs()</span></code></a> as a loss function. While this is not a very interesting task, the
 key parts of training are present:</p>
 <ul class="simple">
 <li><p>A network is created.</p></li>
@@ -667,15 +679,15 @@ value of <code class="docutils literal notranslate"><span class="pre">l1</span><
 </div>
 <p>Training neural networks can often be tricky. For more information, check out:</p>
 <ul class="simple">
-<li><p>Using optimizers: <a class="reference external" href="https://pytorch.org/tutorials/beginner/examples_nn/two_layer_net_optim.html">https://pytorch.org/tutorials/beginner/examples_nn/two_layer_net_optim.html</a>.</p></li>
+<li><p>Using Optimizers: <a class="reference external" href="https://pytorch.org/tutorials/beginner/examples_nn/two_layer_net_optim.html">https://pytorch.org/tutorials/beginner/examples_nn/two_layer_net_optim.html</a>.</p></li>
 <li><p>Neural network training: <a class="reference external" href="https://pytorch.org/tutorials/beginner/blitz/neural_networks_tutorial.html">https://pytorch.org/tutorials/beginner/blitz/neural_networks_tutorial.html</a></p></li>
 <li><p>Introduction to autograd: <a class="reference external" href="https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html">https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html</a></p></li>
 </ul>
 </div>
 <div class="section" id="module-state">
-<h2><a class="toc-backref" href="#id5">Module State</a><a class="headerlink" href="#module-state" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">Module State</a><a class="headerlink" href="#module-state" title="Permalink to this headline">¶</a></h2>
 <p>In the previous section, we demonstrated training a module’s “parameters”, or learnable aspects of computation.
-Now, if we want to save out the trained model, we can do so by saving its <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> (i.e. “state dictionary”):</p>
+Now, if we want to save the trained model to disk, we can do so by saving its <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> (i.e. “state dictionary”):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the module</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">&#39;net.pt&#39;</span><span class="p">)</span>
 
@@ -695,14 +707,15 @@ and “non-persistent”. Following is an overview of the various types of state
 <li><p><strong>Parameters</strong>: learnable aspects of computation; contained within the <code class="docutils literal notranslate"><span class="pre">state_dict</span></code></p></li>
 <li><p><strong>Buffers</strong>: non-learnable aspects of computation</p>
 <ul>
-<li><p><strong>Persistent</strong> buffers: contained within the <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> (i.e. serialized when saving)</p></li>
+<li><p><strong>Persistent</strong> buffers: contained within the <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> (i.e. serialized when saving &amp; loading)</p></li>
 <li><p><strong>Non-persistent</strong> buffers: not contained within the <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> (i.e. left out of serialization)</p></li>
 </ul>
 </li>
 </ul>
 <p>As a motivating example for the use of buffers, consider a simple module that maintains a running mean. We want
-the current value of the running mean to be considered part of the module’s <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> and serialized, but not
-learnable. This snippet shows how to use <a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module.register_buffer" title="torch.nn.Module.register_buffer"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_buffer()</span></code></a> to accomplish this:</p>
+the current value of the running mean to be considered part of the module’s <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> so that it will be
+restored when loading a serialized form of the module, but we don’t want it to be learnable.
+This snippet shows how to use <a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module.register_buffer" title="torch.nn.Module.register_buffer"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_buffer()</span></code></a> to accomplish this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">RunningMean</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_features</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">):</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -714,7 +727,7 @@ learnable. This snippet shows how to use <a class="reference internal" href="../
 </pre></div>
 </div>
 <p>Now, the current value of the running mean is considered part of the module’s <code class="docutils literal notranslate"><span class="pre">state_dict</span></code>
-and will be saved as part of the module when the module is serialized.</p>
+and will be properly restored when loading the module from disk:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">RunningMean</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
   <span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -735,7 +748,8 @@ and will be saved as part of the module when the module is serialized.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s1">&#39;unserialized_thing&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">persistent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Both persistent and non-persistent buffers are included in model-wide device / dtype changes:</p>
+<p>Both persistent and non-persistent buffers are affected by model-wide device / dtype changes applied with
+<a class="reference internal" href="../generated/torch.nn.Module.html#id3" title="torch.nn.Module.to"><code class="xref py py-func docutils literal notranslate"><span class="pre">to()</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Moves all module parameters and buffers to the specified device / dtype</span>
 <span class="n">m</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
 </pre></div>
@@ -750,31 +764,33 @@ and will be saved as part of the module when the module is serialized.</p>
 </ul>
 </div>
 <div class="section" id="module-hooks">
-<h2><a class="toc-backref" href="#id6">Module Hooks</a><a class="headerlink" href="#module-hooks" title="Permalink to this headline">¶</a></h2>
-<p>To ensure that simple modifications can be done easily, even for modules that you haven’t written yourself,
-PyTorch provides two types of hooks for modules:</p>
+<h2><a class="toc-backref" href="#id7">Module Hooks</a><a class="headerlink" href="#module-hooks" title="Permalink to this headline">¶</a></h2>
+<p>In <a class="reference internal" href="#neural-network-training-with-modules"><span class="std std-ref">Neural Network Training with Modules</span></a>, we demonstrated the training process for a module, which iteratively
+performs forward and backward passes, updating module parameters each iteration. For more control
+over this process, PyTorch provides “hooks” that can perform arbitrary computation during a forward or backward
+pass, even modifying how the pass is done if desired. Some useful examples for this functionality include
+debugging, visualizing activations, examining gradients in-depth, etc. Hooks can be added to modules
+you haven’t written yourself, meaning this functionality can be applied to third-party or PyTorch-provided modules.</p>
+<p>PyTorch provides two types of hooks for modules:</p>
 <ul class="simple">
-<li><p><strong>Forward hooks</strong> are called during the forward pass. They can be installed with
+<li><p><strong>Forward hooks</strong> are called during the forward pass. They can be installed for a given module with
 <a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module.register_forward_pre_hook" title="torch.nn.Module.register_forward_pre_hook"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_forward_pre_hook()</span></code></a> and <a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module.register_forward_hook" title="torch.nn.Module.register_forward_hook"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_forward_hook()</span></code></a>.
-These hooks will be called respectively just before the forward function is called and just after it is called.</p></li>
+These hooks will be called respectively just before the forward function is called and just after it is called.
+Alternatively, these hooks can be installed globally for all modules with the analagous
+<a class="reference internal" href="../generated/torch.nn.modules.module.register_module_forward_pre_hook.html#torch.nn.modules.module.register_module_forward_pre_hook" title="torch.nn.modules.module.register_module_forward_pre_hook"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_module_forward_pre_hook()</span></code></a> and
+<a class="reference internal" href="../generated/torch.nn.modules.module.register_module_forward_hook.html#torch.nn.modules.module.register_module_forward_hook" title="torch.nn.modules.module.register_module_forward_hook"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_module_forward_hook()</span></code></a> functions.</p></li>
 <li><p><strong>Backward hooks</strong> are called during the backward pass. They can be installed with
 <a class="reference internal" href="../generated/torch.nn.Module.html#torch.nn.Module.register_full_backward_hook" title="torch.nn.Module.register_full_backward_hook"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_full_backward_hook()</span></code></a>. These hooks will be called when the backward for this
-Module has been computed and will allow the user to access the gradients for both the inputs and outputs.</p></li>
+Module has been computed and will allow the user to access the gradients for both the inputs and outputs.
+Alternatively, this hooks can be installed globally for all modules with
+<code class="xref py py-func docutils literal notranslate"><span class="pre">register_module_full_backward_hook()</span></code>.</p></li>
 </ul>
 <p>All hooks allow the user to return an updated value that will be used throughout the remaining computation.
 Thus, these hooks can be used to either execute arbitrary code along the regular module forward/backward or
-modify some inputs/outputs without having to change the module’s <code class="docutils literal notranslate"><span class="pre">forward</span></code> function.</p>
-<p>PyTorch also provides a way to register these hooks on all existing modules at once by using the
-<code class="docutils literal notranslate"><span class="pre">register_module_XXX</span></code> version. This can be very useful when building profiling or visualization tools that
-need to know about every single module that is used.</p>
-<p>For more information, check out:</p>
-<ul class="simple">
-<li><p>Example usage of hooks:
-<a class="reference external" href="https://pytorch.org/tutorials/beginner/former_torchies/nnft_tutorial.html#forward-and-backward-function-hooks">https://pytorch.org/tutorials/beginner/former_torchies/nnft_tutorial.html#forward-and-backward-function-hooks</a></p></li>
-</ul>
+modify some inputs/outputs without having to change the module’s <code class="docutils literal notranslate"><span class="pre">forward()</span></code> function.</p>
 </div>
 <div class="section" id="advanced-features">
-<h2><a class="toc-backref" href="#id7">Advanced Features</a><a class="headerlink" href="#advanced-features" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">Advanced Features</a><a class="headerlink" href="#advanced-features" title="Permalink to this headline">¶</a></h2>
 <p>PyTorch also provides several more advanced features that are designed to work with modules. All these functionalities
 are “inherited” when writing a new module. In-depth discussion of these features can be found in the links below.</p>
 <p>For more information, check out:</p>
